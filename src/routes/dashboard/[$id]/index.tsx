@@ -21,7 +21,7 @@ function Inner() {
 	const tecnico = tecnicos?.find(t => t.userId === id)
 	if (!tecnico) return <div>No hay técnico...</div>
 	return (
-		<div className="w-full flex flex-col gap-10">
+		<div className="w-full flex flex-col gap-10 my-20">
 			<div className="grid grid-cols-2 gap-2">
 				<span className="text-right font-semibold">Nombre:</span>
 				<span>{tecnico.nombre.toUpperCase()}</span>
@@ -33,28 +33,32 @@ function Inner() {
 				<span>{tecnico.localidad.toUpperCase()}</span>
 				<span className="text-right font-semibold">Matricula:</span>
 				<span>{tecnico.matricula.toUpperCase()}</span>
-				<span className="text-right font-semibold">Matricula Imagen:</span>
-				<div className="relative w-full h-50">
+			</div>
+			<div className="flex gap-4 flex-wrap justify-center items-center w-full">
+				<div className="flex flex-col gap-1 w-1/2">
+					<span className="font-semibold">Matricula Imagen:</span>
 					<img
 						src={tecnico.matriculaImg}
 						alt="foto"
-						className="object-contain absolute mr-auto w-max h-full rounded-lg"
+						className="object-contain w-auto h-40 rounded-lg"
 					/>
 				</div>
-				<span className="text-right font-semibold">Firma Digital:</span>
-				<div className="relative w-full h-50">
+
+				<div className="flex flex-col gap-1">
+					<span className="font-semibold">Firma Digital:</span>
 					<img
 						src={tecnico.firmaImg}
-						alt="firma"
-						className="object-contain absolute mr-auto w-max h-full rounded-lg"
+						alt="foto"
+						className="object-contain w-auto h-40 rounded-lg bg-white"
 					/>
 				</div>
-				<span className="text-right font-semibold">Logo Empresa:</span>
-				<div className="relative w-full h-50">
+
+				<div className="flex flex-col gap-1">
+					<span className="font-semibold">Empresa Imagen:</span>
 					<img
 						src={tecnico.empresaLogo}
 						alt="foto"
-						className="object-contain absolute mr-auto w-max h-full rounded-lg"
+						className="object-contain w-auto h-40 rounded-lg"
 					/>
 				</div>
 			</div>

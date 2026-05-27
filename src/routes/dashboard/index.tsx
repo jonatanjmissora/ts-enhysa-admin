@@ -9,9 +9,22 @@ export const Route = createFileRoute("/dashboard/")({
 
 function RouteComponent() {
 	return (
-		<Suspense fallback={<div>Cargando técnicos...</div>}>
-			<Inner />
-		</Suspense>
+		<div className="flex flex-col gap-4 justify-center items-center">
+			<div className="flex gap-4 items-center justify-center p-4">
+				<div className="flex gap-4 size-12 relative">
+					<img
+						src="EnHySa_logo.webp"
+						alt="logo"
+						className="absolute inset-0 w-full h-full object-cover"
+					/>
+				</div>
+				<span className="text-2xl font-semibold">Enhysa Admin Panel</span>
+			</div>
+			<h2 className="text-xl font-semibold">Tecnicos</h2>
+			<Suspense fallback={<div>Cargando técnicos...</div>}>
+				<Inner />
+			</Suspense>
+		</div>
 	)
 }
 
@@ -19,18 +32,18 @@ function Inner() {
 	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
 	if (!tecnicos) return <div>No hay técnicos...</div>
 	return (
-		<div>
-			<h1>Enhysa Admin Panel</h1>
-			<h2>Tecnicos</h2>
-			<ul>
-				{tecnicos.map(tecnico => (
-					<li key={tecnico.id}>
-						<Link to="/dashboard/$id" params={{ id: tecnico.userId }}>
-							{tecnico.nombre}
-						</Link>
-					</li>
-				))}
-			</ul>
-		</div>
+		<ul className="flex flex-col gap-4 my-20">
+			{tecnicos.map(tecnico => (
+				<li key={tecnico.id}>
+					<Link
+						to="/dashboard/$id"
+						params={{ id: tecnico.userId }}
+						className="tracking-widest text-lg"
+					>
+						{tecnico.nombre.toUpperCase()}
+					</Link>
+				</li>
+			))}
+		</ul>
 	)
 }

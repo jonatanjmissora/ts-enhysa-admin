@@ -42,11 +42,14 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 
 function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" className="dark">
+		<html
+			lang="en"
+			className="dark w-screen min-h-svh overflow-x-hidden flex flex-col items-center"
+		>
 			<head>
 				<HeadContent />
 			</head>
-			<body>
+			<body className=" px-4 sm:max-w-4xl w-full mx-auto">
 				{children}
 				<TanStackDevtools
 					config={{

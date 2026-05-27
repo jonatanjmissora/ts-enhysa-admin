@@ -1,5 +1,8 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router"
 import { empresasQueryOptions } from "../../../../queries/empresas-queries"
+import { Suspense } from "react"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { tecnicosQueryOptions } from "../../../../queries/tecnicos-queries"
 
 export const Route = createFileRoute("/dashboard/$id")({
 	loader: ({ context, params }) => {
@@ -15,7 +18,7 @@ function RouteComponent() {
 	const id = Route.useParams().id
 	return (
 		<div className="w-full flex flex-col justify-center">
-			<ul className="w-full flex gap-4 items-center justify-center py-6">
+			<ul className="w-full flex gap-4 flex-wrap items-center justify-center py-6">
 				<Link
 					to="/dashboard"
 					className="py-2 px-4 rounded-lg"
@@ -61,7 +64,17 @@ function RouteComponent() {
 					<li>Reportes</li>
 				</Link>
 			</ul>
+			<Suspense fallback={<div>Cargando nombre...</div>}>
+				<TecnicoName />
+			</Suspense>
 			<Outlet />
 		</div>
 	)
+}
+
+function TecnicoName() {
+	const id = Route.useParams().id
+	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
+	const tecnico = tecnicos?.find(t => t.userId === id)
+	return <h1>{tecnico?.nombre.toUpperCase()}</h1>
 }
