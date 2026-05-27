@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start"
-import { z } from "zod"
 import { getEmpresasDB } from "../db/empresas/empresas-db"
+import { z } from "zod"
 
 const empresaIdValidator = z.object({
 	userId: z.string(),
