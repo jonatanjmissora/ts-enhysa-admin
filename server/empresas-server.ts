@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start"
-import { getEmpresasDB } from "../db/empresas/empresas-db"
+import { getAllEmpresasDB, getEmpresasDB } from "../db/empresas/empresas-db"
 import { z } from "zod"
 
 const empresaIdValidator = z.object({
@@ -10,4 +10,9 @@ export const getEmpresasServer = createServerFn()
 	.inputValidator(empresaIdValidator)
 	.handler(async ({ data }) => {
 		return await getEmpresasDB(data.userId)
+	})
+
+	export const getAllEmpresasServer = createServerFn()
+	.handler(async () => {
+		return await getAllEmpresasDB()
 	})

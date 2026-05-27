@@ -16,3 +16,16 @@ export async function getEmpresasDB(userId: string) {
 		)
 	}
 }
+
+export async function getAllEmpresasDB() {
+	try {
+		return await db
+			.select()
+			.from(empresas)
+	} catch (error) {
+		console.error(
+			"ERROR obteniendo empresas:",
+			error instanceof Error ? error.message : error
+		)
+	}
+}

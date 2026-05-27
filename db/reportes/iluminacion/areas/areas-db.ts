@@ -21,3 +21,17 @@ export async function getAreasDB(userId: string, reporteId: string) {
 		return []
 	}
 }
+
+export async function getAllAreasDB() {
+	try {
+		return await db
+			.select()
+			.from(areas_iluminacion)
+	} catch (error) {
+		console.error(
+			"ERROR obteniendo areas de iluminacion:",
+			error instanceof Error ? error.message : error
+		)
+		return []
+	}
+}

@@ -16,3 +16,17 @@ export async function getInstrumentosDB(userId: string) {
 		)
 	}
 }
+
+export async function getAllInstrumentosDB() {
+	try {
+		return await db
+			.select()
+			.from(instrumentos)
+	} catch (error) {
+		console.error(
+			"ERROR obteniendo instrumental:",
+			error instanceof Error ? error.message : error
+		)
+	}
+}
+

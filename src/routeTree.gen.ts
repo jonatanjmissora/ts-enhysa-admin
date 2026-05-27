@@ -9,10 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as FilesRouteRouteImport } from './routes/files/route'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FilesIndexRouteImport } from './routes/files/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
 import { Route as DashboardChar91idChar93RouteRouteImport } from './routes/dashboard/[$id]/route'
+import { Route as FilesUnusedIndexRouteImport } from './routes/files/unused.index'
+import { Route as FilesTecnicosIndexRouteImport } from './routes/files/tecnicos.index'
 import { Route as DashboardChar91idChar93IndexRouteImport } from './routes/dashboard/[$id]/index'
 import { Route as DashboardChar91idChar93ReportesIndexRouteImport } from './routes/dashboard/[$id]/reportes.index'
 import { Route as DashboardChar91idChar93InstrumentosIndexRouteImport } from './routes/dashboard/[$id]/instrumentos.index'
@@ -23,6 +27,11 @@ import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93ResumenInde
 import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93GeneralIndexRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/general.index'
 import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93AreasIndexRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/areas.index'
 
+const FilesRouteRoute = FilesRouteRouteImport.update({
+  id: '/files',
+  path: '/files',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRouteRoute = DashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -32,6 +41,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const FilesIndexRoute = FilesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FilesRouteRoute,
 } as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
@@ -44,6 +58,16 @@ const DashboardChar91idChar93RouteRoute =
     path: '/$id',
     getParentRoute: () => DashboardRouteRoute,
   } as any)
+const FilesUnusedIndexRoute = FilesUnusedIndexRouteImport.update({
+  id: '/unused/',
+  path: '/unused/',
+  getParentRoute: () => FilesRouteRoute,
+} as any)
+const FilesTecnicosIndexRoute = FilesTecnicosIndexRouteImport.update({
+  id: '/tecnicos/',
+  path: '/tecnicos/',
+  getParentRoute: () => FilesRouteRoute,
+} as any)
 const DashboardChar91idChar93IndexRoute =
   DashboardChar91idChar93IndexRouteImport.update({
     id: '/',
@@ -111,9 +135,13 @@ const DashboardChar91idChar93ReporteChar91reporteIdChar93AreasIndexRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/files': typeof FilesRouteRouteWithChildren
   '/dashboard/$id': typeof DashboardChar91idChar93RouteRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/files/': typeof FilesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
+  '/files/tecnicos/': typeof FilesTecnicosIndexRoute
+  '/files/unused/': typeof FilesUnusedIndexRoute
   '/dashboard/$id/reporte/$reporteId': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93RouteRouteWithChildren
   '/dashboard/$id/empresas/': typeof DashboardChar91idChar93EmpresasIndexRoute
   '/dashboard/$id/instrumentos/': typeof DashboardChar91idChar93InstrumentosIndexRoute
@@ -126,7 +154,10 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/files': typeof FilesIndexRoute
   '/dashboard/$id': typeof DashboardChar91idChar93IndexRoute
+  '/files/tecnicos': typeof FilesTecnicosIndexRoute
+  '/files/unused': typeof FilesUnusedIndexRoute
   '/dashboard/$id/reporte/$reporteId': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93RouteRouteWithChildren
   '/dashboard/$id/empresas': typeof DashboardChar91idChar93EmpresasIndexRoute
   '/dashboard/$id/instrumentos': typeof DashboardChar91idChar93InstrumentosIndexRoute
@@ -140,9 +171,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRouteRouteWithChildren
+  '/files': typeof FilesRouteRouteWithChildren
   '/dashboard/$id': typeof DashboardChar91idChar93RouteRouteWithChildren
   '/dashboard/': typeof DashboardIndexRoute
+  '/files/': typeof FilesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
+  '/files/tecnicos/': typeof FilesTecnicosIndexRoute
+  '/files/unused/': typeof FilesUnusedIndexRoute
   '/dashboard/$id/reporte/$reporteId': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93RouteRouteWithChildren
   '/dashboard/$id/empresas/': typeof DashboardChar91idChar93EmpresasIndexRoute
   '/dashboard/$id/instrumentos/': typeof DashboardChar91idChar93InstrumentosIndexRoute
@@ -157,9 +192,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/files'
     | '/dashboard/$id'
     | '/dashboard/'
+    | '/files/'
     | '/dashboard/$id/'
+    | '/files/tecnicos/'
+    | '/files/unused/'
     | '/dashboard/$id/reporte/$reporteId'
     | '/dashboard/$id/empresas/'
     | '/dashboard/$id/instrumentos/'
@@ -172,7 +211,10 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard'
+    | '/files'
     | '/dashboard/$id'
+    | '/files/tecnicos'
+    | '/files/unused'
     | '/dashboard/$id/reporte/$reporteId'
     | '/dashboard/$id/empresas'
     | '/dashboard/$id/instrumentos'
@@ -185,9 +227,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/files'
     | '/dashboard/$id'
     | '/dashboard/'
+    | '/files/'
     | '/dashboard/$id/'
+    | '/files/tecnicos/'
+    | '/files/unused/'
     | '/dashboard/$id/reporte/$reporteId'
     | '/dashboard/$id/empresas/'
     | '/dashboard/$id/instrumentos/'
@@ -201,10 +247,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
+  FilesRouteRoute: typeof FilesRouteRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/files': {
+      id: '/files'
+      path: '/files'
+      fullPath: '/files'
+      preLoaderRoute: typeof FilesRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -219,6 +273,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/files/': {
+      id: '/files/'
+      path: '/'
+      fullPath: '/files/'
+      preLoaderRoute: typeof FilesIndexRouteImport
+      parentRoute: typeof FilesRouteRoute
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -232,6 +293,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/$id'
       preLoaderRoute: typeof DashboardChar91idChar93RouteRouteImport
       parentRoute: typeof DashboardRouteRoute
+    }
+    '/files/unused/': {
+      id: '/files/unused/'
+      path: '/unused'
+      fullPath: '/files/unused/'
+      preLoaderRoute: typeof FilesUnusedIndexRouteImport
+      parentRoute: typeof FilesRouteRoute
+    }
+    '/files/tecnicos/': {
+      id: '/files/tecnicos/'
+      path: '/tecnicos'
+      fullPath: '/files/tecnicos/'
+      preLoaderRoute: typeof FilesTecnicosIndexRouteImport
+      parentRoute: typeof FilesRouteRoute
     }
     '/dashboard/$id/': {
       id: '/dashboard/$id/'
@@ -364,9 +439,26 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
   DashboardRouteRouteChildren,
 )
 
+interface FilesRouteRouteChildren {
+  FilesIndexRoute: typeof FilesIndexRoute
+  FilesTecnicosIndexRoute: typeof FilesTecnicosIndexRoute
+  FilesUnusedIndexRoute: typeof FilesUnusedIndexRoute
+}
+
+const FilesRouteRouteChildren: FilesRouteRouteChildren = {
+  FilesIndexRoute: FilesIndexRoute,
+  FilesTecnicosIndexRoute: FilesTecnicosIndexRoute,
+  FilesUnusedIndexRoute: FilesUnusedIndexRoute,
+}
+
+const FilesRouteRouteWithChildren = FilesRouteRoute._addFileChildren(
+  FilesRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
+  FilesRouteRoute: FilesRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

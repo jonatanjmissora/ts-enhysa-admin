@@ -1,5 +1,5 @@
 import { createServerFn } from "@tanstack/react-start"
-import { getInstrumentosDB } from "../db/instrumentos/instrumentos-db"
+import { getAllInstrumentosDB, getInstrumentosDB } from "../db/instrumentos/instrumentos-db"
 import { z } from "zod"
 
 const instrumentoIdValidator = z.object({
@@ -10,4 +10,9 @@ export const getInstrumentosServer = createServerFn()
 	.inputValidator(instrumentoIdValidator)
 	.handler(async ({ data }) => {
 		return await getInstrumentosDB(data.userId)
+	})
+
+	export const getAllInstrumentosServer = createServerFn()
+	.handler(async () => {
+		return await getAllInstrumentosDB()
 	})

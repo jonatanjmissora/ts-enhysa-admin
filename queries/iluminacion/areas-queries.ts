@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query"
-import { getAreasServer } from "../../server/iluminacion/areas-server"
+import { getAllAreasServer, getAreasServer } from "../../server/iluminacion/areas-server"
 
 export const areasQueryOptions = ({
 	userId,
@@ -11,5 +11,11 @@ export const areasQueryOptions = ({
 	queryOptions({
 		queryKey: ["areas_iluminacion", userId, reporteId],
 		queryFn: () => getAreasServer({ data: { userId, reporteId } }),
+		// refetchInterval: 60 * 1000, // refrescar cada 60 segundos
+	})
+
+	export const allAreasQueryOptions = queryOptions({
+		queryKey: ["areas_iluminacion", "all"],
+		queryFn: () => getAllAreasServer(),
 		// refetchInterval: 60 * 1000, // refrescar cada 60 segundos
 	})
