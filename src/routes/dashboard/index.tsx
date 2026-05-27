@@ -20,7 +20,6 @@ function RouteComponent() {
 				</div>
 				<span className="text-2xl font-semibold">Enhysa Admin Panel</span>
 			</div>
-			<h2 className="text-xl font-semibold">Tecnicos</h2>
 			<Suspense fallback={<div>Cargando técnicos...</div>}>
 				<Inner />
 			</Suspense>

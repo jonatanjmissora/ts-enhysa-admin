@@ -21,10 +21,8 @@ function Inner() {
 	const tecnico = tecnicos?.find(t => t.userId === id)
 	if (!tecnico) return <div>No hay técnico...</div>
 	return (
-		<div className="w-full flex flex-col gap-10 my-20">
+		<div className="w-full flex flex-col gap-10 my-20 bg-accent sm:bg-background p-10 text-sm rounded-lg">
 			<div className="grid grid-cols-2 gap-2">
-				<span className="text-right font-semibold">Nombre:</span>
-				<span>{tecnico.nombre.toUpperCase()}</span>
 				<span className="text-right font-semibold">Telefono:</span>
 				<span>{tecnico.telefono.toUpperCase()}</span>
 				<span className="text-right font-semibold">Cargo:</span>
@@ -35,7 +33,7 @@ function Inner() {
 				<span>{tecnico.matricula.toUpperCase()}</span>
 			</div>
 			<div className="flex gap-4 flex-wrap justify-center items-center w-full">
-				<div className="flex flex-col gap-1 w-1/2">
+				<div className="flex flex-col gap-1">
 					<span className="font-semibold">Matricula Imagen:</span>
 					<img
 						src={tecnico.matriculaImg}

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/dashboard/$id/instrumentos/")({
 
 function RouteComponent() {
 	return (
-		<Suspense fallback={<div>Cargando datos de las empresas...</div>}>
+		<Suspense fallback={<div>Cargando instrumentos...</div>}>
 			<Inner />
 		</Suspense>
 	)
@@ -42,7 +42,7 @@ function Inner() {
 					<AccordionItem
 						key={instrumento.id}
 						value={instrumento.id}
-						className="border-b border-foreground/10 last:border-b-0 py-2"
+						className="py-2"
 					>
 						<AccordionTrigger className="flex px-5 w-11/12 sm:w-full flex-wrap items-center bg-accent ring-[1px] dark:ring-foreground/10 ring-foreground/50">
 							<div className="flex items-center gap-2 text-sm tracking-wider w-60 sm:w-max truncate">
@@ -62,99 +62,66 @@ function Inner() {
 
 function Instrumento({ instrumento }: { instrumento: InstrumentoType }) {
 	return (
-		<div className="bg-accent py-20 flex items-center justify-center flex-col relative">
-			<div className="grid-cols-1 grid sm:grid-cols-2 gap-8 w-5/6 my-10">
-				<div className="flex flex-col gap-1">
-					<Label className="tracking-wider" htmlFor="marca">
-						Marca
-					</Label>
-					<Input
-						onFocus={e => e.target.select()}
-						id="marca"
-						placeholder="Marca"
-						value={instrumento.marca.toUpperCase()}
-						readOnly
-					/>
-				</div>
-				<div className="flex flex-col gap-1">
-					<Label className="tracking-wider" htmlFor="cargo">
-						Modelo
-					</Label>
-					<Input
-						onFocus={e => e.target.select()}
-						id="modelo"
-						placeholder="Modelo"
-						value={instrumento.modelo.toUpperCase()}
-						readOnly
-					/>
-				</div>
-				<div className="flex flex-col gap-1">
-					<Label className="tracking-wider" htmlFor="serie">
-						Nro Serie
-					</Label>
-					<Input
-						onFocus={e => e.target.select()}
-						id="serie"
-						placeholder="Serie"
-						value={instrumento.serie}
-						readOnly
-					/>
-				</div>
-				<div className="flex flex-col gap-1">
-					<Label className="tracking-wider" htmlFor="calibracion">
-						Calibración
-					</Label>
-					<Input
-						onFocus={e => e.target.select()}
-						id="calibracion"
-						placeholder="Calibracion"
-						value={instrumento.fechaCalibracion.toLocaleDateString("it-IT", {
-							day: "2-digit",
-							month: "2-digit",
-							year: "numeric",
-						})}
-						readOnly
-					/>
-				</div>
-				<div className="flex flex-col gap-1 col-span-2">
-					<Label>Imágenes del Certificado</Label>
-					{instrumento.imagenesCalibracion.length > 0 ? (
-						<div className="flex w-fullgap-2 content-center">
-							{instrumento.imagenesCalibracion.map(imagen => (
-								<img
-									key={imagen}
-									src={imagen}
-									alt="Imagen del Certificado"
-									className="w-auto h-40 object-contain object-center"
-								/>
-							))}
-						</div>
-					) : (
-						<span className="w-full text-center rounded-lg bg-secondary/20 ring-[1px] ring-foreground/10 p-2.5 text-xs font-medium text-gray-500 italic">
-							No has cargado el certificado de calibración
-						</span>
-					)}
-				</div>
+		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
+			<div className="grid grid-cols-2 gap-2">
+				<span className="text-right font-semibold">Nombre :</span>
+				<span>{instrumento.nombre.toUpperCase()}</span>
 
-				<div className="flex flex-col gap-1 col-span-2">
-					<Label>Imágenes Instrumento</Label>
-					{instrumento.imagenes.length > 0 ? (
-						<div className="w-full flex gap-2 content-center">
-							{instrumento.imagenes.map(imagen => (
-								<img
-									key={imagen}
-									src={imagen}
-									alt="Imagen del instrumento"
-									className="w-auto h-40 object-contain object-center"
-								/>
-							))}
-						</div>
-					) : (
-						<span className="w-full text-center rounded-lg bg-secondary/20 ring-[1px] ring-foreground/10 p-2.5 text-xs font-medium text-gray-500 italic">
-							No has cargado imágenes del instrumento
-						</span>
-					)}
-				</div>
+				<span className="text-right font-semibold">Marca :</span>
+				<span>{instrumento.marca.toUpperCase()}</span>
+
+				<span className="text-right font-semibold">Modelo :</span>
+				<span>{instrumento.modelo.toUpperCase()}</span>
+
+				<span className="text-right font-semibold">Serie :</span>
+				<span>{instrumento.serie.toUpperCase()}</span>
+
+				<span className="text-right font-semibold">Calibración :</span>
+				<span>{instrumento.fechaCalibracion.toLocaleDateString("it-IT", {
+					day: "2-digit",
+					month: "2-digit",
+					year: "numeric",
+				}).toUpperCase()}</span>
+			</div>
+				
+			<div className="flex flex-col gap-1 col-span-2 mt-10">
+				<span className="text-center">Imágenes del Certificado</span>
+				{instrumento.imagenesCalibracion.length > 0 ? (
+					<div className="flex w-full gap-2 content-center">
+						{instrumento.imagenesCalibracion.map(imagen => (
+							<img
+								key={imagen}
+								src={imagen}
+								alt="Imagen del Certificado"
+								className="w-auto h-40 object-contain object-center"
+							/>
+						))}
+					</div>
+				) : (
+					<span className="w-full text-center rounded-lg bg-secondary/20 ring-[1px] ring-foreground/10 p-2.5 text-xs font-medium text-gray-500 italic">
+						No has cargado el certificado de calibración
+					</span>
+				)}
+			</div>
+
+			<div className="flex flex-col gap-1 col-span-2 mt-10">
+				<span className="text-center">Imágenes Instrumento</span>
+				{instrumento.imagenes.length > 0 ? (
+					<div className="w-full flex gap-2 flex-wrap content-center">
+						{instrumento.imagenes.map(imagen => (
+							<img
+								key={imagen}
+								src={imagen}
+								alt="Imagen del instrumento"
+								className="w-auto h-39 object-contain object-center"
+							/>
+						))}
+					</div>
+				) : (
+					<span className="w-full text-center rounded-lg bg-secondary/20 ring-[1px] ring-foreground/10 p-2.5 text-xs font-medium text-gray-500 italic">
+						No has cargado imágenes del instrumento
+					</span>
+				)}
 			</div>
 		</div>
 	)

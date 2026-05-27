@@ -2,8 +2,6 @@ import { Label } from "#/components/ui/label"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Suspense } from "react"
-import { empresasQueryOptions } from "../../../../../../queries/empresas-queries"
-import { instrumentosQueryOptions } from "../../../../../../queries/instrumentos-queries"
 import { reporteQueryOptions } from "../../../../../../queries/iluminacion/reportes-queries"
 
 export const Route = createFileRoute(
@@ -25,14 +23,8 @@ function General() {
 	const { data: reporte } = useSuspenseQuery(
 		reporteQueryOptions({ userId: id, reporteId })
 	)
-	const { data: empresas } = useSuspenseQuery(empresasQueryOptions(id))
-	const { data: instrumentos } = useSuspenseQuery(instrumentosQueryOptions(id))
-	const empresa = empresas?.find(empresa => empresa.id === reporte?.empresaId)
-	const instrumento = instrumentos?.find(
-		instrumento => instrumento.id === reporte?.instrumentoId
-	)
 
-	if (!reporte || !empresa || !instrumento)
+	if (!reporte)
 		return (
 			<div className="italic text-foreground/50 tracking-wider text-sm p-10">
 				No se encontro el reporte
@@ -40,30 +32,26 @@ function General() {
 		)
 
 	return (
-		<article className="min-h-screen w-5/6 mx-auto flex flex-col gap-10 tracking-wider mb-14 relative">
-			<span className="text-center col-span-2 mb-14">
-				{reporte.title.toUpperCase()} -{" "}
-				{reporte?.finishedAt?.toLocaleDateString("it-IT")}
-			</span>
+		<article className="min-h-screen w-5/6 mx-auto flex flex-col gap-10 tracking-wider my-14 relative">
 			<div className="grid grid-cols-2 gap-2">
-				<span className="col-span-2">Empresa</span>
+				<span className="col-span-2 border-b border-white/50">Empresa</span>
 				<Label className="text-right ml-auto">Nombre : </Label>
-				<span>{empresa.razonSocial.toUpperCase()}</span>
+				<span>{reporte.empresa.razonSocial.toUpperCase()}</span>
 				<Label className="text-right ml-auto">CUIT : </Label>
-				<span>{empresa.cuit.toUpperCase()}</span>
+				<span>{reporte.empresa.cuit.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Direccion : </Label>
-				<span>{empresa.direccion.toUpperCase()}</span>
+				<span>{reporte.empresa.direccion.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Localidad : </Label>
-				<span>{empresa.localidad.toUpperCase()}</span>
+				<span>{reporte.empresa.localidad.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Provincia : </Label>
-				<span>{empresa.provincia.toUpperCase()}</span>
+				<span>{reporte.empresa.provincia.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Horarios : </Label>
-				<span>{empresa.horarios.toUpperCase()}</span>
-				{empresa.logo && (
+				<span>{reporte.empresa.horarios.toUpperCase()}</span>
+				{reporte.empresa.logo && (
 					<div className="col-span-2">
 						<div className="h-20 w-full flex items-center justify-center">
 							<img
-								src={empresa.logo}
+								src={reporte.empresa.logo}
 								alt="logo"
 								className="h-full w-full object-contain"
 							/>
@@ -73,29 +61,28 @@ function General() {
 			</div>
 
 			<div className="grid grid-cols-2 gap-2">
-				<span className="col-span-2">Instrumento</span>
+				<span className="col-span-2 border-b border-white/50">Instrumento</span>
 				<Label className="text-right ml-auto">Nombre : </Label>
-				<span>{instrumento.nombre.toUpperCase()}</span>
+				<span>{reporte.instrumento.nombre.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Marca : </Label>
-				<span>{instrumento.marca.toUpperCase()}</span>
+				<span>{reporte.instrumento.marca.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Modelo : </Label>
-				<span>{instrumento.modelo.toUpperCase()}</span>
+				<span>{reporte.instrumento.modelo.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Serie : </Label>
-				<span>{instrumento.serie.toUpperCase()}</span>
+				<span>{reporte.instrumento.serie.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Calibración : </Label>
-				<span>{instrumento.fechaCalibracion.toLocaleDateString("it-IT")}</span>
-				{instrumento.imagenes[0] !== "" && (
-					<div className="w-11/12 my-10 col-span-2">
-						<div className="flex w-full grid-cols-4 gap-1 content-center">
-							{instrumento.imagenes.map(url => {
+				<span>{reporte.instrumento.fechaCalibracion.toLocaleDateString("it-IT")}</span>
+				{reporte.instrumento.imagenes[0] !== "" && (
+					<div className="w-full my-10 col-span-2">
+						<div className="w-full flex gap-2 flex-wrap content-center">
+							{reporte.instrumento.imagenes.map(url => {
 								return (
-									<div className="relative w-full h-20 " key={url}>
 										<img
+											key={url}
 											src={url}
 											alt=""
-											className="h-full w-full object-contain rounded border border-foreground/10"
+											className="w-auto h-35 object-contain object-center"
 										/>
-									</div>
 								)
 							})}
 						</div>
@@ -104,7 +91,7 @@ function General() {
 			</div>
 
 			<div className="grid grid-cols-2 gap-2">
-				<span className="col-span-2">Condiciones</span>
+				<span className="col-span-2 border-b border-white/50">Condiciones</span>
 				<Label className="text-right ml-auto">Clima : </Label>
 				<span>{reporte.clima[0].toUpperCase()}</span>
 				<Label className="text-right ml-auto">Humedad : </Label>

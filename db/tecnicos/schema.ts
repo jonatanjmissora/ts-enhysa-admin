@@ -1,4 +1,6 @@
 import { pgTable, text } from "drizzle-orm/pg-core"
+import { relations } from "drizzle-orm"
+import { reportes_iluminacion } from "../reportes/iluminacion/scheme"
 
 export const tecnicos = pgTable("tecnicos", {
 	id: text("id").primaryKey(),
@@ -23,3 +25,10 @@ export const tecnicos = pgTable("tecnicos", {
 })
 
 export type TecnicoType = typeof tecnicos.$inferSelect
+
+export const tecnicosRelations = relations(
+  tecnicos,
+  ({ many }) => ({
+    reportes: many(reportes_iluminacion),
+  })
+)

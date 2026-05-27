@@ -1,4 +1,6 @@
 import { pgTable, text, index } from "drizzle-orm/pg-core"
+import { relations } from "drizzle-orm"
+import { reportes_iluminacion } from "../reportes/iluminacion/scheme"
 
 export const empresas = pgTable(
 	"empresas",
@@ -29,3 +31,10 @@ export const empresas = pgTable(
 )
 
 export type EmpresaType = typeof empresas.$inferSelect
+
+export const empresasRelations = relations(
+	empresas,
+	({ many }) => ({
+		reportes: many(reportes_iluminacion),
+	})
+)

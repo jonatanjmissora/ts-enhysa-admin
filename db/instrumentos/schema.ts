@@ -1,4 +1,6 @@
 import { pgTable, text, timestamp } from "drizzle-orm/pg-core"
+import { relations } from "drizzle-orm"
+import { reportes_iluminacion } from "../reportes/iluminacion/scheme"
 
 export const instrumentos = pgTable("instrumentos", {
 	id: text("id").primaryKey(),
@@ -21,3 +23,10 @@ export const instrumentos = pgTable("instrumentos", {
 })
 
 export type InstrumentoType = typeof instrumentos.$inferSelect
+
+export const instrumentosRelations = relations(
+  instrumentos,
+  ({ many }) => ({
+    reportes: many(reportes_iluminacion),
+  })
+)

@@ -76,5 +76,5 @@ function TecnicoName() {
 	const id = Route.useParams().id
 	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
 	const tecnico = tecnicos?.find(t => t.userId === id)
-	return <h1>{tecnico?.nombre.toUpperCase()}</h1>
+	return <h1 className="w-full text-center bg-background py-2">{tecnico?.nombre.toUpperCase()}</h1>
 }

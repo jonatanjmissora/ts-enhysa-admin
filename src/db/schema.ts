@@ -1,3 +1,5 @@
-// Tecnicos
 export * from "../../db/tecnicos/schema"
 export * from "../../db/empresas/schema"
+export * from "../../db/instrumentos/schema"
+export * from "../../db/reportes/iluminacion/scheme"
+export * from "../../db/reportes/iluminacion/areas/scheme"

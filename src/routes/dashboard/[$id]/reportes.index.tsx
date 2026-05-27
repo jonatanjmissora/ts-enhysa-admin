@@ -11,10 +11,7 @@ export const Route = createFileRoute("/dashboard/$id/reportes/")({
 
 function RouteComponent() {
 	return (
-		<div className="w-5/6 mx auto flex flex-col gap-4 flex-1 rounded-lg items-start my-14">
-			<header className="text-[22px] tracking-wider font-semibold pb-2">
-				Protocolos Recientes
-			</header>
+		<div className="w-full sm:w-5/6 mx-auto flex flex-col gap-4 flex-1 rounded-lg items-start my-14">
 			<Suspense
 				fallback={
 					<span className="animate-pulse text-sm italic text-foreground/50 p-7 bg-secondary/50 rounded-lg ring-[1px] ring-foreground/15 flex items-center justify-center w-full sm:w-2/3 mx-auto">

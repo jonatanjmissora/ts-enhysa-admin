@@ -18,20 +18,18 @@ export async function getReportesDB(userId: string) {
 }
 
 export async function getReporteDB(userId: string, id: string) {
-	console.log("USERID", userId, "REPORTID", id)
 	try {
 		const result = await db.query.reportes_iluminacion.findFirst({
 			where: and(
 				eq(reportes_iluminacion.id, id),
 				eq(reportes_iluminacion.userId, userId)
 			),
-			// with: {
-			// 	empresa: true,
-			// 	instrumento: true,
-			// 	tecnico: true,
-			// },
+			with: {
+				empresa: true,
+				instrumento: true,
+				tecnico: true,
+			},
 		})
-		console.log("RESULTADO", result)
 		return result ?? null
 	} catch (error) {
 		console.error(

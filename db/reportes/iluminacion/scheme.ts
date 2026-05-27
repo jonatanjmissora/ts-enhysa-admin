@@ -39,7 +39,7 @@ export const reportes_iluminacion = pgTable("reportes_iluminacion", {
 
 export type ReporteIluminacionType = typeof reportes_iluminacion.$inferSelect
 
-export const reportesRelations = relations(reportes_iluminacion, ({ one }) => ({
+export const reportesIluminacionRelations = relations(reportes_iluminacion, ({ one }) => ({
 	empresa: one(empresas, {
 		fields: [reportes_iluminacion.empresaId],
 		references: [empresas.id],
