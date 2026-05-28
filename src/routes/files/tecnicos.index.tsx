@@ -98,7 +98,7 @@ function Tecnico({ tecnico }: { tecnico: TecnicoType }) {
 
 			{/* Modal for file metadata */}
 			{selectedFileKey && (
-				<div className="fixed top-0 bottom-0 w-full bg-white/90 backdrop-blur-sm inset-0 dark:bg-gray-800/90 p-4 overflow-y-scroll overflow-x-hidden">
+				<div className="fixed z-10 top-0 bottom-0 w-full bg-white/90 backdrop-blur-sm inset-0 dark:bg-gray-800/90 p-4 overflow-y-scroll overflow-x-hidden">
 					<Button variant={"outline"} onClick={() => setSelectedFileKey("")}>
 						<X className="size-7" />
 					</Button>

@@ -71,18 +71,36 @@ function General() {
 				<Label className="text-right ml-auto">Serie : </Label>
 				<span>{reporte.instrumento.serie.toUpperCase()}</span>
 				<Label className="text-right ml-auto">Calibración : </Label>
-				<span>{reporte.instrumento.fechaCalibracion.toLocaleDateString("it-IT")}</span>
+				<span>
+					{reporte.instrumento.fechaCalibracion.toLocaleDateString("it-IT")}
+				</span>
+				{reporte.instrumento.imagenesCalibracion[0] !== "" && (
+					<div className="w-full my-10 col-span-2">
+						<div className="w-full flex gap-2 flex-wrap content-center justify-center">
+							{reporte.instrumento.imagenesCalibracion.map(url => {
+								return (
+									<img
+										key={url}
+										src={url}
+										alt=""
+										className="w-auto h-35 object-contain object-center"
+									/>
+								)
+							})}
+						</div>
+					</div>
+				)}
 				{reporte.instrumento.imagenes[0] !== "" && (
 					<div className="w-full my-10 col-span-2">
-						<div className="w-full flex gap-2 flex-wrap content-center">
+						<div className="w-full flex gap-2 flex-wrap content-center justify-center">
 							{reporte.instrumento.imagenes.map(url => {
 								return (
-										<img
-											key={url}
-											src={url}
-											alt=""
-											className="w-auto h-35 object-contain object-center"
-										/>
+									<img
+										key={url}
+										src={url}
+										alt=""
+										className="w-auto h-35 object-contain object-center"
+									/>
 								)
 							})}
 						</div>
