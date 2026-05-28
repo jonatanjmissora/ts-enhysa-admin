@@ -1,26 +1,35 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { createFileRoute } from '@tanstack/react-router'
-import { Suspense } from 'react'
-import { areasQueryOptions } from '../../../../../../queries/iluminacion/areas-queries'
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '#/components/ui/accordion'
-import type { AreaIluminacionType } from '../../../../../../db/reportes/iluminacion/areas/scheme'
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { createFileRoute } from "@tanstack/react-router"
+import { Suspense } from "react"
+import { areasQueryOptions } from "../../../../../../../queries/iluminacion/areas-queries"
+import {
+	Accordion,
+	AccordionContent,
+	AccordionItem,
+	AccordionTrigger,
+} from "#/components/ui/accordion"
+import type { AreaIluminacionType } from "../../../../../../../db/reportes/iluminacion/areas/scheme"
 
 export const Route = createFileRoute(
-  '/dashboard/$id/reporte/$reporteId/areas/',
+	"/dashboard/$id/reporte/$reporteId/_header/areas/"
 )({
-  component: RouteComponent,
+	component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <Suspense fallback={<span>Cargando reporte...</span>}>
-        <Areas />
-      </Suspense>
+	return (
+		<Suspense fallback={<span>Cargando reporte...</span>}>
+			<Areas />
+		</Suspense>
+	)
 }
 
 function Areas() {
-  const { id, reporteId } = Route.useParams()
-  const { data: areas } = useSuspenseQuery(areasQueryOptions({ userId:id, reporteId }))
-if (!areas) return <AreasVacias />
+	const { id, reporteId } = Route.useParams()
+	const { data: areas } = useSuspenseQuery(
+		areasQueryOptions({ userId: id, reporteId })
+	)
+	if (!areas) return <AreasVacias />
 	return (
 		<div>
 			<div className="w-full flex flex-col gap-2">
@@ -34,8 +43,7 @@ if (!areas) return <AreasVacias />
 						<AccordionItem key={area.id} value={area.id} className="py-2">
 							<AccordionTrigger className="flex px-5 w-11/12 sm:w-full flex-wrap items-center bg-accent ring-[1px] dark:ring-foreground/10 ring-foreground/50">
 								<div className="flex items-center gap-2 text-sm tracking-wider w-60 sm:w-max truncate">
-									{area.nombre.toUpperCase()} -{" "}
-									{area.tipo.toUpperCase()}
+									{area.nombre.toUpperCase()} - {area.tipo.toUpperCase()}
 								</div>
 							</AccordionTrigger>
 							<AccordionContent>
@@ -50,11 +58,15 @@ if (!areas) return <AreasVacias />
 }
 
 function Area({ area }: { area: AreaIluminacionType }) {
-
-  const tiemposValidos = area.timestamps.filter(fecha => fecha > new Date(1970, 0, 1, 0, 0, 0))
-  const sortedTiemposValidosByTimestamp = tiemposValidos.sort((a, b) => a.getTime() - b.getTime())
-  const tiempoValidoInicio = sortedTiemposValidosByTimestamp[0]
-  const tiempoValidoFin = sortedTiemposValidosByTimestamp[sortedTiemposValidosByTimestamp.length - 1]
+	const tiemposValidos = area.timestamps.filter(
+		fecha => fecha > new Date(1970, 0, 1, 0, 0, 0)
+	)
+	const sortedTiemposValidosByTimestamp = tiemposValidos.sort(
+		(a, b) => a.getTime() - b.getTime()
+	)
+	const tiempoValidoInicio = sortedTiemposValidosByTimestamp[0]
+	const tiempoValidoFin =
+		sortedTiemposValidosByTimestamp[sortedTiemposValidosByTimestamp.length - 1]
 
 	return (
 		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
@@ -80,13 +92,19 @@ function Area({ area }: { area: AreaIluminacionType }) {
 				<span className="text-right font-semibold">Alto :</span>
 				<span>{area.alto}mts</span>
 				<span className="text-right font-semibold">Comienzo :</span>
-				<span>{tiempoValidoInicio?.toLocaleDateString("it-IT")} - {tiempoValidoInicio?.toLocaleTimeString("it-IT")}</span>
+				<span>
+					{tiempoValidoInicio?.toLocaleDateString("it-IT")} -{" "}
+					{tiempoValidoInicio?.toLocaleTimeString("it-IT")}
+				</span>
 				<span className="text-right font-semibold">Fin :</span>
-				<span>{tiempoValidoFin?.toLocaleDateString("it-IT")} - {tiempoValidoFin?.toLocaleTimeString("it-IT")}</span>
+				<span>
+					{tiempoValidoFin?.toLocaleDateString("it-IT")} -{" "}
+					{tiempoValidoFin?.toLocaleTimeString("it-IT")}
+				</span>
 				<span className="text-right font-semibold">Puntos :</span>
 				<span>{area.puntos.join(", ")}</span>
-				
-        {area.imagenes.length > 0 && (
+
+				{area.imagenes.length > 0 && (
 					<div className="w-full flex gap-2 flex-wrap content-center justify-center col-span-2">
 						{area.imagenes.map(imagen => (
 							<img
@@ -95,10 +113,9 @@ function Area({ area }: { area: AreaIluminacionType }) {
 								alt="Imagen del instrumento"
 								className="w-auto h-39 object-contain object-center border"
 							/>
-              ))}
-              </div>
-        )}
-
+						))}
+					</div>
+				)}
 			</div>
 		</div>
 	)

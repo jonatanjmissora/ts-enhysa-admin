@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router"
+import { createFileRoute } from "@tanstack/react-router"
 import { Suspense, useState } from "react"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { filesQueryOptions } from "../../../queries/files-queries"

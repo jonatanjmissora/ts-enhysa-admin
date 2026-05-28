@@ -2,10 +2,10 @@ import { Label } from "#/components/ui/label"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Suspense } from "react"
-import { reporteQueryOptions } from "../../../../../../queries/iluminacion/reportes-queries"
+import { reporteQueryOptions } from "../../../../../../../queries/iluminacion/reportes-queries"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reporte/$reporteId/general/"
+	"/dashboard/$id/reporte/$reporteId/_header/general/"
 )({
 	component: RouteComponent,
 })

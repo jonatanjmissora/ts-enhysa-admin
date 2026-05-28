@@ -1,20 +1,12 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
-import { Suspense, useMemo, useState } from "react"
+import { Suspense, useMemo } from "react"
 import { filesQueryOptions } from "../../../queries/files-queries"
 import { tecnicosQueryOptions } from "../../../queries/tecnicos-queries"
 import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
 import { allAreasQueryOptions } from "../../../queries/iluminacion/areas-queries"
 import { allInstrumentosQueryOptions } from "../../../queries/instrumentos-queries"
 import { Button } from "#/components/ui/button"
-
-type FilesType = {
-	id: string
-	key: string
-	name: string
-	size: number
-	uploadAt: number
-}
 
 export const Route = createFileRoute("/files/unused/")({
 	component: RouteComponent,
@@ -34,8 +26,6 @@ function Inner() {
 	const { data: empresas } = useSuspenseQuery(allEmpresasQueryOptions)
 	const { data: instrumentos } = useSuspenseQuery(allInstrumentosQueryOptions)
 	const { data: areas } = useSuspenseQuery(allAreasQueryOptions)
-
-	const [unusedFiles, setUnusedFiles] = useState<FilesType[]>(dataFiles.files)
 
 	const tecnicosImages = useMemo(() => {
 		if (!tecnicos) return []
