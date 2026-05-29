@@ -2,6 +2,20 @@ import { eq, and, isNull } from "drizzle-orm"
 import { db } from "#/db/index"
 import { reportes_iluminacion } from "./scheme"
 
+export async function getAllReportesDB() {
+	try {
+		return await db
+			.select()
+			.from(reportes_iluminacion)
+	} catch (error) {
+		console.error(
+			"ERROR obteniendo reportes de iluminacion:",
+			error instanceof Error ? error.message : error
+		)
+		return []
+	}
+}
+
 export async function getReportesDB(userId: string) {
 	try {
 		return await db

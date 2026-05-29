@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start"
 import { z } from "zod"
 import {
+	getAllReportesDB,
 	getReporteDB,
 	getReporteNuevoDB,
 	getReportesDB,
@@ -9,6 +10,11 @@ import {
 const reporteIdValidator = z.object({
 	userId: z.string(),
 })
+
+export const getAllReportesServer = createServerFn()
+	.handler(async () => {
+		return await getAllReportesDB()
+	})
 
 export const getReportesServer = createServerFn()
 	.inputValidator(reporteIdValidator)

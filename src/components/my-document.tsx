@@ -23,6 +23,7 @@ import type { AreaIluminacionType } from "../../db/reportes/iluminacion/areas/sc
 import type { TecnicoType } from "../../db/tecnicos/schema"
 import type { EmpresaType } from "../../db/empresas/schema"
 import type { InstrumentoType } from "../../db/instrumentos/schema"
+import Page05 from "./page-0-5"
 
 export const MyDocument = memo(
 	({
@@ -98,6 +99,7 @@ function MyDocumentData({
 	return (
 		<PDFRendererDocument title={reporte.title}>
 			<Page0 tecnico={tecnico} empresa={empresa} />
+			<Page05 tecnico={tecnico} empresa={empresa} />
 			<Page1
 				reporte={reporte}
 				tecnico={tecnico}

@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FilesRouteRouteImport } from './routes/files/route'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
+import { Route as AreasRouteRouteImport } from './routes/areas/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FilesIndexRouteImport } from './routes/files/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as AreasIndexRouteImport } from './routes/areas/index'
 import { Route as DashboardChar91idChar93RouteRouteImport } from './routes/dashboard/[$id]/route'
 import { Route as FilesUnusedIndexRouteImport } from './routes/files/unused.index'
 import { Route as FilesTecnicosIndexRouteImport } from './routes/files/tecnicos.index'
@@ -38,6 +40,11 @@ const DashboardRouteRoute = DashboardRouteRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AreasRouteRoute = AreasRouteRouteImport.update({
+  id: '/areas',
+  path: '/areas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -52,6 +59,11 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
+} as any)
+const AreasIndexRoute = AreasIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AreasRouteRoute,
 } as any)
 const DashboardChar91idChar93RouteRoute =
   DashboardChar91idChar93RouteRouteImport.update({
@@ -143,9 +155,11 @@ const DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/areas': typeof AreasRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/files': typeof FilesRouteRouteWithChildren
   '/dashboard/$id': typeof DashboardChar91idChar93RouteRouteWithChildren
+  '/areas/': typeof AreasIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/files/': typeof FilesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
@@ -163,6 +177,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/areas': typeof AreasIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/files': typeof FilesIndexRoute
   '/dashboard/$id': typeof DashboardChar91idChar93IndexRoute
@@ -181,9 +196,11 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/areas': typeof AreasRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/files': typeof FilesRouteRouteWithChildren
   '/dashboard/$id': typeof DashboardChar91idChar93RouteRouteWithChildren
+  '/areas/': typeof AreasIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/files/': typeof FilesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
@@ -203,9 +220,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/areas'
     | '/dashboard'
     | '/files'
     | '/dashboard/$id'
+    | '/areas/'
     | '/dashboard/'
     | '/files/'
     | '/dashboard/$id/'
@@ -223,6 +242,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/areas'
     | '/dashboard'
     | '/files'
     | '/dashboard/$id'
@@ -240,9 +260,11 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/areas'
     | '/dashboard'
     | '/files'
     | '/dashboard/$id'
+    | '/areas/'
     | '/dashboard/'
     | '/files/'
     | '/dashboard/$id/'
@@ -261,6 +283,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AreasRouteRoute: typeof AreasRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   FilesRouteRoute: typeof FilesRouteRouteWithChildren
 }
@@ -279,6 +302,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/areas': {
+      id: '/areas'
+      path: '/areas'
+      fullPath: '/areas'
+      preLoaderRoute: typeof AreasRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -301,6 +331,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
+    }
+    '/areas/': {
+      id: '/areas/'
+      path: '/'
+      fullPath: '/areas/'
+      preLoaderRoute: typeof AreasIndexRouteImport
+      parentRoute: typeof AreasRouteRoute
     }
     '/dashboard/$id': {
       id: '/dashboard/$id'
@@ -396,6 +433,18 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AreasRouteRouteChildren {
+  AreasIndexRoute: typeof AreasIndexRoute
+}
+
+const AreasRouteRouteChildren: AreasRouteRouteChildren = {
+  AreasIndexRoute: AreasIndexRoute,
+}
+
+const AreasRouteRouteWithChildren = AreasRouteRoute._addFileChildren(
+  AreasRouteRouteChildren,
+)
+
 interface DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteChildren {
   DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
   DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
@@ -482,6 +531,7 @@ const FilesRouteRouteWithChildren = FilesRouteRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AreasRouteRoute: AreasRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   FilesRouteRoute: FilesRouteRouteWithChildren,
 }

@@ -1,10 +1,17 @@
 import { queryOptions, useQueryClient } from "@tanstack/react-query"
 import {
+	getAllReportesServer,
 	getReporteNuevoServer,
 	getReporteServer,
 	getReportesServer,
 } from "../../server/iluminacion/reportes-server"
 import type { ReporteIluminacionType } from "../../db/reportes/iluminacion/scheme"
+
+export const allReportesQueryOptions = queryOptions({
+		queryKey: ["reportes-iluminacion"],
+		queryFn: () => getAllReportesServer(),
+		// refetchInterval: 60 * 1000, // refrescar cada 60 segundos
+	})
 
 export const reportesQueryOptions = (userId: string) =>
 	queryOptions({

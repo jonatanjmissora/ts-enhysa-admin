@@ -13,6 +13,9 @@ function Home() {
 				<Link to="/dashboard" className="w-full">
 					<Button className="w-full min-w-40 py-5">Tecnicos</Button>
 				</Link>
+				<Link to="/areas" className="w-full">
+					<Button className="w-full min-w-40 py-5">Areas</Button>
+				</Link>
 				<Link to="/files" className="w-full">
 					<Button className="w-full min-w-40 py-5">Archivos</Button>
 				</Link>
