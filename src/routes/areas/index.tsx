@@ -35,53 +35,41 @@ function Inner() {
 	// })
 
 	return (
-		<article className="flex flex-col gap-10">
-			{/* <div className='flex flex-col gap-4'>
-      <span className='text-lg font-bold border-b border-white/20 pb-1.5'>AREAS TOTALES</span>
-      <div className='w-full grid grid-cols-1 sm:grid-cols-3'>
-      {
-        areas.map(area => 
-          <div key={area.id} className='flex flex-col border text-sm'>
-            <span className='text-amber-700' ><b>{area.nombre}</b></span>
-            <span >{area.reportId}</span>
-          </div>
-        )
-      }
-
-      </div>
-    </div>
-
-    <div className='flex flex-col gap-4'>
-          <span className='text-lg font-bold border-b border-white/20 pb-1.5'>REPORTES TOTALES</span>
-          <div className='w-full grid grid-cols-1 sm:grid-cols-3'>
-          {
-            reportes.map(reporte => 
-              <div key={reporte.id} className='flex flex-col border text-sm'>
-                <span className='text-amber-700' ><b>{reporte.title}</b></span>
-                <span >{reporte.id}</span>
-              </div>
-            )
-          }
-          </div>
-      </div> */}
-
-			<div className="flex flex-col gap-4 w-full items-center">
+		<article className="flex flex-col gap-8 w-full mb-40">
+			<span className="text-center">Areas Totales: {areas.length}</span>
+			<div className="flex flex-col gap-20 w-full items-center">
 				{tecnicos.map(tecnico => (
-					<div key={tecnico.id} className="flex flex-col border text-sm">
-						<span className="text-amber-700">
-							<b>
-								{tecnico.nombre} - {tecnico.userId}
+					<div key={tecnico.id} className="flex flex-col w-full text-sm">
+						<div className="text-amber-700 w-full border-b flex sm:flex-row flex-col sm:items-center items-end sm:justify-center justify-between">
+							<b className="flex items-center justify-between w-full">
+								{tecnico.nombre.toUpperCase()}(
+								{areas.filter(area => area.userId === tecnico.userId).length})
 							</b>
-						</span>
+							<b>{tecnico.userId}</b>
+						</div>
 						{reportes
 							.filter(reporte => reporte.userId === tecnico.userId)
 							.map(reporte => (
-								<div key={reporte.id} className="flex flex-col gap-2">
-									<span>REPORTE : {reporte.title}</span>
+								<div
+									key={reporte.id}
+									className="flex flex-col gap-2 my-4 ml-0 sm:ml-10"
+								>
+									<div className="w-full flex sm:flex-row flex-col sm:items-center items-end sm:justify-center justify-between border-b text-amber-400">
+										<span className="mr-auto">REPORTE</span>
+										<span>{reporte.title.toUpperCase()}</span>
+										<span>{reporte.id}</span>
+									</div>
 									{areas
 										.filter(area => area.reportId === reporte.id)
 										.map(area => (
-											<span key={area.id}>AREA : {area.nombre}</span>
+											<div
+												key={area.id}
+												className="w-full flex sm:flex-row flex-col sm:items-center items-end sm:justify-between justify-between"
+											>
+												<span className="mr-auto sm:mr-0 sm:ml-10">AREA</span>
+												<span>{area.nombre.toUpperCase()}</span>
+												<span>{area.id}</span>
+											</div>
 										))}
 								</div>
 							))}
