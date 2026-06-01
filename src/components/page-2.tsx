@@ -319,6 +319,10 @@ function TablaDePuntos({
 			2
 	)
 
+	const menorSimbolo = "\u003c"
+	const mayorIgualSimbolo = "\u2265"
+	const simbolo = Eminima >= uniformidad ? mayorIgualSimbolo : menorSimbolo
+
 	return (
 		<>
 			{celdasMedidas.map((punto, index) => (
@@ -397,7 +401,7 @@ function TablaDePuntos({
 						]}
 					>
 						<Text>
-							{Eminima} {"\u2265"} {uniformidad}
+							{Eminima} {simbolo} {uniformidad}
 						</Text>
 						{/* Valor media*/}
 					</View>
