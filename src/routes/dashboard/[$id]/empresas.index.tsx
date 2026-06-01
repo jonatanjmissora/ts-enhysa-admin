@@ -58,25 +58,35 @@ function Empresa({ empresa }: { empresa: EmpresaType }) {
 	return (
 		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
 			<div className="grid grid-cols-2 gap-2">
-				<span className="text-right font-semibold">Razón Social :</span>
+				<span className="text-right font-semibold text-amber-700">
+					Razón Social :
+				</span>
 				<span>{empresa.razonSocial.toUpperCase()}</span>
-				<span className="text-right font-semibold">CUIT :</span>
+				<span className="text-right font-semibold text-amber-700">CUIT :</span>
 				<span>{empresa.cuit}</span>
-				<span className="text-right font-semibold">Dirección :</span>
+				<span className="text-right font-semibold text-amber-700">
+					Dirección :
+				</span>
 				<span>{empresa.direccion.toUpperCase()}</span>
-				<span className="text-right font-semibold">Localidad :</span>
+				<span className="text-right font-semibold text-amber-700">
+					Localidad :
+				</span>
 				<span>{empresa.localidad.toUpperCase()}</span>
-				<span className="text-right font-semibold">CP :</span>
+				<span className="text-right font-semibold text-amber-700">CP :</span>
 				<span>{empresa.codigoPostal}</span>
-				<span className="text-right font-semibold">Provincia :</span>
+				<span className="text-right font-semibold text-amber-700">
+					Provincia :
+				</span>
 				<span>{empresa.provincia.toUpperCase()}</span>
-				<span className="text-right font-semibold">Horarios :</span>
+				<span className="text-right font-semibold text-amber-700">
+					Horarios :
+				</span>
 				<span>{empresa.horarios.toUpperCase()}</span>
 			</div>
 
 			<div className="flex gap-4 flex-wrap justify-center items-center w-full mt-10">
 				<div className="flex flex-col gap-1 w-1/2">
-					<span className="font-semibold">Empresa Logo :</span>
+					<span className="font-semibold text-amber-700">Empresa Logo :</span>
 					<img
 						src={empresa.logo}
 						alt="foto"

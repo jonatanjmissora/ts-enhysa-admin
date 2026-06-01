@@ -35,17 +35,17 @@ function General() {
 		<article className="min-h-screen w-5/6 mx-auto flex flex-col gap-10 tracking-wider my-14 relative">
 			<div className="grid grid-cols-2 gap-2">
 				<span className="col-span-2 border-b border-white/50">Empresa</span>
-				<Label className="text-right ml-auto">Nombre : </Label>
+				<Label className="ml-auto text-amber-700">Nombre : </Label>
 				<span>{reporte.empresa.razonSocial.toUpperCase()}</span>
-				<Label className="text-right ml-auto">CUIT : </Label>
+				<Label className="ml-auto text-amber-700">CUIT : </Label>
 				<span>{reporte.empresa.cuit.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Direccion : </Label>
+				<Label className="ml-auto text-amber-700">Direccion : </Label>
 				<span>{reporte.empresa.direccion.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Localidad : </Label>
+				<Label className="ml-auto text-amber-700">Localidad : </Label>
 				<span>{reporte.empresa.localidad.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Provincia : </Label>
+				<Label className="ml-auto text-amber-700">Provincia : </Label>
 				<span>{reporte.empresa.provincia.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Horarios : </Label>
+				<Label className="ml-auto text-amber-700">Horarios : </Label>
 				<span>{reporte.empresa.horarios.toUpperCase()}</span>
 				{reporte.empresa.logo && (
 					<div className="col-span-2">
@@ -62,15 +62,15 @@ function General() {
 
 			<div className="grid grid-cols-2 gap-2">
 				<span className="col-span-2 border-b border-white/50">Instrumento</span>
-				<Label className="text-right ml-auto">Nombre : </Label>
+				<Label className="ml-auto text-amber-700">Nombre : </Label>
 				<span>{reporte.instrumento.nombre.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Marca : </Label>
+				<Label className="ml-auto text-amber-700">Marca : </Label>
 				<span>{reporte.instrumento.marca.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Modelo : </Label>
+				<Label className="ml-auto text-amber-700">Modelo : </Label>
 				<span>{reporte.instrumento.modelo.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Serie : </Label>
+				<Label className="ml-auto text-amber-700">Serie : </Label>
 				<span>{reporte.instrumento.serie.toUpperCase()}</span>
-				<Label className="text-right ml-auto">Calibración : </Label>
+				<Label className="ml-auto text-amber-700">Calibración : </Label>
 				<span>
 					{reporte.instrumento.fechaCalibracion.toLocaleDateString("it-IT")}
 				</span>
@@ -110,19 +110,19 @@ function General() {
 
 			<div className="grid grid-cols-2 gap-2">
 				<span className="col-span-2 border-b border-white/50">Condiciones</span>
-				<Label className="text-right ml-auto">Clima : </Label>
+				<Label className="ml-auto text-amber-700">Clima : </Label>
 				<span>{reporte.clima[0].toUpperCase()}</span>
-				<Label className="text-right ml-auto">Humedad : </Label>
+				<Label className="ml-auto text-amber-700">Humedad : </Label>
 				<span>{reporte.clima[1].toUpperCase()}%</span>
-				<Label className="text-right ml-auto">Temperatura : </Label>
+				<Label className="ml-auto text-amber-700">Temperatura : </Label>
 				<span>{reporte.clima[2].toUpperCase()}°C</span>
-				<Label className="text-right ml-auto">Fecha : </Label>
+				<Label className="ml-auto text-amber-700">Fecha : </Label>
 				<span>
 					{reporte.finishedAt
 						? reporte.finishedAt.toLocaleDateString("it-IT")
 						: "En curso"}
 				</span>
-				<Label className="text-right ml-auto">Hora : </Label>
+				<Label className="ml-auto text-amber-700">Hora : </Label>
 				<span>
 					{reporte.finishedAt
 						? reporte.finishedAt.toLocaleTimeString("it-IT")

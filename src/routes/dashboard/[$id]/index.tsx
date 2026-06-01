@@ -23,18 +23,26 @@ function Inner() {
 	return (
 		<div className="w-full flex flex-col gap-10 my-20 bg-accent sm:bg-background p-10 text-sm rounded-lg">
 			<div className="grid grid-cols-2 gap-2">
-				<span className="text-right font-semibold">Telefono:</span>
+				<span className="text-right font-semibold text-amber-700">
+					Telefono:
+				</span>
 				<span>{tecnico.telefono.toUpperCase()}</span>
-				<span className="text-right font-semibold">Cargo:</span>
+				<span className="text-right font-semibold text-amber-700">Cargo:</span>
 				<span>{tecnico.cargo.toUpperCase()}</span>
-				<span className="text-right font-semibold">Localidad:</span>
+				<span className="text-right font-semibold text-amber-700">
+					Localidad:
+				</span>
 				<span>{tecnico.localidad.toUpperCase()}</span>
-				<span className="text-right font-semibold">Matricula:</span>
+				<span className="text-right font-semibold text-amber-700">
+					Matricula:
+				</span>
 				<span>{tecnico.matricula.toUpperCase()}</span>
 			</div>
 			<div className="flex gap-4 flex-wrap justify-center items-center w-full">
 				<div className="flex flex-col gap-1">
-					<span className="font-semibold">Matricula Imagen:</span>
+					<span className="font-semibold text-amber-700">
+						Matricula Imagen:
+					</span>
 					<img
 						src={tecnico.matriculaImg}
 						alt="foto"
@@ -43,7 +51,7 @@ function Inner() {
 				</div>
 
 				<div className="flex flex-col gap-1">
-					<span className="font-semibold">Firma Digital:</span>
+					<span className="font-semibold text-amber-700">Firma Digital:</span>
 					<img
 						src={tecnico.firmaImg}
 						alt="foto"
@@ -52,7 +60,7 @@ function Inner() {
 				</div>
 
 				<div className="flex flex-col gap-1">
-					<span className="font-semibold">Empresa Imagen:</span>
+					<span className="font-semibold text-amber-700">Empresa Imagen:</span>
 					<img
 						src={tecnico.empresaLogo}
 						alt="foto"

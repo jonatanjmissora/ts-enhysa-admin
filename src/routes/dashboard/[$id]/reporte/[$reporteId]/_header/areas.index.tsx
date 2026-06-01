@@ -71,37 +71,47 @@ function Area({ area }: { area: AreaIluminacionType }) {
 	return (
 		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
 			<div className="grid grid-cols-2 gap-2">
-				<span className="text-right font-semibold">Nombre :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Nombre :</span>
 				<span>{area.nombre.toUpperCase()}</span>
-				<span className="text-right font-semibold">Tipo :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Tipo :</span>
 				<span>{area.tipo.toUpperCase()}</span>
-				<span className="text-right font-semibold">Iluminación :</span>
+				<span className="ml-auto text-amber-700 font-semibold">
+					Iluminación :
+				</span>
 				<span>{area.iluminacion.toUpperCase()}</span>
-				<span className="text-right font-semibold">Iluminación tipo :</span>
+				<span className="ml-auto text-amber-700 font-semibold">
+					Iluminación tipo :
+				</span>
 				<span>{area.iluminacionTipo.toUpperCase()}</span>
-				<span className="text-right font-semibold">Iluminación fuente :</span>
+				<span className="ml-auto text-amber-700 font-semibold">
+					Iluminación fuente :
+				</span>
 				<span>{area.iluminacionFuente.toUpperCase()}</span>
-				<span className="text-right font-semibold">Valor requerido :</span>
+				<span className="ml-auto text-amber-700 font-semibold">
+					Valor requerido :
+				</span>
 				<span>{area.valorRequerido.toUpperCase()}</span>
-				<span className="text-right font-semibold">Observaciones :</span>
+				<span className="ml-auto text-amber-700 font-semibold">
+					Observaciones :
+				</span>
 				<span>{area.observaciones.toUpperCase()}</span>
-				<span className="text-right font-semibold">Largo :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Largo :</span>
 				<span>{area.largo}mts</span>
-				<span className="text-right font-semibold">Ancho :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Ancho :</span>
 				<span>{area.ancho}mts</span>
-				<span className="text-right font-semibold">Alto :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Alto :</span>
 				<span>{area.alto}mts</span>
-				<span className="text-right font-semibold">Comienzo :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Comienzo :</span>
 				<span>
 					{tiempoValidoInicio?.toLocaleDateString("it-IT")} -{" "}
 					{tiempoValidoInicio?.toLocaleTimeString("it-IT")}
 				</span>
-				<span className="text-right font-semibold">Fin :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Fin :</span>
 				<span>
 					{tiempoValidoFin?.toLocaleDateString("it-IT")} -{" "}
 					{tiempoValidoFin?.toLocaleTimeString("it-IT")}
 				</span>
-				<span className="text-right font-semibold">Puntos :</span>
+				<span className="ml-auto text-amber-700 font-semibold">Puntos :</span>
 				<span>{area.puntos.join(", ")}</span>
 
 				{area.imagenes.length > 0 && (

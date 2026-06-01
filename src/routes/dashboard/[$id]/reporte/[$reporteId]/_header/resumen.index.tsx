@@ -38,15 +38,21 @@ function Resumen() {
 					Resumen
 				</span>
 				<div className="flex flex-col gap-2">
-					<Label className="">Conclusiones : </Label>
+					<Label className="text-amber-700 font-semibold">
+						Conclusiones :{" "}
+					</Label>
 					<span>{reporte.conclusion}</span>
 				</div>
 				<div className="flex flex-col gap-2">
-					<Label className="">Observaciones : </Label>
+					<Label className="text-amber-700 font-semibold">
+						Observaciones :{" "}
+					</Label>
 					<span>{reporte.observacion}</span>
 				</div>
 				<div className="flex flex-col gap-2">
-					<Label className="">Recomendaciones : </Label>
+					<Label className="text-amber-700 font-semibold">
+						Recomendaciones :{" "}
+					</Label>
 					<span>{reporte.recomendacion}</span>
 				</div>
 

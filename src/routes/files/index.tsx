@@ -20,7 +20,6 @@ function RouteComponent() {
 function Inner() {
 	const { data: files } = useSuspenseQuery(filesQueryOptions)
 	const [selectedFileKey, setSelectedFileKey] = useState("")
-
 	if (!files?.files) return <div>No hay archivos</div>
 
 	const totalBytes = files.files.reduce((acc, file) => acc + file.size, 0)

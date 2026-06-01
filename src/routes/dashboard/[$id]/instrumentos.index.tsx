@@ -64,28 +64,34 @@ function Instrumento({ instrumento }: { instrumento: InstrumentoType }) {
 	return (
 		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
 			<div className="grid grid-cols-2 gap-2">
-				<span className="text-right font-semibold">Nombre :</span>
+				<span className="text-right  text-amber-700">Nombre :</span>
 				<span>{instrumento.nombre.toUpperCase()}</span>
 
-				<span className="text-right font-semibold">Marca :</span>
+				<span className="text-right  text-amber-700">Marca :</span>
 				<span>{instrumento.marca.toUpperCase()}</span>
 
-				<span className="text-right font-semibold">Modelo :</span>
+				<span className="text-right  text-amber-700">Modelo :</span>
 				<span>{instrumento.modelo.toUpperCase()}</span>
 
-				<span className="text-right font-semibold">Serie :</span>
+				<span className="text-right  text-amber-700">Serie :</span>
 				<span>{instrumento.serie.toUpperCase()}</span>
 
-				<span className="text-right font-semibold">Calibración :</span>
-				<span>{instrumento.fechaCalibracion.toLocaleDateString("it-IT", {
-					day: "2-digit",
-					month: "2-digit",
-					year: "numeric",
-				}).toUpperCase()}</span>
+				<span className="text-right  text-amber-700">Calibración :</span>
+				<span>
+					{instrumento.fechaCalibracion
+						.toLocaleDateString("it-IT", {
+							day: "2-digit",
+							month: "2-digit",
+							year: "numeric",
+						})
+						.toUpperCase()}
+				</span>
 			</div>
-				
+
 			<div className="flex flex-col gap-1 col-span-2 mt-10">
-				<span className="text-center">Imágenes del Certificado</span>
+				<span className="text-center font-semibold text-amber-700">
+					Imágenes del Certificado
+				</span>
 				{instrumento.imagenesCalibracion.length > 0 ? (
 					<div className="flex w-full gap-2 content-center">
 						{instrumento.imagenesCalibracion.map(imagen => (
@@ -105,7 +111,9 @@ function Instrumento({ instrumento }: { instrumento: InstrumentoType }) {
 			</div>
 
 			<div className="flex flex-col gap-1 col-span-2 mt-10">
-				<span className="text-center">Imágenes Instrumento</span>
+				<span className="text-center font-semibold text-amber-700">
+					Imágenes Instrumento
+				</span>
 				{instrumento.imagenes.length > 0 ? (
 					<div className="w-full flex gap-2 flex-wrap content-center">
 						{instrumento.imagenes.map(imagen => (
