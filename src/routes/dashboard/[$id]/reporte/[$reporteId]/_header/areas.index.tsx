@@ -9,6 +9,7 @@ import {
 	AccordionTrigger,
 } from "#/components/ui/accordion"
 import type { AreaIluminacionType } from "../../../../../../../db/reportes/iluminacion/areas/scheme"
+import { ChartArea } from "#/components/ChartArea"
 
 export const Route = createFileRoute(
 	"/dashboard/$id/reporte/$reporteId/_header/areas/"
@@ -116,6 +117,9 @@ function Area({ area }: { area: AreaIluminacionType }) {
 						))}
 					</div>
 				)}
+				<div className="w-full flex items-center justify-center col-span-2">
+					<ChartArea puntos={area.puntos} />
+				</div>
 			</div>
 		</div>
 	)
