@@ -98,7 +98,7 @@ function MyDocumentData({
 }) {
 	return (
 		<PDFRendererDocument title={reporte.title}>
-			<Page0 tecnico={tecnico} empresa={empresa} />
+			{/* <Page0 tecnico={tecnico} empresa={empresa} />
 			<Page05 tecnico={tecnico} empresa={empresa} />
 			<Page1
 				reporte={reporte}
@@ -106,11 +106,11 @@ function MyDocumentData({
 				empresa={empresa}
 				instrumento={instrumento}
 			/>
-			<Page2 areas={areas} tecnico={tecnico} empresa={empresa} />
+			<Page2 areas={areas} tecnico={tecnico} empresa={empresa} /> 
 			<Page3 reporte={reporte} tecnico={tecnico} empresa={empresa} />
-			<Page4 tecnico={tecnico} empresa={empresa} instrumento={instrumento} />
+			 <Page4 tecnico={tecnico} empresa={empresa} instrumento={instrumento} />*/}
 			<Page5 areas={areas} tecnico={tecnico} empresa={empresa} />
-			<Page6 areas={areas} tecnico={tecnico} empresa={empresa} />
+			{/*<Page6 areas={areas} tecnico={tecnico} empresa={empresa} /> */}
 		</PDFRendererDocument>
 	)
 }

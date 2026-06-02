@@ -154,18 +154,21 @@ function Area({
 						alignItems: "center",
 						marginTop: "15px",
 						marginBottom: "5px",
+						maxHeight: "700px",
+						border: "1px solid red",
 					}}
 				>
 					<View
 						style={{
 							position: "relative",
 							width: `${div * cellW}px`,
-							height: `${div * cellH}px`,
-							maxWidth: "470px",
-							maxHeight: "270px",
+							// height: `${div * cellH}px`,
+							flex: 1,
 							display: "flex",
 							flexDirection: "row",
 							flexWrap: "wrap",
+							height: "500px",
+							border: "1px solid green",
 						}}
 					>
 						{area.puntos.map((punto, index) => (
@@ -173,7 +176,7 @@ function Area({
 								key={index}
 								style={{
 									width: `${cellW - 1}px`,
-									height: `${cellH - 1}px`,
+									height: `${375 / div - 1}px`,
 									border: "0.5px solid gray",
 									display: "flex",
 									flexDirection: "column",

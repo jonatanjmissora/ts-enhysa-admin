@@ -25,15 +25,6 @@ function Inner() {
 	if (!reportes || !areas || !tecnicos)
 		return <div>No hay areas o informes</div>
 
-	// obtener todas las areas que no tiene un reporteId existente
-	// const reportesIds = areas.map(area => area.reportId)
-	// reportes.forEach(reporte => {
-	//   if(reportesIds.includes(reporte.id)) {
-	//     //eliminar el reporteId de reportesIds
-	//     reportesIds.splice(reportesIds.indexOf(reporte.id), 1)
-	//   }
-	// })
-
 	return (
 		<article className="flex flex-col gap-8 w-full mb-40">
 			<span className="text-center">Areas Totales: {areas.length}</span>

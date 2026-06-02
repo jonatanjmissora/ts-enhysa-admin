@@ -80,7 +80,19 @@ export default function Page4({
 			>
 				Anexo 4
 			</Text>
-			<View style={[styles.pagePadding, { flex: 1, border: "none" }]}>
+			<View
+				style={[
+					styles.pagePadding,
+					{
+						flex: 1,
+						border: "none",
+						maxHeight: "700px",
+						flexDirection: "column",
+						gap: 0,
+						paddingBottom: 0,
+					},
+				]}
+			>
 				<Text style={styles.title}>INSTRUMENTO</Text>
 				<View
 					style={[
@@ -108,7 +120,6 @@ export default function Page4({
 					style={{
 						flex: 1,
 						width: "100%",
-						maxHeight: "200px",
 						display: "flex",
 						flexDirection: "row",
 						justifyContent: "center",
