@@ -88,17 +88,22 @@ function Area({
 	const largo = area.largo
 	const alto = area.alto
 	const div = Math.sqrt(getNumeroCeldas(ancho, largo, alto))
+	const MAX_WIDTH = 470
+	const MAX_HEIGHT = area.imagenes?.length > 0 ? 375 : 500
 	let cellW = 75
-	let cellH = (largo * cellW) / ancho
+	let cellH = (cellW * largo) / ancho
 
-	if (cellW * div >= 470 || cellH * div >= 270) {
-		if (ancho > largo) {
-			cellW = 470 / div
-			cellH = (largo * cellW) / ancho
-		} else {
-			cellH = 270 / div
-			cellW = (ancho * cellH) / largo
+	if (cellW * div > MAX_WIDTH) {
+		cellW = MAX_WIDTH / div
+		cellH = (cellW * largo) / ancho
+		if (cellH * div > MAX_HEIGHT) {
+			cellH = MAX_HEIGHT / div
+			cellW = (cellH * ancho) / largo
 		}
+	}
+	if (cellH * div > MAX_HEIGHT) {
+		cellH = MAX_HEIGHT / div
+		cellW = (cellH * ancho) / largo
 	}
 
 	return (
@@ -143,7 +148,8 @@ function Area({
 						Medidas: {area.largo.toFixed(0)} mts x {area.ancho.toFixed(0)} mts
 					</Text>
 					<Text style={{ fontSize: 8, opacity: 0.75 }}>
-						Divisiones: {div ** 2}
+						Divisiones: {div ** 2} ({(area.ancho / div).toFixed(1)}m x{" "}
+						{(area.largo / div).toFixed(1)}m)
 					</Text>
 				</View>
 				<View
@@ -151,24 +157,21 @@ function Area({
 						flex: 1,
 						display: "flex",
 						flexDirection: "column",
+						justifyContent: "space-around",
 						alignItems: "center",
 						marginTop: "15px",
 						marginBottom: "5px",
 						maxHeight: "700px",
-						border: "1px solid red",
 					}}
 				>
 					<View
 						style={{
 							position: "relative",
-							width: `${div * cellW}px`,
-							// height: `${div * cellH}px`,
-							flex: 1,
 							display: "flex",
 							flexDirection: "row",
 							flexWrap: "wrap",
-							height: "500px",
-							border: "1px solid green",
+							height: `${cellH * div}px`,
+							width: `${cellW * div}px`,
 						}}
 					>
 						{area.puntos.map((punto, index) => (
@@ -176,7 +179,7 @@ function Area({
 								key={index}
 								style={{
 									width: `${cellW - 1}px`,
-									height: `${375 / div - 1}px`,
+									height: `${cellH - 1}px`,
 									border: "0.5px solid gray",
 									display: "flex",
 									flexDirection: "column",
@@ -198,32 +201,34 @@ function Area({
 						<Cotas ancho={ancho} largo={largo} cellH={cellH * div} />
 					</View>
 
-					<View
-						style={{
-							flex: 1,
-							width: "470px",
-							maxHeight: "180px",
-							display: "flex",
-							flexDirection: "row",
-							justifyContent: "center",
-							alignItems: "center",
-							gap: 10,
-							paddingTop: 15,
-							paddingBottom: 0,
-						}}
-					>
-						{area.imagenes.map((img, index) => (
-							<Image
-								key={index}
-								src={img}
-								style={{
-									flex: 1,
-									height: "95%",
-									objectFit: "contain",
-								}}
-							/>
-						))}
-					</View>
+					{area.imagenes.length > 0 && (
+						<View
+							style={{
+								flex: 1,
+								width: "470px",
+								maxHeight: "180px",
+								display: "flex",
+								flexDirection: "row",
+								justifyContent: "center",
+								alignItems: "center",
+								gap: 10,
+								paddingTop: 15,
+								paddingBottom: 0,
+							}}
+						>
+							{area.imagenes.map((img, index) => (
+								<Image
+									key={index}
+									src={img}
+									style={{
+										flex: 1,
+										height: "95%",
+										objectFit: "contain",
+									}}
+								/>
+							))}
+						</View>
+					)}
 				</View>
 			</View>
 
