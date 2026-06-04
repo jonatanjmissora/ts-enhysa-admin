@@ -56,12 +56,18 @@ function Resumen() {
 					<span>{reporte.recomendacion}</span>
 				</div>
 
-				<div className="mt-10">
+				<div className="mt-10 flex justify-center gap-4 items-center w-full">
 					<Link
 						to={`/dashboard/$id/reporte/$reporteId/pdf`}
 						params={{ id, reporteId }}
 					>
 						<Button> Generar PDF</Button>
+					</Link>
+					<Link
+						to={`/dashboard/$id/reporte/$reporteId/pdf-reducida`}
+						params={{ id, reporteId }}
+					>
+						<Button> Generar PDF (reducida)</Button>
 					</Link>
 				</div>
 			</div>

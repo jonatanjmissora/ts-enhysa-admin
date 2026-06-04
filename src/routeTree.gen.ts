@@ -24,6 +24,7 @@ import { Route as DashboardChar91idChar93ReportesIndexRouteImport } from './rout
 import { Route as DashboardChar91idChar93InstrumentosIndexRouteImport } from './routes/dashboard/[$id]/instrumentos.index'
 import { Route as DashboardChar91idChar93EmpresasIndexRouteImport } from './routes/dashboard/[$id]/empresas.index'
 import { Route as DashboardChar91idChar93ReporteReporteNuevoIndexRouteImport } from './routes/dashboard/[$id]/reporte/reporte-nuevo/index'
+import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/pdf-reducida'
 import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/pdf'
 import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/_header/route'
 import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/_header/resumen.index'
@@ -111,6 +112,14 @@ const DashboardChar91idChar93ReporteReporteNuevoIndexRoute =
     path: '/reporte/reporte-nuevo/',
     getParentRoute: () => DashboardChar91idChar93RouteRoute,
   } as any)
+const DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute =
+  DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRouteImport.update(
+    {
+      id: '/reporte/$reporteId/pdf-reducida',
+      path: '/reporte/$reporteId/pdf-reducida',
+      getParentRoute: () => DashboardChar91idChar93RouteRoute,
+    } as any,
+  )
 const DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute =
   DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRouteImport.update({
     id: '/reporte/$reporteId/pdf',
@@ -170,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/$id/reportes/': typeof DashboardChar91idChar93ReportesIndexRoute
   '/dashboard/$id/reporte/$reporteId': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
   '/dashboard/$id/reporte/$reporteId/pdf': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
+  '/dashboard/$id/reporte/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
   '/dashboard/$id/reporte/reporte-nuevo/': typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
   '/dashboard/$id/reporte/$reporteId/areas/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
   '/dashboard/$id/reporte/$reporteId/general/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
@@ -188,6 +198,7 @@ export interface FileRoutesByTo {
   '/dashboard/$id/reportes': typeof DashboardChar91idChar93ReportesIndexRoute
   '/dashboard/$id/reporte/$reporteId': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
   '/dashboard/$id/reporte/$reporteId/pdf': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
+  '/dashboard/$id/reporte/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
   '/dashboard/$id/reporte/reporte-nuevo': typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
   '/dashboard/$id/reporte/$reporteId/areas': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
   '/dashboard/$id/reporte/$reporteId/general': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
@@ -211,6 +222,7 @@ export interface FileRoutesById {
   '/dashboard/$id/reportes/': typeof DashboardChar91idChar93ReportesIndexRoute
   '/dashboard/$id/reporte/$reporteId/_header': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
   '/dashboard/$id/reporte/$reporteId/pdf': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
+  '/dashboard/$id/reporte/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
   '/dashboard/$id/reporte/reporte-nuevo/': typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
   '/dashboard/$id/reporte/$reporteId/_header/areas/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
   '/dashboard/$id/reporte/$reporteId/_header/general/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
@@ -235,6 +247,7 @@ export interface FileRouteTypes {
     | '/dashboard/$id/reportes/'
     | '/dashboard/$id/reporte/$reporteId'
     | '/dashboard/$id/reporte/$reporteId/pdf'
+    | '/dashboard/$id/reporte/$reporteId/pdf-reducida'
     | '/dashboard/$id/reporte/reporte-nuevo/'
     | '/dashboard/$id/reporte/$reporteId/areas/'
     | '/dashboard/$id/reporte/$reporteId/general/'
@@ -253,6 +266,7 @@ export interface FileRouteTypes {
     | '/dashboard/$id/reportes'
     | '/dashboard/$id/reporte/$reporteId'
     | '/dashboard/$id/reporte/$reporteId/pdf'
+    | '/dashboard/$id/reporte/$reporteId/pdf-reducida'
     | '/dashboard/$id/reporte/reporte-nuevo'
     | '/dashboard/$id/reporte/$reporteId/areas'
     | '/dashboard/$id/reporte/$reporteId/general'
@@ -275,6 +289,7 @@ export interface FileRouteTypes {
     | '/dashboard/$id/reportes/'
     | '/dashboard/$id/reporte/$reporteId/_header'
     | '/dashboard/$id/reporte/$reporteId/pdf'
+    | '/dashboard/$id/reporte/$reporteId/pdf-reducida'
     | '/dashboard/$id/reporte/reporte-nuevo/'
     | '/dashboard/$id/reporte/$reporteId/_header/areas/'
     | '/dashboard/$id/reporte/$reporteId/_header/general/'
@@ -395,6 +410,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardChar91idChar93ReporteReporteNuevoIndexRouteImport
       parentRoute: typeof DashboardChar91idChar93RouteRoute
     }
+    '/dashboard/$id/reporte/$reporteId/pdf-reducida': {
+      id: '/dashboard/$id/reporte/$reporteId/pdf-reducida'
+      path: '/reporte/$reporteId/pdf-reducida'
+      fullPath: '/dashboard/$id/reporte/$reporteId/pdf-reducida'
+      preLoaderRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRouteImport
+      parentRoute: typeof DashboardChar91idChar93RouteRoute
+    }
     '/dashboard/$id/reporte/$reporteId/pdf': {
       id: '/dashboard/$id/reporte/$reporteId/pdf'
       path: '/reporte/$reporteId/pdf'
@@ -473,6 +495,7 @@ interface DashboardChar91idChar93RouteRouteChildren {
   DashboardChar91idChar93ReportesIndexRoute: typeof DashboardChar91idChar93ReportesIndexRoute
   DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
   DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
+  DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
   DashboardChar91idChar93ReporteReporteNuevoIndexRoute: typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
 }
 
@@ -489,6 +512,8 @@ const DashboardChar91idChar93RouteRouteChildren: DashboardChar91idChar93RouteRou
       DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren,
     DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute:
       DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute,
+    DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute:
+      DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute,
     DashboardChar91idChar93ReporteReporteNuevoIndexRoute:
       DashboardChar91idChar93ReporteReporteNuevoIndexRoute,
   }

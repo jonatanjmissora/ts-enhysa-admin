@@ -147,9 +147,12 @@ function Area({
 					flex: 1,
 					width: "100%",
 					margin: "0 auto",
+					display: "flex",
+					justifyContent: "center",
+					alignContent: "center",
 				}}
 			>
-				<ChartAreaPDF puntos={area.puntos} />
+				<ChartAreaPDF puntos={area.puntos} requerido={area.valorRequerido}/>
 			</View>
 
 			<MembreteInferior tecnico={tecnico} />

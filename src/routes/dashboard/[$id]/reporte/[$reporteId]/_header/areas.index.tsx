@@ -128,7 +128,7 @@ function Area({ area }: { area: AreaIluminacionType }) {
 					</div>
 				)}
 				<div className="w-full flex items-center justify-center col-span-2 sm:overflow-x-visible overflow-x-scroll pl-15 py-5 sm:py-0">
-					<ChartArea puntos={area.puntos} />
+					<ChartArea puntos={area.puntos} requerido={area.valorRequerido}/>
 				</div>
 			</div>
 		</div>

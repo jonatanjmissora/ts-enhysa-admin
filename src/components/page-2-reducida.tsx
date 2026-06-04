@@ -306,6 +306,10 @@ function TablaDePuntos({
 	)
 	const uniformidad = Math.ceil(promedio / 2)
 
+	const menorSimbolo = "\u003c"
+	const mayorIgualSimbolo = "\u2265"
+	const simbolo = Eminima >= uniformidad ? mayorIgualSimbolo : menorSimbolo
+
 	return (
 		<>
 			<View style={styles.flexrow}>
@@ -383,7 +387,7 @@ function TablaDePuntos({
 					]}
 				>
 					<Text>
-						{Eminima} {"\u2265"} {uniformidad}
+						{Eminima} {simbolo} {uniformidad}
 					</Text>
 					{/* Valor media*/}
 				</View>

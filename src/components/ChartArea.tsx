@@ -1,6 +1,6 @@
 import React from "react"
 
-export function ChartArea({ puntos }: { puntos: number[] }) {
+export function ChartArea({ puntos, requerido }: { puntos: number[]; requerido: string }) {
 	const data = puntos
 	const puntosWithValue = puntos?.filter(punto => punto > 0)
 	if (!puntosWithValue || puntosWithValue.length === 0) {
@@ -30,6 +30,11 @@ export function ChartArea({ puntos }: { puntos: number[] }) {
 		yTicks.push(v)
 	}
 
+// Obtain required range
+const requeridoValue = requerido.split(" ");
+const min = parseInt(requeridoValue[0], 10);
+const max = requeridoValue.length > 1 ? parseInt(requeridoValue[2], 10) : min + 1;
+
 	// Build SVG path points – X and Y are scaled to chart area with padding
 	const points = data
 		.map(
@@ -49,18 +54,14 @@ export function ChartArea({ puntos }: { puntos: number[] }) {
 				display: "flex",
 				flexDirection: "column",
 				alignItems: "center",
+				justifyContent: "center",
 				gap: 0,
+				overflow: "hidden",
 			}}
 		>
 			{/* viewBox is a square 0‑100 × 0‑100. Width/height are set by the parent container */}
-			<svg viewBox="0 0 100 100" width="400" height="600">
+			<svg viewBox="0 0 100 100" width="400" height="auto" style={{ paddingBlock: "10px"}}>
 				<title>Curva de niveles</title>
-				<defs>
-					<linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
-						<stop offset="0" stopColor="#00f" stopOpacity="0.6" />
-						<stop offset="1" stopColor="#00f" stopOpacity="0" />
-					</linearGradient>
-				</defs>
 				{/* Background */}
 				<rect x="0" y="0" width={100} height={100} fill="#fff" />
 				{/* Area (filled only) */}
@@ -76,6 +77,19 @@ export function ChartArea({ puntos }: { puntos: number[] }) {
 					stroke="#444"
 					strokeWidth="0.25"
 				/>
+
+				{/* Requerido */}
+				<rect
+				x={paddingX}
+				y={paddingY + chartHeight - max * yFactor}
+				width={chartWidth}
+				height={(max - min) * yFactor}
+				fill="#ffbb63"
+				opacity={0.5}
+				stroke="#000"
+				strokeWidth={0.1}
+				/>
+
 				{/* Horizontal index labels */}
 				{data.map((_, idx) => (
 					<text
@@ -126,12 +140,7 @@ export function ChartArea({ puntos }: { puntos: number[] }) {
 						{val}
 					</text>
 				))}
-				{/* Uniformidad line */}
-				<path
-					d={`M${paddingX},${paddingY + chartHeight - uniformidad * yFactor} L${paddingX + chartWidth},${paddingY + chartHeight - uniformidad * yFactor}`}
-					stroke="#7629db"
-					strokeWidth="0.25"
-				/>
+				
 			</svg>
 			<div
 				style={{
@@ -148,13 +157,14 @@ export function ChartArea({ puntos }: { puntos: number[] }) {
 				<div style={{ display: "flex", flexDirection: "row", gap: 2 }}>
 					<div
 						style={{
-							backgroundColor: "#7629db",
+							backgroundColor: "#ffbb63",
 							width: 10,
 							height: 10,
 							borderRadius: "50%",
+							border: "0.5px solid #888"
 						}}
 					/>
-					<div style={{ fontSize: 7 }}>Uniformidad: {uniformidad}</div>
+					<div style={{ fontSize: 7 }}>Requerido: ({min} - {max}) lx</div>
 				</div>
 			</div>
 		</div>
