@@ -45,8 +45,7 @@ function Inner() {
 									key={reporte.id}
 									className="flex flex-col gap-2 my-4 ml-0 sm:ml-10"
 								>
-									<div className="w-full flex sm:flex-row flex-col sm:items-center items-end sm:justify-center justify-between border-b text-amber-400">
-										<span className="mr-auto">REPORTE</span>
+									<div className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between border-b text-amber-400">
 										<span>{reporte.title.toUpperCase()}</span>
 										<span>{reporte.id}</span>
 									</div>
@@ -55,9 +54,8 @@ function Inner() {
 										.map(area => (
 											<div
 												key={area.id}
-												className="w-full flex sm:flex-row flex-col sm:items-center items-end sm:justify-between justify-between"
+												className="w-full flex sm:flex-row flex-col sm:items-center items-end justify-between"
 											>
-												<span className="mr-auto sm:mr-0 sm:ml-10">AREA</span>
 												<span>{area.nombre.toUpperCase()}</span>
 												<span>{area.id}</span>
 											</div>

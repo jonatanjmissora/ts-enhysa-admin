@@ -24,3 +24,12 @@ export const deleteUploadthingFiles = createServerFn({
 	.handler(async ({ data }) => {
 		await utapi.deleteFiles(data)
 	})
+
+export const deleteUploadthingFile = createServerFn({
+	method: "POST",
+})
+	.inputValidator((key: string) => key)
+	.handler(async ({ data }) => {
+		await utapi.deleteFiles(data)
+		return { success: true }
+	})

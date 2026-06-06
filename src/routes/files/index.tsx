@@ -1,9 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { Suspense, useState } from "react"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { filesQueryOptions } from "../../../queries/files-queries"
 import { Button } from "#/components/ui/button"
-import { X } from "lucide-react"
+import { Download, Link as LinkLucide, Trash2, X, Image } from "lucide-react"
+import { deleteUploadthingFile } from "../../../server/files-server"
 
 export const Route = createFileRoute("/files/")({
 	component: RouteComponent,
@@ -23,6 +24,57 @@ function Inner() {
 	if (!files?.files) return <div>No hay archivos</div>
 
 	const totalBytes = files.files.reduce((acc, file) => acc + file.size, 0)
+
+	const downloadFile = async (key: string, name: string, format?: string) => {
+		try {
+			const response = await fetch(`https://utfs.io/f/${key}`)
+			if (!response.ok) throw new Error("Error al descargar el archivo")
+			const blob = await response.blob()
+
+			if (format) {
+				const img = document.createElement("img")
+				img.src = URL.createObjectURL(blob)
+				await img.decode()
+				const canvas = document.createElement("canvas")
+				canvas.width = img.width
+				canvas.height = img.height
+				const ctx = canvas.getContext("2d")
+				if (!ctx) throw new Error("Error al procesar la imagen")
+				ctx.drawImage(img, 0, 0)
+				const dataUrl = canvas.toDataURL(`image/${format}`)
+				const a = document.createElement("a")
+				a.href = dataUrl
+				const base = name.replace(/\.[^/.]+$/, "")
+				a.download = `${base}.${format}`
+				a.click()
+				URL.revokeObjectURL(img.src)
+			} else {
+				const url = URL.createObjectURL(blob)
+				const a = document.createElement("a")
+				a.href = url
+				a.download = name
+				a.click()
+				URL.revokeObjectURL(url)
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const deleteFiles = async (key: string) => {
+		try {
+			if (!key) return
+			const res = await deleteUploadthingFile({ data: key })
+			if (!res.success) {
+				console.log("Error al eliminar archivo")
+				alert("Error al eliminar archivo")
+				return
+			}
+			console.log("Archivo eliminado correctamente", key)
+		} catch (error) {
+			console.error(error)
+		}
+	}
 
 	return (
 		<article className="flex flex-col gap-4">
@@ -46,7 +98,7 @@ function Inner() {
 						<img
 							src={`https://utfs.io/f/${file.key}`}
 							alt="file"
-							className="sm:w-auto sm:h-50 w-full h-auto object-contain border border-white/20 rounded-lg cursor-pointer"
+							className={`sm:w-auto sm:h-50 w-full h-auto object-contain  rounded-lg cursor-pointer border-3 ${borderColor(file.size / 1024 / 1024)}`}
 						/>
 					</button>
 				))}
@@ -62,7 +114,32 @@ function Inner() {
 						return (
 							<div className="flex flex-col gap-2 items-center justify-center py-5 h-max sm:h-max lg:h-5/6">
 								<span>{meta.name}</span>
-								<span>{(meta.size / 1024 / 1024).toFixed(2)} MB</span>
+								<div className="flex justify-between items-center w-1/3 gap-2">
+									<span>{(meta.size / 1024 / 1024).toFixed(2)} MB</span>
+									<Button
+										variant="outline"
+										onClick={() => downloadFile(meta.key, meta.name)}
+									>
+										<Download />
+									</Button>
+									<Button
+										variant="outline"
+										onClick={() => downloadFile(meta.key, meta.name, "png")}
+									>
+										<Image />
+									</Button>
+									<Link to={`https://utfs.io/f/${meta.key}`} target="_blank">
+										<Button variant="outline">
+											<LinkLucide />
+										</Button>
+									</Link>
+									<Button
+										variant="outline"
+										onClick={() => deleteFiles(meta.key)}
+									>
+										<Trash2 />
+									</Button>
+								</div>
 								<span>{new Date(meta.uploadAt).toLocaleString()}</span>
 								<img
 									src={`https://utfs.io/f/${meta.key}`}
@@ -76,4 +153,12 @@ function Inner() {
 			)}
 		</article>
 	)
+}
+
+function borderColor(size: number) {
+	let color = "border-red-500/80"
+	if (size < 3) color = "border-orange-500/80"
+	if (size < 1) color = "border-yellow-500/80"
+	if (size < 0.5) color = "border-green-500/80"
+	return color
 }

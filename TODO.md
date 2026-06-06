@@ -1,0 +1,1 @@
+recargar la pagina cuando borro la imagen
