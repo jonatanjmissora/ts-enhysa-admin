@@ -19,6 +19,7 @@ import { Route as AreasIndexRouteImport } from './routes/areas/index'
 import { Route as DashboardChar91idChar93RouteRouteImport } from './routes/dashboard/[$id]/route'
 import { Route as FilesUnusedIndexRouteImport } from './routes/files/unused.index'
 import { Route as FilesTecnicosIndexRouteImport } from './routes/files/tecnicos.index'
+import { Route as FilesRepetidasIndexRouteImport } from './routes/files/repetidas.index'
 import { Route as DashboardChar91idChar93IndexRouteImport } from './routes/dashboard/[$id]/index'
 import { Route as DashboardChar91idChar93ReportesIndexRouteImport } from './routes/dashboard/[$id]/reportes.index'
 import { Route as DashboardChar91idChar93InstrumentosIndexRouteImport } from './routes/dashboard/[$id]/instrumentos.index'
@@ -80,6 +81,11 @@ const FilesUnusedIndexRoute = FilesUnusedIndexRouteImport.update({
 const FilesTecnicosIndexRoute = FilesTecnicosIndexRouteImport.update({
   id: '/tecnicos/',
   path: '/tecnicos/',
+  getParentRoute: () => FilesRouteRoute,
+} as any)
+const FilesRepetidasIndexRoute = FilesRepetidasIndexRouteImport.update({
+  id: '/repetidas/',
+  path: '/repetidas/',
   getParentRoute: () => FilesRouteRoute,
 } as any)
 const DashboardChar91idChar93IndexRoute =
@@ -172,6 +178,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof DashboardIndexRoute
   '/files/': typeof FilesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
+  '/files/repetidas/': typeof FilesRepetidasIndexRoute
   '/files/tecnicos/': typeof FilesTecnicosIndexRoute
   '/files/unused/': typeof FilesUnusedIndexRoute
   '/dashboard/$id/empresas/': typeof DashboardChar91idChar93EmpresasIndexRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardIndexRoute
   '/files': typeof FilesIndexRoute
   '/dashboard/$id': typeof DashboardChar91idChar93IndexRoute
+  '/files/repetidas': typeof FilesRepetidasIndexRoute
   '/files/tecnicos': typeof FilesTecnicosIndexRoute
   '/files/unused': typeof FilesUnusedIndexRoute
   '/dashboard/$id/empresas': typeof DashboardChar91idChar93EmpresasIndexRoute
@@ -215,6 +223,7 @@ export interface FileRoutesById {
   '/dashboard/': typeof DashboardIndexRoute
   '/files/': typeof FilesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
+  '/files/repetidas/': typeof FilesRepetidasIndexRoute
   '/files/tecnicos/': typeof FilesTecnicosIndexRoute
   '/files/unused/': typeof FilesUnusedIndexRoute
   '/dashboard/$id/empresas/': typeof DashboardChar91idChar93EmpresasIndexRoute
@@ -240,6 +249,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/files/'
     | '/dashboard/$id/'
+    | '/files/repetidas/'
     | '/files/tecnicos/'
     | '/files/unused/'
     | '/dashboard/$id/empresas/'
@@ -259,6 +269,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/files'
     | '/dashboard/$id'
+    | '/files/repetidas'
     | '/files/tecnicos'
     | '/files/unused'
     | '/dashboard/$id/empresas'
@@ -282,6 +293,7 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/files/'
     | '/dashboard/$id/'
+    | '/files/repetidas/'
     | '/files/tecnicos/'
     | '/files/unused/'
     | '/dashboard/$id/empresas/'
@@ -373,6 +385,13 @@ declare module '@tanstack/react-router' {
       path: '/tecnicos'
       fullPath: '/files/tecnicos/'
       preLoaderRoute: typeof FilesTecnicosIndexRouteImport
+      parentRoute: typeof FilesRouteRoute
+    }
+    '/files/repetidas/': {
+      id: '/files/repetidas/'
+      path: '/repetidas'
+      fullPath: '/files/repetidas/'
+      preLoaderRoute: typeof FilesRepetidasIndexRouteImport
       parentRoute: typeof FilesRouteRoute
     }
     '/dashboard/$id/': {
@@ -540,12 +559,14 @@ const DashboardRouteRouteWithChildren = DashboardRouteRoute._addFileChildren(
 
 interface FilesRouteRouteChildren {
   FilesIndexRoute: typeof FilesIndexRoute
+  FilesRepetidasIndexRoute: typeof FilesRepetidasIndexRoute
   FilesTecnicosIndexRoute: typeof FilesTecnicosIndexRoute
   FilesUnusedIndexRoute: typeof FilesUnusedIndexRoute
 }
 
 const FilesRouteRouteChildren: FilesRouteRouteChildren = {
   FilesIndexRoute: FilesIndexRoute,
+  FilesRepetidasIndexRoute: FilesRepetidasIndexRoute,
   FilesTecnicosIndexRoute: FilesTecnicosIndexRoute,
   FilesUnusedIndexRoute: FilesUnusedIndexRoute,
 }

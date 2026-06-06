@@ -1,10 +1,19 @@
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { Suspense, useState } from "react"
 import { useSuspenseQuery } from "@tanstack/react-query"
-import { filesQueryOptions } from "../../../queries/files-queries"
+import {
+	filesQueryOptions,
+	useDeleteFile,
+} from "../../../queries/files-queries"
 import { Button } from "#/components/ui/button"
-import { Download, Link as LinkLucide, Trash2, X, Image } from "lucide-react"
-import { deleteUploadthingFile } from "../../../server/files-server"
+import {
+	Download,
+	Link as LinkLucide,
+	Trash2,
+	X,
+	Image,
+	Loader,
+} from "lucide-react"
 
 export const Route = createFileRoute("/files/")({
 	component: RouteComponent,
@@ -21,6 +30,7 @@ function RouteComponent() {
 function Inner() {
 	const { data: files } = useSuspenseQuery(filesQueryOptions)
 	const [selectedFileKey, setSelectedFileKey] = useState("")
+	const { mutateAsync: deleteFile, isPending: isLoading } = useDeleteFile()
 	if (!files?.files) return <div>No hay archivos</div>
 
 	const totalBytes = files.files.reduce((acc, file) => acc + file.size, 0)
@@ -64,13 +74,9 @@ function Inner() {
 	const deleteFiles = async (key: string) => {
 		try {
 			if (!key) return
-			const res = await deleteUploadthingFile({ data: key })
-			if (!res.success) {
-				console.log("Error al eliminar archivo")
-				alert("Error al eliminar archivo")
-				return
-			}
+			await deleteFile(key)
 			console.log("Archivo eliminado correctamente", key)
+			setSelectedFileKey("")
 		} catch (error) {
 			console.error(error)
 		}
@@ -135,9 +141,14 @@ function Inner() {
 									</Link>
 									<Button
 										variant="outline"
+										disabled={isLoading}
 										onClick={() => deleteFiles(meta.key)}
 									>
-										<Trash2 />
+										{isLoading ? (
+											<Loader className="size-7 animate-spin" />
+										) : (
+											<Trash2 />
+										)}
 									</Button>
 								</div>
 								<span>{new Date(meta.uploadAt).toLocaleString()}</span>

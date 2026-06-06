@@ -54,6 +54,14 @@ function RouteComponent() {
 				>
 					<span className="">Sin utilizar</span>
 				</Link>
+				<Link
+					to="/files/repetidas"
+					className="flex gap-1 items-center justify-center p-4 py-1 flex-1"
+					activeProps={{ className: "bg-black rounded-lg" }}
+					activeOptions={{ exact: true }}
+				>
+					Repetidas
+				</Link>
 			</nav>
 			<Outlet />
 		</div>
