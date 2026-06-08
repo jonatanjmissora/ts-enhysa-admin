@@ -33,3 +33,7 @@ export const deleteUploadthingFile = createServerFn({
 		await utapi.deleteFiles(data)
 		return { success: true }
 	})
+
+export type FileType = Awaited<
+	ReturnType<typeof listUploadthingFiles>
+>["files"][0]
