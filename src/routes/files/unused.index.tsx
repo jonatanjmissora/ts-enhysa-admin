@@ -1,12 +1,13 @@
+// src/routes/files/unused.index.tsx
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Suspense, useMemo } from "react"
 import { filesQueryOptions } from "../../../queries/files-queries"
 import { tecnicosQueryOptions } from "../../../queries/tecnicos-queries"
 import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
-import { allAreasQueryOptions } from "../../../queries/iluminacion/areas-queries"
 import { allInstrumentosQueryOptions } from "../../../queries/instrumentos-queries"
-import { Button } from "#/components/ui/button"
+import { allAreasQueryOptions } from "../../../queries/iluminacion/areas-queries"
+import FileThumbnail from "#/components/file-thumbnail"
 
 export const Route = createFileRoute("/files/unused/")({
 	component: RouteComponent,
@@ -14,118 +15,116 @@ export const Route = createFileRoute("/files/unused/")({
 
 function RouteComponent() {
 	return (
-		<Suspense fallback={<div>Cargando todos los archivos...</div>}>
+		<Suspense fallback={<div>Cargando archivos...</div>}>
 			<Inner />
 		</Suspense>
 	)
 }
 
 function Inner() {
-	const { data: dataFiles } = useSuspenseQuery(filesQueryOptions)
+	const { data: files } = useSuspenseQuery(filesQueryOptions)
 	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
 	const { data: empresas } = useSuspenseQuery(allEmpresasQueryOptions)
 	const { data: instrumentos } = useSuspenseQuery(allInstrumentosQueryOptions)
 	const { data: areas } = useSuspenseQuery(allAreasQueryOptions)
 
-	const tecnicosImages = useMemo(() => {
-		if (!tecnicos) return []
-		const arr: string[] = []
-		tecnicos.forEach(t => {
-			arr.push(t.matriculaImg, t.firmaImg, t.empresaLogo)
-		})
-		return arr
-	}, [tecnicos])
-	const empresasImages = useMemo(() => {
-		if (!empresas) return []
-		const arr: string[] = []
-		empresas.forEach(e => {
-			arr.push(e.logo)
-		})
-		return arr
-	}, [empresas])
-	const instrumentosImages = useMemo(() => {
-		if (!instrumentos) return []
-		const arr: string[] = []
-		instrumentos.forEach(i => {
-			arr.push(...i.imagenesCalibracion, ...i.imagenes)
-		})
-		return arr
-	}, [instrumentos])
-	const areasImages = useMemo(() => {
-		if (!areas) return []
-		const arr: string[] = []
-		areas.forEach(a => {
-			arr.push(...a.imagenes)
-		})
-		return arr
-	}, [areas])
+	// -----------------------------------------------------------------
+	// 2️⃣   📂   CÁLCULO DE ARCHIVOS NO USADOS POR TÉCNICO
+	// -----------------------------------------------------------------
+	const unusedFiles = useMemo(() => {
+		if (!files?.files) return []
 
-	const imagesUsed = useMemo(() => {
-		const set = new Set<string>()
-		const addKey = (url?: string) => {
-			if (!url) return
-			// Extract the key part after the last slash (e.g., https://utfs.io/f/abc123 -> abc123)
+		const extractKey = (url?: string) => {
+			if (!url) return null
 			const parts = url.split("/")
-			const key = parts[parts.length - 1]
-			if (key) set.add(key)
+			return parts[parts.length - 1]
 		}
-		tecnicosImages.forEach(k => {
-			addKey(k)
-		})
-		empresasImages.forEach(k => {
-			addKey(k)
-		})
-		instrumentosImages.forEach(k => {
-			addKey(k)
-		})
-		areasImages.forEach(k => {
-			addKey(k)
-		})
-		return set
-	}, [tecnicosImages, empresasImages, instrumentosImages, areasImages])
 
-	const imagesUnused = useMemo(() => {
-		return dataFiles.files.filter(
-			file =>
-				!imagesUsed.has(file.key) &&
-				/\.(png|jpe?g|gif|webp|svg)$/i.test(file.name ?? file.key)
-		)
-	}, [dataFiles.files, imagesUsed])
+		const usedKeys = new Set<string>()
 
-	const eliminarUnused = () => {}
+		// Tecnico images
+		tecnicos?.forEach(t => {
+			;[t.matriculaImg, t.firmaImg, t.empresaLogo].forEach(url => {
+				const k = extractKey(url)
+				if (k) usedKeys.add(k)
+			})
+		})
+
+		// Instrumentos images
+		instrumentos?.forEach(inst => {
+			;[...(inst.imagenes ?? []), ...(inst.imagenesCalibracion ?? [])].forEach(
+				url => {
+					const k = extractKey(url)
+					if (k) usedKeys.add(k)
+				}
+			)
+		})
+
+		// Empresas logos
+		empresas?.forEach(emp => {
+			const k = extractKey(emp.logo)
+			if (k) usedKeys.add(k)
+		})
+
+		// Areas images
+		areas?.forEach(area => {
+			;(area.imagenes ?? []).forEach(url => {
+				const k = extractKey(url)
+				if (k) usedKeys.add(k)
+			})
+		})
+
+		return files.files.filter(f => !usedKeys.has(f.key))
+	}, [files?.files, tecnicos, instrumentos, empresas, areas])
+
+	const unusedTotalSize = useMemo(() => {
+		return unusedFiles.reduce((acc, file) => acc + file.size, 0)
+	}, [unusedFiles])
 
 	return (
-		<article>
-			<div className="flex flex-wrap gap-4 items-center justify-between w-full">
-				<div className="flex gap-2 items-center justify-center my-10">
-					<span>Imagenes no utilizadas : </span>
+		<div className="flex flex-col gap-6 p-4 w-full bg-gray-800 rounded-lg">
+			<div className="border-b border-gray-200 pb-4 dark:border-gray-600 mb-4">
+				<div className="flex items-center justify-between">
+					<h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
+						Archivos SIN uso:
+					</h2>
 					<span>
-						{imagesUnused.length} / {dataFiles.files.length}
+						{unusedFiles.length > 1
+							? `(${unusedFiles.length} / ${files?.files.length}) archivos`
+							: "No hay"}
 					</span>
 				</div>
-				<Button
-					variant="destructive"
-					className="px-6 cursor-pointer"
-					onClick={eliminarUnused}
-				>
-					Eliminar
-				</Button>
+				<div className="font-mono text-gray-500 dark:text-gray-400 flex justify-between items-center">
+					<span>
+						Espacio desperdiciado:{" "}
+						<strong>{(unusedTotalSize / 1024 / 1024).toFixed(2)} MB</strong>
+					</span>
+					<span>
+						{(((unusedTotalSize / 1024 / 1024 / 1024) * 100) / 2).toFixed(2)} %
+					</span>
+				</div>
 			</div>
-			{/* quiero listar los archivos no utilizados abajo */}
-			<div className="flex gap-4 mb-20 w-full flex-wrap min-h-svg justify-center items-center">
-				{imagesUnused.map(file => (
-					<div
-						key={file.id}
-						className="w-full sm:w-auto h-50 rounded-lg flex flex-col items-center justify-center relative"
-					>
-						<img
-							src={`https://utfs.io/f/${file.key}`}
-							alt="file"
-							className="w-auto h-50 object-contain border border-white/20 rounded-lg cursor-pointer"
+			{unusedFiles.length === 0 ? (
+				<p className="text-gray-500">No hay archivos sin usar.</p>
+			) : (
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+					{unusedFiles.map(file => (
+						<FileThumbnail
+							key={file.id}
+							file={file}
+							className={"size-60 sm:size-60"}
 						/>
-					</div>
-				))}
-			</div>
-		</article>
+					))}
+				</div>
+			)}
+
+			{/* {selectedFileKey && (
+				<FileModal
+					selectedFileKey={selectedFileKey}
+					setSelectedFileKey={setSelectedFileKey}
+					files={files?.files}
+				/>
+			)} */}
+		</div>
 	)
 }

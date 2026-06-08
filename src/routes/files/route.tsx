@@ -31,18 +31,6 @@ function RouteComponent() {
 					activeProps={{ className: "bg-black rounded-lg" }}
 					activeOptions={{ exact: true }}
 				>
-					<span className="">Todas</span>
-					<Suspense fallback={<div>(...)</div>}>
-						<FilesLengthSuspense />
-					</Suspense>
-				</Link>
-
-				<Link
-					to="/files/tecnicos"
-					className="flex gap-1 items-center justify-center p-4 py-1 flex-1"
-					activeProps={{ className: "bg-black rounded-lg" }}
-					activeOptions={{ exact: true }}
-				>
 					<span className="">x Tecnico</span>
 				</Link>
 

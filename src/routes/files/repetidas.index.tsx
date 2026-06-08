@@ -73,17 +73,22 @@ function Inner() {
 	}
 
 	return (
-		<div className="flex flex-col gap-6 p-4">
+		<div className="flex flex-col gap-6 p-4 w-full">
 			<div className="border-b border-gray-200 pb-4 dark:border-gray-700">
 				<h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
 					Archivos Duplicados ({repeatedGroups.length} grupos, {redundantCount}{" "}
 					repetidas)
 				</h2>
+				<div className="font-mono text-gray-500 dark:text-gray-400 flex justify-between items-center">
+					<span>
+						Espacio desperdiciado:{" "}
+						<strong>{(redundantSize / 1024 / 1024).toFixed(2)} MB</strong>
+					</span>
+					<span>{(redundantSize / 1024 / 1024 / 1024).toFixed(2)} / 2GB</span>
+				</div>
 				<p className="text-sm text-gray-500 dark:text-gray-400">
-					Se compararon los archivos por nombre y tamaño exacto. Espacio
-					desperdiciado:{" "}
-					<strong>{(redundantSize / 1024 / 1024).toFixed(2)} MB</strong>. Puedes
-					eliminar las copias innecesarias.
+					Se compararon los archivos por nombre y tamaño exacto. Puedes eliminar
+					las copias innecesarias.
 				</p>
 			</div>
 
