@@ -38,7 +38,7 @@ function Reportes() {
 					to={
 						reporte.finishedAt
 							? "/dashboard/$id/reporte/$reporteId/general"
-							: "/dashboard/$id/reporte/reporte-nuevo"
+							: "/dashboard/$id/reporte/$reporteId/general"
 					}
 					params={{ id, reporteId: reporte.id }}
 					className="p-4 bg-accent rounded-lg ring-[1px] dark:ring-foreground/15 ring-foreground/50 justify-between w-full"
