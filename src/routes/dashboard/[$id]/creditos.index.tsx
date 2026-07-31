@@ -8,13 +8,27 @@ import {
 	TableRow,
 } from "@/components/ui/table"
 import { useSuspenseQuery } from "@tanstack/react-query"
+import { creditHistoryByUserQueryOptions } from "../../../../queries/credits/credit-history-queries"
+import { Suspense } from "react"
 
 export const Route = createFileRoute("/dashboard/$id/creditos/")({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
-	// const { data: creditHistory } = useSuspenseQuery(allCreditHistoryQueryOptions)
+	const id = Route.useParams().id
+	return (
+		<Suspense fallback={<div>Cargando créditos...</div>}>
+			<Inner id={id} />
+		</Suspense>
+	)
+}
+
+function Inner({ id }: { id: string }) {
+	const { data: creditHistory } = useSuspenseQuery(
+		creditHistoryByUserQueryOptions({ userId: id })
+	)
+	console.log("creditHistory", creditHistory)
 	// const { data: users } = useSuspenseQuery(usersQueryOptions)
 
 	// const rows = creditHistory?.map(ch => {
