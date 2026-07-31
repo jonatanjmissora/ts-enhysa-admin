@@ -1,12 +1,20 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router"
-import { RulerDimensionLine, UserRound, File, CalendarDays } from "lucide-react"
+import {
+	RulerDimensionLine,
+	UserRound,
+	File,
+	CalendarDays,
+	FileCheck,
+	FileLock,
+	FileClock,
+} from "lucide-react"
 import { Suspense } from "react"
 import { reporteQueryOptions } from "../../../../../../../queries/iluminacion/reportes-queries"
 import { empresasQueryOptions } from "../../../../../../../queries/empresas-queries"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reporte/$reporteId/_header"
+	"/dashboard/$id/reportes/$reporteId/_header"
 )({
 	component: RouteComponent,
 })
@@ -16,9 +24,12 @@ function RouteComponent() {
 	const reporteId = Route.useParams().reporteId
 	return (
 		<div className="w-full flex flex-col">
+			<Suspense fallback={<span className="animate-pulse">. . .</span>}>
+				<SuspenseTitle />
+			</Suspense>
 			<nav className="flex items-center justify-between gap-2 w-full my-4">
 				<Link
-					to="/dashboard/$id/reporte/$reporteId/general"
+					to="/dashboard/$id/reportes/$reporteId/general"
 					params={{ id, reporteId }}
 					activeProps={{
 						className:
@@ -30,7 +41,7 @@ function RouteComponent() {
 					General
 				</Link>
 				<Link
-					to="/dashboard/$id/reporte/$reporteId/areas"
+					to="/dashboard/$id/reportes/$reporteId/areas"
 					params={{ id, reporteId }}
 					activeProps={{
 						className:
@@ -39,10 +50,10 @@ function RouteComponent() {
 					className="flex-1 h-20 flex flex-col gap-2 items-center justify-center text-sm rounded-lg"
 				>
 					<RulerDimensionLine className="size-10" />
-					Areas
+					Mediciones
 				</Link>
 				<Link
-					to="/dashboard/$id/reporte/$reporteId/resumen"
+					to="/dashboard/$id/reportes/$reporteId/resumen"
 					params={{ id, reporteId }}
 					activeProps={{
 						className:
@@ -54,9 +65,7 @@ function RouteComponent() {
 					Resumen
 				</Link>
 			</nav>
-			<Suspense fallback={<span className="animate-pulse">. . .</span>}>
-				<SuspenseTitle />
-			</Suspense>
+
 			<Outlet />
 		</div>
 	)
@@ -71,12 +80,27 @@ const SuspenseTitle = () => {
 	const empresa = empresas?.find(empresa => empresa.id === reporte?.empresaId)
 
 	return (
-		<div className="flex items-center justify-center gap-2 w-full border-t border-b border-white/50 py-2">
+		<div className="flex items-center justify-center gap-2 w-full px-10 border-b border-white/50 py-2">
+			<span>
+				{reporte?.finishedAt ? (
+					reporte.creditConsumed ? (
+						<FileCheck className="size-8 text-blue-500" />
+					) : (
+						<FileLock className="size-8 text-blue-700" />
+					)
+				) : (
+					<FileClock className="size-8 text-amber-600" />
+				)}
+			</span>
 			<span className="tracking-wider">
 				{empresa?.razonSocial.toUpperCase()} -{" "}
 				{reporte?.finishedAt?.toLocaleDateString("it-IT")}
 			</span>
 			<CalendarDays className="size-4 text-foreground/75" />
+
+			<span className="text-foreground/50 text-sm tracking-wide ml-auto">
+				id: {reporteId}
+			</span>
 		</div>
 	)
 }

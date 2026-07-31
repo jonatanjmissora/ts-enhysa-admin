@@ -2,7 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { Suspense } from "react"
 import { reportesQueryOptions } from "../../../../queries/iluminacion/reportes-queries"
-import { Clock, FileChartColumn } from "lucide-react"
+import { FileClock, FileLock, FileCheck } from "lucide-react"
 import type { ReporteIluminacionType } from "../../../../db/reportes/iluminacion/scheme"
 
 export const Route = createFileRoute("/dashboard/$id/reportes/")({
@@ -29,7 +29,7 @@ function Reportes() {
 	const id = Route.useParams().id
 	const { data: reportes } = useSuspenseQuery(reportesQueryOptions(id))
 
-	if (!reportes || reportes.length === 0) return <NoReports />
+	if (!reportes || reportes.length === 0) return <ReportesVacios />
 	return (
 		<div className="w-full sm:w-2/3 mx-auto flex flex-col gap-4">
 			{sortedByRecentDate(reportes)?.map(reporte => (
@@ -37,27 +37,34 @@ function Reportes() {
 					key={reporte.id}
 					to={
 						reporte.finishedAt
-							? "/dashboard/$id/reporte/$reporteId/general"
-							: "/dashboard/$id/reporte/$reporteId/general"
+							? "/dashboard/$id/reportes/$reporteId/general"
+							: "/dashboard/$id/reportes/$reporteId/general"
 					}
 					params={{ id, reporteId: reporte.id }}
 					className="p-4 bg-accent rounded-lg ring-[1px] dark:ring-foreground/15 ring-foreground/50 justify-between w-full"
 				>
-					<div className="flex gap-4 items-center">
+					<div className="flex gap-4 items-center w-full">
 						{reporte.finishedAt ? (
-							<FileChartColumn className="size-8 text-blue-600" />
+							reporte.creditConsumed ? (
+								<FileCheck className="size-8 text-blue-500" />
+							) : (
+								<FileLock className="size-8 text-blue-700" />
+							)
 						) : (
-							<Clock className="size-8 text-amber-600" />
+							<FileClock className="size-8 text-amber-600" />
 						)}
-						<div className="flex flex-col gap-1">
-							<span className="textM font-semibold w-60 truncate">
+						<div className="flex flex-col gap-1 w-full">
+							<span className="textM font-semibold w-60 truncate sm:w-full">
 								{reporte.title.toUpperCase()}
 							</span>
-							<span className="text-xs text-foreground/50">
-								{reporte.finishedAt
-									? `Realizado el ${reporte.finishedAt?.toLocaleDateString("it-IT")}`
-									: "En curso"}
-							</span>
+							<div className="flex items-center justify-between text-xs text-foreground/50 w-full">
+								<span className="">
+									{reporte.finishedAt
+										? `Realizado el ${reporte.finishedAt?.toLocaleDateString("it-IT")}`
+										: "En curso"}
+								</span>
+								<span>id: {reporte.id}</span>
+							</div>
 						</div>
 					</div>
 				</Link>
@@ -66,13 +73,13 @@ function Reportes() {
 	)
 }
 
-function NoReports() {
+function ReportesVacios() {
 	return (
-		<article className="w-5/6 mx-auto flex flex-col items-center justify-center gap-10 mt-20">
-			<span className="text-center text-foreground/70 text-sm italic tracking-wide">
-				No posee informes de Iluminación. Realice su primer reporte ...
+		<div className="w-5/6 h-[30svh] flex flex-col gap-8 items-center justify-center mx-auto">
+			<span className="text-sm font-medium text-gray-500 italic text-center text-pretty">
+				¡Ups! Parece que no tienes reportes registrados
 			</span>
-		</article>
+		</div>
 	)
 }
 

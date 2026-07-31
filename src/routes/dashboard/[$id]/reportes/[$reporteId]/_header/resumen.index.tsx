@@ -4,9 +4,10 @@ import { createFileRoute, Link } from "@tanstack/react-router"
 import { Suspense } from "react"
 import { reporteQueryOptions } from "../../../../../../../queries/iluminacion/reportes-queries"
 import { Button } from "#/components/ui/button"
+import { Lock, LockOpen } from "lucide-react"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reporte/$reporteId/_header/resumen/"
+	"/dashboard/$id/reportes/$reporteId/_header/resumen/"
 )({
 	component: RouteComponent,
 })
@@ -57,14 +58,20 @@ function Resumen() {
 				</div>
 
 				<div className="mt-10 flex justify-center gap-4 items-center w-full">
+					{reporte.creditConsumed ? (
+						<LockOpen className="text-green-600" />
+					) : (
+						<Lock className="text-red-600" />
+					)}
+
 					<Link
-						to={`/dashboard/$id/reporte/$reporteId/pdf`}
+						to={`/dashboard/$id/reportes/$reporteId/pdf`}
 						params={{ id, reporteId }}
 					>
 						<Button> Generar PDF</Button>
 					</Link>
 					<Link
-						to={`/dashboard/$id/reporte/$reporteId/pdf-reducida`}
+						to={`/dashboard/$id/reportes/$reporteId/pdf-reducida`}
 						params={{ id, reporteId }}
 					>
 						<Button> Generar PDF (reducida)</Button>

@@ -15,6 +15,7 @@ import { usersQueryOptions } from "../../../queries/users-queries"
 import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
 import { allReportesQueryOptions } from "../../../queries/iluminacion/reportes-queries"
 import { allCreditHistoryQueryOptions } from "../../../queries/credits/credit-history-queries"
+import { getUser } from "#/lib/utils"
 
 export const Route = createFileRoute("/dashboard/")({
 	component: RouteComponent,
@@ -56,6 +57,7 @@ function Inner() {
 
 			return {
 				user,
+				nombre: getUser(users, user.id),
 				esTecnico: userTecnicos.length > 0,
 				cantEmpresas: userEmpresas.length,
 				cantReportes: userReportes.length,
@@ -67,10 +69,10 @@ function Inner() {
 					.reduce((sum, c) => sum + c.credits, 0),
 			}
 		})
-		.sort((a, b) => a.user.name.localeCompare(b.user.name))
+		.sort((a, b) => a.nombre.localeCompare(b.nombre))
 
 	return (
-		<Table className="w-full mx-auto">
+		<Table className="w-full mx-auto my-10">
 			<TableHeader>
 				<TableRow>
 					<TableHead>Nombre</TableHead>
@@ -93,6 +95,7 @@ function Inner() {
 				{rows.map(
 					({
 						user,
+						nombre,
 						esTecnico,
 						cantEmpresas,
 						cantReportes,
@@ -100,7 +103,11 @@ function Inner() {
 						creditosConsumidos,
 					}) => (
 						<TableRow key={user.id}>
-							<TableCell>{user.name}</TableCell>
+							<TableCell>
+								<Link to="/dashboard/$id" params={{ id: user.id }}>
+									{nombre}
+								</Link>
+							</TableCell>
 							<TableCell className="text-xs">{user.email}</TableCell>
 							<TableCell className="text-center">
 								{user.image ? (

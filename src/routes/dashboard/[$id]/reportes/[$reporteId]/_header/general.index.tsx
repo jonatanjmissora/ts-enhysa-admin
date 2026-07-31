@@ -5,7 +5,7 @@ import { Suspense } from "react"
 import { reporteQueryOptions } from "../../../../../../../queries/iluminacion/reportes-queries"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reporte/$reporteId/_header/general/"
+	"/dashboard/$id/reportes/$reporteId/_header/general/"
 )({
 	component: RouteComponent,
 })

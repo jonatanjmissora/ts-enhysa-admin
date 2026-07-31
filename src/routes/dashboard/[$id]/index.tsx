@@ -19,9 +19,10 @@ function Inner() {
 	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
 	const id = Route.useParams().id
 	const tecnico = tecnicos?.find(t => t.userId === id)
-	if (!tecnico) return <div>No hay técnico...</div>
+	if (!tecnico) return <TecnicoVacio />
 	return (
 		<div className="w-full flex flex-col gap-10 my-20 bg-accent sm:bg-background p-10 text-sm rounded-lg">
+			<span className="text-foreground/50 ml-auto">Id: {tecnico.id}</span>
 			<div className="grid grid-cols-2 gap-2">
 				<span className="text-right font-semibold text-amber-700">
 					Telefono:
@@ -68,6 +69,16 @@ function Inner() {
 					/>
 				</div>
 			</div>
+		</div>
+	)
+}
+
+function TecnicoVacio() {
+	return (
+		<div className="w-5/6 h-[30svh] flex flex-col gap-8 items-center justify-center mx-auto my-12">
+			<span className="text-sm font-medium text-gray-500 italic text-center text-pretty">
+				¡Ups! Parece que no tienes técnico registrado
+			</span>
 		</div>
 	)
 }

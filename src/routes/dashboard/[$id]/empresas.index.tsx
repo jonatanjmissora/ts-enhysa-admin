@@ -25,7 +25,7 @@ function RouteComponent() {
 function Inner() {
 	const id = Route.useParams().id
 	const { data: empresas } = useSuspenseQuery(empresasQueryOptions(id))
-	if (!empresas) return <EmpresasVacias />
+	if (empresas?.length === 0) return <EmpresasVacias />
 	return (
 		<div>
 			<div className="w-full flex flex-col gap-2">
@@ -35,7 +35,7 @@ function Inner() {
 					defaultValue=""
 					className="flex flex-col gap-2 w-11/12 mx-auto py-20"
 				>
-					{empresas.map(empresa => (
+					{empresas?.map(empresa => (
 						<AccordionItem key={empresa.id} value={empresa.id} className="py-2">
 							<AccordionTrigger className="flex px-5 w-11/12 sm:w-full flex-wrap items-center bg-accent ring-[1px] dark:ring-foreground/10 ring-foreground/50">
 								<div className="flex items-center gap-2 text-sm tracking-wider w-60 sm:w-max truncate">
@@ -57,6 +57,9 @@ function Inner() {
 function Empresa({ empresa }: { empresa: EmpresaType }) {
 	return (
 		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
+			<span className="absolute top-2 right-2 text-foreground/50 ml-auto">
+				id: {empresa.id}
+			</span>
 			<div className="grid grid-cols-2 gap-2">
 				<span className="text-right font-semibold text-amber-700">
 					Razón Social :

@@ -12,7 +12,7 @@ import type { AreaIluminacionType } from "../../../../../../../db/reportes/ilumi
 import { ChartArea } from "#/components/ChartArea"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reporte/$reporteId/_header/areas/"
+	"/dashboard/$id/reportes/$reporteId/_header/areas/"
 )({
 	component: RouteComponent,
 })
@@ -71,6 +71,9 @@ function Area({ area }: { area: AreaIluminacionType }) {
 
 	return (
 		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
+			<span className="absolute top-2 right-2 text-foreground/50">
+				id: {area.id}
+			</span>
 			<div className="grid grid-cols-2 gap-2">
 				<span className="ml-auto text-amber-700 font-semibold">Nombre :</span>
 				<span>{area.nombre.toUpperCase()}</span>
@@ -128,7 +131,7 @@ function Area({ area }: { area: AreaIluminacionType }) {
 					</div>
 				)}
 				<div className="w-full flex items-center justify-center col-span-2 sm:overflow-x-visible overflow-x-scroll pl-15 py-5 sm:py-0">
-					<ChartArea puntos={area.puntos} requerido={area.valorRequerido}/>
+					<ChartArea puntos={area.puntos} requerido={area.valorRequerido} />
 				</div>
 			</div>
 		</div>

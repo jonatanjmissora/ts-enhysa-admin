@@ -6,12 +6,12 @@ import { areasQueryOptions } from "../../../../../../queries/iluminacion/areas-q
 import { ClientComponent } from "#/components/client-component"
 
 const MyDocument = lazy(() =>
-	import("#/components/my-document").then(m => ({
-		default: m.MyDocument,
+	import("#/components/my-document-reducida").then(m => ({
+		default: m.MyDocumentReducida,
 	}))
 )
 
-export const Route = createFileRoute("/dashboard/$id/reporte/$reporteId/pdf")({
+export const Route = createFileRoute("/dashboard/$id/reportes/$reporteId/pdf-reducida")({
 	component: RouteComponent,
 })
 

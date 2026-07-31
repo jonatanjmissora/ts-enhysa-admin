@@ -9,13 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReportesRouteRouteImport } from './routes/reportes/route'
 import { Route as FilesRouteRouteImport } from './routes/files/route'
 import { Route as DashboardRouteRouteImport } from './routes/dashboard/route'
-import { Route as AreasRouteRouteImport } from './routes/areas/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ReportesIndexRouteImport } from './routes/reportes/index'
+import { Route as MoneyIndexRouteImport } from './routes/money/index'
 import { Route as FilesIndexRouteImport } from './routes/files/index'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
-import { Route as AreasIndexRouteImport } from './routes/areas/index'
 import { Route as DashboardChar91idChar93RouteRouteImport } from './routes/dashboard/[$id]/route'
 import { Route as FilesUnusedIndexRouteImport } from './routes/files/unused.index'
 import { Route as FilesTecnicosIndexRouteImport } from './routes/files/tecnicos.index'
@@ -24,14 +25,19 @@ import { Route as DashboardChar91idChar93IndexRouteImport } from './routes/dashb
 import { Route as DashboardChar91idChar93ReportesIndexRouteImport } from './routes/dashboard/[$id]/reportes.index'
 import { Route as DashboardChar91idChar93InstrumentosIndexRouteImport } from './routes/dashboard/[$id]/instrumentos.index'
 import { Route as DashboardChar91idChar93EmpresasIndexRouteImport } from './routes/dashboard/[$id]/empresas.index'
-import { Route as DashboardChar91idChar93ReporteReporteNuevoIndexRouteImport } from './routes/dashboard/[$id]/reporte/reporte-nuevo/index'
-import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/pdf-reducida'
-import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/pdf'
-import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/_header/route'
-import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/_header/resumen.index'
-import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/_header/general.index'
-import { Route as DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRouteImport } from './routes/dashboard/[$id]/reporte/[$reporteId]/_header/areas.index'
+import { Route as DashboardChar91idChar93CreditosIndexRouteImport } from './routes/dashboard/[$id]/creditos.index'
+import { Route as DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRouteImport } from './routes/dashboard/[$id]/reportes/[$reporteId]/pdf-reducida'
+import { Route as DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRouteImport } from './routes/dashboard/[$id]/reportes/[$reporteId]/pdf'
+import { Route as DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteImport } from './routes/dashboard/[$id]/reportes/[$reporteId]/_header/route'
+import { Route as DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRouteImport } from './routes/dashboard/[$id]/reportes/[$reporteId]/_header/resumen.index'
+import { Route as DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRouteImport } from './routes/dashboard/[$id]/reportes/[$reporteId]/_header/general.index'
+import { Route as DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRouteImport } from './routes/dashboard/[$id]/reportes/[$reporteId]/_header/areas.index'
 
+const ReportesRouteRoute = ReportesRouteRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FilesRouteRoute = FilesRouteRouteImport.update({
   id: '/files',
   path: '/files',
@@ -42,14 +48,19 @@ const DashboardRouteRoute = DashboardRouteRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AreasRouteRoute = AreasRouteRouteImport.update({
-  id: '/areas',
-  path: '/areas',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportesIndexRoute = ReportesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ReportesRouteRoute,
+} as any)
+const MoneyIndexRoute = MoneyIndexRouteImport.update({
+  id: '/money/',
+  path: '/money/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FilesIndexRoute = FilesIndexRouteImport.update({
@@ -61,11 +72,6 @@ const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => DashboardRouteRoute,
-} as any)
-const AreasIndexRoute = AreasIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AreasRouteRoute,
 } as any)
 const DashboardChar91idChar93RouteRoute =
   DashboardChar91idChar93RouteRouteImport.update({
@@ -112,211 +118,225 @@ const DashboardChar91idChar93EmpresasIndexRoute =
     path: '/empresas/',
     getParentRoute: () => DashboardChar91idChar93RouteRoute,
   } as any)
-const DashboardChar91idChar93ReporteReporteNuevoIndexRoute =
-  DashboardChar91idChar93ReporteReporteNuevoIndexRouteImport.update({
-    id: '/reporte/reporte-nuevo/',
-    path: '/reporte/reporte-nuevo/',
+const DashboardChar91idChar93CreditosIndexRoute =
+  DashboardChar91idChar93CreditosIndexRouteImport.update({
+    id: '/creditos/',
+    path: '/creditos/',
     getParentRoute: () => DashboardChar91idChar93RouteRoute,
   } as any)
-const DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute =
-  DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRouteImport.update(
+const DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute =
+  DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRouteImport.update(
     {
-      id: '/reporte/$reporteId/pdf-reducida',
-      path: '/reporte/$reporteId/pdf-reducida',
+      id: '/reportes/$reporteId/pdf-reducida',
+      path: '/reportes/$reporteId/pdf-reducida',
       getParentRoute: () => DashboardChar91idChar93RouteRoute,
     } as any,
   )
-const DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute =
-  DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRouteImport.update({
-    id: '/reporte/$reporteId/pdf',
-    path: '/reporte/$reporteId/pdf',
+const DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute =
+  DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRouteImport.update({
+    id: '/reportes/$reporteId/pdf',
+    path: '/reportes/$reporteId/pdf',
     getParentRoute: () => DashboardChar91idChar93RouteRoute,
   } as any)
-const DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute =
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteImport.update(
+const DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute =
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteImport.update(
     {
-      id: '/reporte/$reporteId/_header',
-      path: '/reporte/$reporteId',
+      id: '/reportes/$reporteId/_header',
+      path: '/reportes/$reporteId',
       getParentRoute: () => DashboardChar91idChar93RouteRoute,
     } as any,
   )
-const DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute =
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRouteImport.update(
+const DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute =
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRouteImport.update(
     {
       id: '/resumen/',
       path: '/resumen/',
       getParentRoute: () =>
-        DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute,
+        DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute,
     } as any,
   )
-const DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute =
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRouteImport.update(
+const DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute =
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRouteImport.update(
     {
       id: '/general/',
       path: '/general/',
       getParentRoute: () =>
-        DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute,
+        DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute,
     } as any,
   )
-const DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute =
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRouteImport.update(
+const DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute =
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRouteImport.update(
     {
       id: '/areas/',
       path: '/areas/',
       getParentRoute: () =>
-        DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute,
+        DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute,
     } as any,
   )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/areas': typeof AreasRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/files': typeof FilesRouteRouteWithChildren
+  '/reportes': typeof ReportesRouteRouteWithChildren
   '/dashboard/$id': typeof DashboardChar91idChar93RouteRouteWithChildren
-  '/areas/': typeof AreasIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/files/': typeof FilesIndexRoute
+  '/money/': typeof MoneyIndexRoute
+  '/reportes/': typeof ReportesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
   '/files/repetidas/': typeof FilesRepetidasIndexRoute
   '/files/tecnicos/': typeof FilesTecnicosIndexRoute
   '/files/unused/': typeof FilesUnusedIndexRoute
+  '/dashboard/$id/creditos/': typeof DashboardChar91idChar93CreditosIndexRoute
   '/dashboard/$id/empresas/': typeof DashboardChar91idChar93EmpresasIndexRoute
   '/dashboard/$id/instrumentos/': typeof DashboardChar91idChar93InstrumentosIndexRoute
   '/dashboard/$id/reportes/': typeof DashboardChar91idChar93ReportesIndexRoute
-  '/dashboard/$id/reporte/$reporteId': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
-  '/dashboard/$id/reporte/$reporteId/pdf': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
-  '/dashboard/$id/reporte/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
-  '/dashboard/$id/reporte/reporte-nuevo/': typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
-  '/dashboard/$id/reporte/$reporteId/areas/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
-  '/dashboard/$id/reporte/$reporteId/general/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
-  '/dashboard/$id/reporte/$reporteId/resumen/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute
+  '/dashboard/$id/reportes/$reporteId': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteWithChildren
+  '/dashboard/$id/reportes/$reporteId/pdf': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute
+  '/dashboard/$id/reportes/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute
+  '/dashboard/$id/reportes/$reporteId/areas/': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute
+  '/dashboard/$id/reportes/$reporteId/general/': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute
+  '/dashboard/$id/reportes/$reporteId/resumen/': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/areas': typeof AreasIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/files': typeof FilesIndexRoute
+  '/money': typeof MoneyIndexRoute
+  '/reportes': typeof ReportesIndexRoute
   '/dashboard/$id': typeof DashboardChar91idChar93IndexRoute
   '/files/repetidas': typeof FilesRepetidasIndexRoute
   '/files/tecnicos': typeof FilesTecnicosIndexRoute
   '/files/unused': typeof FilesUnusedIndexRoute
+  '/dashboard/$id/creditos': typeof DashboardChar91idChar93CreditosIndexRoute
   '/dashboard/$id/empresas': typeof DashboardChar91idChar93EmpresasIndexRoute
   '/dashboard/$id/instrumentos': typeof DashboardChar91idChar93InstrumentosIndexRoute
   '/dashboard/$id/reportes': typeof DashboardChar91idChar93ReportesIndexRoute
-  '/dashboard/$id/reporte/$reporteId': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
-  '/dashboard/$id/reporte/$reporteId/pdf': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
-  '/dashboard/$id/reporte/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
-  '/dashboard/$id/reporte/reporte-nuevo': typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
-  '/dashboard/$id/reporte/$reporteId/areas': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
-  '/dashboard/$id/reporte/$reporteId/general': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
-  '/dashboard/$id/reporte/$reporteId/resumen': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute
+  '/dashboard/$id/reportes/$reporteId': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteWithChildren
+  '/dashboard/$id/reportes/$reporteId/pdf': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute
+  '/dashboard/$id/reportes/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute
+  '/dashboard/$id/reportes/$reporteId/areas': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute
+  '/dashboard/$id/reportes/$reporteId/general': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute
+  '/dashboard/$id/reportes/$reporteId/resumen': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/areas': typeof AreasRouteRouteWithChildren
   '/dashboard': typeof DashboardRouteRouteWithChildren
   '/files': typeof FilesRouteRouteWithChildren
+  '/reportes': typeof ReportesRouteRouteWithChildren
   '/dashboard/$id': typeof DashboardChar91idChar93RouteRouteWithChildren
-  '/areas/': typeof AreasIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/files/': typeof FilesIndexRoute
+  '/money/': typeof MoneyIndexRoute
+  '/reportes/': typeof ReportesIndexRoute
   '/dashboard/$id/': typeof DashboardChar91idChar93IndexRoute
   '/files/repetidas/': typeof FilesRepetidasIndexRoute
   '/files/tecnicos/': typeof FilesTecnicosIndexRoute
   '/files/unused/': typeof FilesUnusedIndexRoute
+  '/dashboard/$id/creditos/': typeof DashboardChar91idChar93CreditosIndexRoute
   '/dashboard/$id/empresas/': typeof DashboardChar91idChar93EmpresasIndexRoute
   '/dashboard/$id/instrumentos/': typeof DashboardChar91idChar93InstrumentosIndexRoute
   '/dashboard/$id/reportes/': typeof DashboardChar91idChar93ReportesIndexRoute
-  '/dashboard/$id/reporte/$reporteId/_header': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
-  '/dashboard/$id/reporte/$reporteId/pdf': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
-  '/dashboard/$id/reporte/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
-  '/dashboard/$id/reporte/reporte-nuevo/': typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
-  '/dashboard/$id/reporte/$reporteId/_header/areas/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
-  '/dashboard/$id/reporte/$reporteId/_header/general/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
-  '/dashboard/$id/reporte/$reporteId/_header/resumen/': typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute
+  '/dashboard/$id/reportes/$reporteId/_header': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteWithChildren
+  '/dashboard/$id/reportes/$reporteId/pdf': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute
+  '/dashboard/$id/reportes/$reporteId/pdf-reducida': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute
+  '/dashboard/$id/reportes/$reporteId/_header/areas/': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute
+  '/dashboard/$id/reportes/$reporteId/_header/general/': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute
+  '/dashboard/$id/reportes/$reporteId/_header/resumen/': typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/areas'
     | '/dashboard'
     | '/files'
+    | '/reportes'
     | '/dashboard/$id'
-    | '/areas/'
     | '/dashboard/'
     | '/files/'
+    | '/money/'
+    | '/reportes/'
     | '/dashboard/$id/'
     | '/files/repetidas/'
     | '/files/tecnicos/'
     | '/files/unused/'
+    | '/dashboard/$id/creditos/'
     | '/dashboard/$id/empresas/'
     | '/dashboard/$id/instrumentos/'
     | '/dashboard/$id/reportes/'
-    | '/dashboard/$id/reporte/$reporteId'
-    | '/dashboard/$id/reporte/$reporteId/pdf'
-    | '/dashboard/$id/reporte/$reporteId/pdf-reducida'
-    | '/dashboard/$id/reporte/reporte-nuevo/'
-    | '/dashboard/$id/reporte/$reporteId/areas/'
-    | '/dashboard/$id/reporte/$reporteId/general/'
-    | '/dashboard/$id/reporte/$reporteId/resumen/'
+    | '/dashboard/$id/reportes/$reporteId'
+    | '/dashboard/$id/reportes/$reporteId/pdf'
+    | '/dashboard/$id/reportes/$reporteId/pdf-reducida'
+    | '/dashboard/$id/reportes/$reporteId/areas/'
+    | '/dashboard/$id/reportes/$reporteId/general/'
+    | '/dashboard/$id/reportes/$reporteId/resumen/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/areas'
     | '/dashboard'
     | '/files'
+    | '/money'
+    | '/reportes'
     | '/dashboard/$id'
     | '/files/repetidas'
     | '/files/tecnicos'
     | '/files/unused'
+    | '/dashboard/$id/creditos'
     | '/dashboard/$id/empresas'
     | '/dashboard/$id/instrumentos'
     | '/dashboard/$id/reportes'
-    | '/dashboard/$id/reporte/$reporteId'
-    | '/dashboard/$id/reporte/$reporteId/pdf'
-    | '/dashboard/$id/reporte/$reporteId/pdf-reducida'
-    | '/dashboard/$id/reporte/reporte-nuevo'
-    | '/dashboard/$id/reporte/$reporteId/areas'
-    | '/dashboard/$id/reporte/$reporteId/general'
-    | '/dashboard/$id/reporte/$reporteId/resumen'
+    | '/dashboard/$id/reportes/$reporteId'
+    | '/dashboard/$id/reportes/$reporteId/pdf'
+    | '/dashboard/$id/reportes/$reporteId/pdf-reducida'
+    | '/dashboard/$id/reportes/$reporteId/areas'
+    | '/dashboard/$id/reportes/$reporteId/general'
+    | '/dashboard/$id/reportes/$reporteId/resumen'
   id:
     | '__root__'
     | '/'
-    | '/areas'
     | '/dashboard'
     | '/files'
+    | '/reportes'
     | '/dashboard/$id'
-    | '/areas/'
     | '/dashboard/'
     | '/files/'
+    | '/money/'
+    | '/reportes/'
     | '/dashboard/$id/'
     | '/files/repetidas/'
     | '/files/tecnicos/'
     | '/files/unused/'
+    | '/dashboard/$id/creditos/'
     | '/dashboard/$id/empresas/'
     | '/dashboard/$id/instrumentos/'
     | '/dashboard/$id/reportes/'
-    | '/dashboard/$id/reporte/$reporteId/_header'
-    | '/dashboard/$id/reporte/$reporteId/pdf'
-    | '/dashboard/$id/reporte/$reporteId/pdf-reducida'
-    | '/dashboard/$id/reporte/reporte-nuevo/'
-    | '/dashboard/$id/reporte/$reporteId/_header/areas/'
-    | '/dashboard/$id/reporte/$reporteId/_header/general/'
-    | '/dashboard/$id/reporte/$reporteId/_header/resumen/'
+    | '/dashboard/$id/reportes/$reporteId/_header'
+    | '/dashboard/$id/reportes/$reporteId/pdf'
+    | '/dashboard/$id/reportes/$reporteId/pdf-reducida'
+    | '/dashboard/$id/reportes/$reporteId/_header/areas/'
+    | '/dashboard/$id/reportes/$reporteId/_header/general/'
+    | '/dashboard/$id/reportes/$reporteId/_header/resumen/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AreasRouteRoute: typeof AreasRouteRouteWithChildren
   DashboardRouteRoute: typeof DashboardRouteRouteWithChildren
   FilesRouteRoute: typeof FilesRouteRouteWithChildren
+  ReportesRouteRoute: typeof ReportesRouteRouteWithChildren
+  MoneyIndexRoute: typeof MoneyIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/files': {
       id: '/files'
       path: '/files'
@@ -331,18 +351,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/areas': {
-      id: '/areas'
-      path: '/areas'
-      fullPath: '/areas'
-      preLoaderRoute: typeof AreasRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reportes/': {
+      id: '/reportes/'
+      path: '/'
+      fullPath: '/reportes/'
+      preLoaderRoute: typeof ReportesIndexRouteImport
+      parentRoute: typeof ReportesRouteRoute
+    }
+    '/money/': {
+      id: '/money/'
+      path: '/money'
+      fullPath: '/money/'
+      preLoaderRoute: typeof MoneyIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/files/': {
@@ -358,13 +385,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/'
       preLoaderRoute: typeof DashboardIndexRouteImport
       parentRoute: typeof DashboardRouteRoute
-    }
-    '/areas/': {
-      id: '/areas/'
-      path: '/'
-      fullPath: '/areas/'
-      preLoaderRoute: typeof AreasIndexRouteImport
-      parentRoute: typeof AreasRouteRoute
     }
     '/dashboard/$id': {
       id: '/dashboard/$id'
@@ -422,119 +442,107 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardChar91idChar93EmpresasIndexRouteImport
       parentRoute: typeof DashboardChar91idChar93RouteRoute
     }
-    '/dashboard/$id/reporte/reporte-nuevo/': {
-      id: '/dashboard/$id/reporte/reporte-nuevo/'
-      path: '/reporte/reporte-nuevo'
-      fullPath: '/dashboard/$id/reporte/reporte-nuevo/'
-      preLoaderRoute: typeof DashboardChar91idChar93ReporteReporteNuevoIndexRouteImport
+    '/dashboard/$id/creditos/': {
+      id: '/dashboard/$id/creditos/'
+      path: '/creditos'
+      fullPath: '/dashboard/$id/creditos/'
+      preLoaderRoute: typeof DashboardChar91idChar93CreditosIndexRouteImport
       parentRoute: typeof DashboardChar91idChar93RouteRoute
     }
-    '/dashboard/$id/reporte/$reporteId/pdf-reducida': {
-      id: '/dashboard/$id/reporte/$reporteId/pdf-reducida'
-      path: '/reporte/$reporteId/pdf-reducida'
-      fullPath: '/dashboard/$id/reporte/$reporteId/pdf-reducida'
-      preLoaderRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRouteImport
+    '/dashboard/$id/reportes/$reporteId/pdf-reducida': {
+      id: '/dashboard/$id/reportes/$reporteId/pdf-reducida'
+      path: '/reportes/$reporteId/pdf-reducida'
+      fullPath: '/dashboard/$id/reportes/$reporteId/pdf-reducida'
+      preLoaderRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRouteImport
       parentRoute: typeof DashboardChar91idChar93RouteRoute
     }
-    '/dashboard/$id/reporte/$reporteId/pdf': {
-      id: '/dashboard/$id/reporte/$reporteId/pdf'
-      path: '/reporte/$reporteId/pdf'
-      fullPath: '/dashboard/$id/reporte/$reporteId/pdf'
-      preLoaderRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRouteImport
+    '/dashboard/$id/reportes/$reporteId/pdf': {
+      id: '/dashboard/$id/reportes/$reporteId/pdf'
+      path: '/reportes/$reporteId/pdf'
+      fullPath: '/dashboard/$id/reportes/$reporteId/pdf'
+      preLoaderRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRouteImport
       parentRoute: typeof DashboardChar91idChar93RouteRoute
     }
-    '/dashboard/$id/reporte/$reporteId/_header': {
-      id: '/dashboard/$id/reporte/$reporteId/_header'
-      path: '/reporte/$reporteId'
-      fullPath: '/dashboard/$id/reporte/$reporteId'
-      preLoaderRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteImport
+    '/dashboard/$id/reportes/$reporteId/_header': {
+      id: '/dashboard/$id/reportes/$reporteId/_header'
+      path: '/reportes/$reporteId'
+      fullPath: '/dashboard/$id/reportes/$reporteId'
+      preLoaderRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteImport
       parentRoute: typeof DashboardChar91idChar93RouteRoute
     }
-    '/dashboard/$id/reporte/$reporteId/_header/resumen/': {
-      id: '/dashboard/$id/reporte/$reporteId/_header/resumen/'
+    '/dashboard/$id/reportes/$reporteId/_header/resumen/': {
+      id: '/dashboard/$id/reportes/$reporteId/_header/resumen/'
       path: '/resumen'
-      fullPath: '/dashboard/$id/reporte/$reporteId/resumen/'
-      preLoaderRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRouteImport
-      parentRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute
+      fullPath: '/dashboard/$id/reportes/$reporteId/resumen/'
+      preLoaderRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRouteImport
+      parentRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute
     }
-    '/dashboard/$id/reporte/$reporteId/_header/general/': {
-      id: '/dashboard/$id/reporte/$reporteId/_header/general/'
+    '/dashboard/$id/reportes/$reporteId/_header/general/': {
+      id: '/dashboard/$id/reportes/$reporteId/_header/general/'
       path: '/general'
-      fullPath: '/dashboard/$id/reporte/$reporteId/general/'
-      preLoaderRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRouteImport
-      parentRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute
+      fullPath: '/dashboard/$id/reportes/$reporteId/general/'
+      preLoaderRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRouteImport
+      parentRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute
     }
-    '/dashboard/$id/reporte/$reporteId/_header/areas/': {
-      id: '/dashboard/$id/reporte/$reporteId/_header/areas/'
+    '/dashboard/$id/reportes/$reporteId/_header/areas/': {
+      id: '/dashboard/$id/reportes/$reporteId/_header/areas/'
       path: '/areas'
-      fullPath: '/dashboard/$id/reporte/$reporteId/areas/'
-      preLoaderRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRouteImport
-      parentRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute
+      fullPath: '/dashboard/$id/reportes/$reporteId/areas/'
+      preLoaderRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRouteImport
+      parentRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute
     }
   }
 }
 
-interface AreasRouteRouteChildren {
-  AreasIndexRoute: typeof AreasIndexRoute
+interface DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteChildren {
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute
 }
 
-const AreasRouteRouteChildren: AreasRouteRouteChildren = {
-  AreasIndexRoute: AreasIndexRoute,
-}
-
-const AreasRouteRouteWithChildren = AreasRouteRoute._addFileChildren(
-  AreasRouteRouteChildren,
-)
-
-interface DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteChildren {
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute
-}
-
-const DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteChildren: DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteChildren =
+const DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteChildren: DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteChildren =
   {
-    DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute:
-      DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderAreasIndexRoute,
-    DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute:
-      DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderGeneralIndexRoute,
-    DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute:
-      DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderResumenIndexRoute,
+    DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute:
+      DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderAreasIndexRoute,
+    DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute:
+      DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderGeneralIndexRoute,
+    DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute:
+      DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderResumenIndexRoute,
   }
 
-const DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren =
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute._addFileChildren(
-    DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteChildren,
+const DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteWithChildren =
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute._addFileChildren(
+    DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteChildren,
   )
 
 interface DashboardChar91idChar93RouteRouteChildren {
   DashboardChar91idChar93IndexRoute: typeof DashboardChar91idChar93IndexRoute
+  DashboardChar91idChar93CreditosIndexRoute: typeof DashboardChar91idChar93CreditosIndexRoute
   DashboardChar91idChar93EmpresasIndexRoute: typeof DashboardChar91idChar93EmpresasIndexRoute
   DashboardChar91idChar93InstrumentosIndexRoute: typeof DashboardChar91idChar93InstrumentosIndexRoute
   DashboardChar91idChar93ReportesIndexRoute: typeof DashboardChar91idChar93ReportesIndexRoute
-  DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren
-  DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute
-  DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute: typeof DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute
-  DashboardChar91idChar93ReporteReporteNuevoIndexRoute: typeof DashboardChar91idChar93ReporteReporteNuevoIndexRoute
+  DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteWithChildren
+  DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute
+  DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute: typeof DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute
 }
 
 const DashboardChar91idChar93RouteRouteChildren: DashboardChar91idChar93RouteRouteChildren =
   {
     DashboardChar91idChar93IndexRoute: DashboardChar91idChar93IndexRoute,
+    DashboardChar91idChar93CreditosIndexRoute:
+      DashboardChar91idChar93CreditosIndexRoute,
     DashboardChar91idChar93EmpresasIndexRoute:
       DashboardChar91idChar93EmpresasIndexRoute,
     DashboardChar91idChar93InstrumentosIndexRoute:
       DashboardChar91idChar93InstrumentosIndexRoute,
     DashboardChar91idChar93ReportesIndexRoute:
       DashboardChar91idChar93ReportesIndexRoute,
-    DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRoute:
-      DashboardChar91idChar93ReporteChar91reporteIdChar93HeaderRouteRouteWithChildren,
-    DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute:
-      DashboardChar91idChar93ReporteChar91reporteIdChar93PdfRoute,
-    DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute:
-      DashboardChar91idChar93ReporteChar91reporteIdChar93PdfReducidaRoute,
-    DashboardChar91idChar93ReporteReporteNuevoIndexRoute:
-      DashboardChar91idChar93ReporteReporteNuevoIndexRoute,
+    DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRoute:
+      DashboardChar91idChar93ReportesChar91reporteIdChar93HeaderRouteRouteWithChildren,
+    DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute:
+      DashboardChar91idChar93ReportesChar91reporteIdChar93PdfRoute,
+    DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute:
+      DashboardChar91idChar93ReportesChar91reporteIdChar93PdfReducidaRoute,
   }
 
 const DashboardChar91idChar93RouteRouteWithChildren =
@@ -575,11 +583,24 @@ const FilesRouteRouteWithChildren = FilesRouteRoute._addFileChildren(
   FilesRouteRouteChildren,
 )
 
+interface ReportesRouteRouteChildren {
+  ReportesIndexRoute: typeof ReportesIndexRoute
+}
+
+const ReportesRouteRouteChildren: ReportesRouteRouteChildren = {
+  ReportesIndexRoute: ReportesIndexRoute,
+}
+
+const ReportesRouteRouteWithChildren = ReportesRouteRoute._addFileChildren(
+  ReportesRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AreasRouteRoute: AreasRouteRouteWithChildren,
   DashboardRouteRoute: DashboardRouteRouteWithChildren,
   FilesRouteRoute: FilesRouteRouteWithChildren,
+  ReportesRouteRoute: ReportesRouteRouteWithChildren,
+  MoneyIndexRoute: MoneyIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

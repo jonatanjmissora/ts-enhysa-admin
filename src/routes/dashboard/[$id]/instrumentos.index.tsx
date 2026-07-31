@@ -63,6 +63,9 @@ function Inner() {
 function Instrumento({ instrumento }: { instrumento: InstrumentoType }) {
 	return (
 		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
+			<span className="absolute top-2 right-2 text-foreground/50 ml-auto">
+				id: {instrumento.id}
+			</span>
 			<div className="grid grid-cols-2 gap-2">
 				<span className="text-right  text-amber-700">Nombre :</span>
 				<span>{instrumento.nombre.toUpperCase()}</span>
