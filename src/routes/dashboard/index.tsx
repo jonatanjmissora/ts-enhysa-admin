@@ -2,6 +2,19 @@ import { createFileRoute, Link } from "@tanstack/react-router"
 import { tecnicosQueryOptions } from "../../../queries/tecnicos-queries"
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { Suspense } from "react"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table"
+import { Check } from "lucide-react"
+import { usersQueryOptions } from "../../../queries/users-queries"
+import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
+import { allReportesQueryOptions } from "../../../queries/iluminacion/reportes-queries"
+import { allCreditHistoryQueryOptions } from "../../../queries/credits/credit-history-queries"
 
 export const Route = createFileRoute("/dashboard/")({
 	component: RouteComponent,
@@ -9,7 +22,7 @@ export const Route = createFileRoute("/dashboard/")({
 
 function RouteComponent() {
 	return (
-		<div className="flex flex-col gap-4 justify-center items-center">
+		<div className="flex flex-col gap-4 justify-center items-center w-full">
 			<Link to="/" className="flex gap-4 items-center justify-center p-4">
 				<div className="flex gap-4 size-12 relative">
 					<img
@@ -28,21 +41,95 @@ function RouteComponent() {
 }
 
 function Inner() {
+	const { data: users } = useSuspenseQuery(usersQueryOptions)
 	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
-	if (!tecnicos) return <div>No hay técnicos...</div>
+	const { data: empresas } = useSuspenseQuery(allEmpresasQueryOptions)
+	const { data: reportes } = useSuspenseQuery(allReportesQueryOptions)
+	const { data: creditHistory } = useSuspenseQuery(allCreditHistoryQueryOptions)
+
+	const rows = (users ?? [])
+		.map(user => {
+			const userTecnicos = tecnicos?.filter(t => t.userId === user.id) ?? []
+			const userEmpresas = empresas?.filter(e => e.userId === user.id) ?? []
+			const userReportes = reportes?.filter(r => r.userId === user.id) ?? []
+			const userCredits = creditHistory?.filter(c => c.userId === user.id) ?? []
+
+			return {
+				user,
+				esTecnico: userTecnicos.length > 0,
+				cantEmpresas: userEmpresas.length,
+				cantReportes: userReportes.length,
+				creditosAdquiridos: userCredits
+					.filter(c => c.type === "purchase")
+					.reduce((sum, c) => sum + c.credits, 0),
+				creditosConsumidos: userCredits
+					.filter(c => c.type === "consume")
+					.reduce((sum, c) => sum + c.credits, 0),
+			}
+		})
+		.sort((a, b) => a.user.name.localeCompare(b.user.name))
+
 	return (
-		<ul className="flex flex-col gap-4 my-20">
-			{tecnicos.map(tecnico => (
-				<li key={tecnico.id}>
-					<Link
-						to="/dashboard/$id"
-						params={{ id: tecnico.userId }}
-						className="tracking-widest text-lg"
-					>
-						{tecnico.nombre.toUpperCase()}
-					</Link>
-				</li>
-			))}
-		</ul>
+		<Table className="w-full mx-auto">
+			<TableHeader>
+				<TableRow>
+					<TableHead>Nombre</TableHead>
+					<TableHead>Mail</TableHead>
+					<TableHead className="text-center">Imagen</TableHead>
+					<TableHead className="text-center">Técnico</TableHead>
+					<TableHead className="text-center">Empresas</TableHead>
+					<TableHead className="text-center">Reportes</TableHead>
+					<TableHead className="text-center">
+						<span>Créditos</span>
+						<span className="block">adquiridos</span>
+					</TableHead>
+					<TableHead className="text-center">
+						<span>Créditos</span>
+						<span className="block">consumidos</span>
+					</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				{rows.map(
+					({
+						user,
+						esTecnico,
+						cantEmpresas,
+						cantReportes,
+						creditosAdquiridos,
+						creditosConsumidos,
+					}) => (
+						<TableRow key={user.id}>
+							<TableCell>{user.name}</TableCell>
+							<TableCell className="text-xs">{user.email}</TableCell>
+							<TableCell className="text-center">
+								{user.image ? (
+									<img
+										src={user.image}
+										alt={`${user.name} avatar`}
+										className="mx-auto size-8 rounded-full object-cover"
+									/>
+								) : null}
+							</TableCell>
+							<TableCell className="text-center">
+								{esTecnico ? <Check className="mx-auto size-4" /> : null}
+							</TableCell>
+							<TableCell className="text-center">
+								{cantEmpresas || null}
+							</TableCell>
+							<TableCell className="text-center">
+								{cantReportes || null}
+							</TableCell>
+							<TableCell className="text-center">
+								{creditosAdquiridos || null}
+							</TableCell>
+							<TableCell className="text-center">
+								{creditosConsumidos || null}
+							</TableCell>
+						</TableRow>
+					)
+				)}
+			</TableBody>
+		</Table>
 	)
 }
