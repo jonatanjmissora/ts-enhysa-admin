@@ -5,6 +5,7 @@ import {
 	filesQueryOptions,
 	useDeleteFile,
 } from "../../../queries/files-queries"
+import Loading from "#/components/loading"
 
 export const Route = createFileRoute("/files/repetidas/")({
 	component: RouteComponent,
@@ -12,9 +13,11 @@ export const Route = createFileRoute("/files/repetidas/")({
 
 function RouteComponent() {
 	return (
-		<Suspense fallback={<div>Cargando archivos...</div>}>
-			<Inner />
-		</Suspense>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<Loading />}>
+				<Inner />
+			</Suspense>
+		</div>
 	)
 }
 

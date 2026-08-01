@@ -88,6 +88,7 @@ function AsideMenu() {
 
 	const id = pathname.match(/^\/usuario\/([^/]+)/)?.[1]
 	const accordionOpen = activeLink === "Usuarios" && Boolean(id)
+	const filesAccordionOpen = activeLink === "Files"
 
 	const accordionLinks = [
 		{
@@ -120,6 +121,25 @@ function AsideMenu() {
 			params: { id: id! },
 			path: `/usuario/${id}/creditos`,
 			label: "Creditos",
+		},
+	]
+
+	const filesAccordionLinks = [
+		{
+			to: "/files" as const,
+			path: "/files",
+			label: "Usuarios",
+			exact: true,
+		},
+		{
+			to: "/files/unused" as const,
+			path: "/files/unused",
+			label: "Sin utilizar",
+		},
+		{
+			to: "/files/repetidas" as const,
+			path: "/files/repetidas",
+			label: "Repetidas",
 		},
 	]
 
@@ -186,7 +206,32 @@ function AsideMenu() {
 					className={`${activeLink === "Files" && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
 				>
 					<Image /> Imagenes
+					<ChevronDown
+						className={`ml-auto transition-transform ${filesAccordionOpen && "rotate-180"}`}
+					/>
 				</Link>
+				{filesAccordionOpen ? (
+					<div className="flex flex-col gap-1 pl-4">
+						{filesAccordionLinks.map(link => {
+							const isActive = link.exact
+								? pathname === link.path
+								: pathname === link.path || pathname.startsWith(`${link.path}/`)
+							return (
+								<Link
+									key={link.to}
+									to={link.to}
+									className={`p-2 rounded w-full flex gap-3 text-sm tracking-wide font-medium ${isActive ? "text-foreground" : "text-foreground/80 hover:text-foreground"}`}
+								>
+									<span
+										className={`${isActive && "underline underline-offset-4 decoration-2"}`}
+									>
+										{link.label}
+									</span>
+								</Link>
+							)
+						})}
+					</div>
+				) : null}
 				<Link
 					to="/money"
 					onClick={() => setActiveLink("Monetizacion")}

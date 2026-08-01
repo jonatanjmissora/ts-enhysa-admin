@@ -7,6 +7,7 @@ import { instrumentosQueryOptions } from "../../../../queries/instrumentos-queri
 import { reportesQueryOptions } from "../../../../queries/iluminacion/reportes-queries"
 import { userQueryOptions } from "../../../../queries/users-queries"
 import { z } from "zod"
+import { getOneUser } from "#/lib/utils"
 
 const searchSchema = z.object({
 	from: z.string().optional(),
@@ -26,8 +27,8 @@ export const Route = createFileRoute("/usuario/$id")({
 
 function RouteComponent() {
 	return (
-		<div className="w-full flex flex-col justify-center">
-			<Suspense fallback={<div>Cargando nombre...</div>}>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<div>Cargando...</div>}>
 				<UserName />
 			</Suspense>
 			<Outlet />
@@ -39,12 +40,8 @@ function UserName() {
 	const id = Route.useParams().id
 	const { data: user } = useSuspenseQuery(userQueryOptions(id))
 	return (
-		<div className="w-full px-10 text-center bg-background py-2 text-xl flex justify-center items-center gap-10">
-			<span>
-				{user?.[0]?.name
-					? user?.[0]?.name?.toUpperCase()
-					: "Usuario no encontrado"}
-			</span>
+		<div className="w-full px-10 text-center bg-accent py-2 text-xl flex justify-center items-center gap-10">
+			<span>{getOneUser(user?.[0])}</span>
 			<span className="text-foreground/50 text-sm tracking-wide ml-auto">
 				id: {user?.[0]?.id}
 			</span>

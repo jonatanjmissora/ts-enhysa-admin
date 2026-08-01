@@ -56,7 +56,7 @@ function Inner() {
 
 function Empresa({ empresa }: { empresa: EmpresaType }) {
 	return (
-		<div className="bg-accent sm:bg-background py-20 flex items-center justify-center flex-col relative">
+		<div className="py-20 flex items-center justify-center flex-col relative">
 			<span className="absolute top-2 right-2 text-foreground/50 ml-auto">
 				id: {empresa.id}
 			</span>

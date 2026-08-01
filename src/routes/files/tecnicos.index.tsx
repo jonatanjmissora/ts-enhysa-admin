@@ -11,6 +11,7 @@ import { filesQueryOptions } from "../../../queries/files-queries"
 import FileThumbnail from "#/components/file-thumbnail"
 import type { InstrumentoType } from "../../../db/instrumentos/schema"
 import type { AreaIluminacionType } from "../../../db/reportes/iluminacion/areas/scheme"
+import Loading from "#/components/loading"
 
 export const Route = createFileRoute("/files/tecnicos/")({
 	component: RouteComponent,
@@ -18,9 +19,11 @@ export const Route = createFileRoute("/files/tecnicos/")({
 
 function RouteComponent() {
 	return (
-		<Suspense fallback={<div>Cargando técnicos...</div>}>
-			<Inner />
-		</Suspense>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<Loading />}>
+				<Inner />
+			</Suspense>
+		</div>
 	)
 }
 

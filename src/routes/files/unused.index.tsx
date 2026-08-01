@@ -8,6 +8,7 @@ import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
 import { allInstrumentosQueryOptions } from "../../../queries/instrumentos-queries"
 import { allAreasQueryOptions } from "../../../queries/iluminacion/areas-queries"
 import FileThumbnail from "#/components/file-thumbnail"
+import Loading from "#/components/loading"
 
 export const Route = createFileRoute("/files/unused/")({
 	component: RouteComponent,
@@ -15,9 +16,11 @@ export const Route = createFileRoute("/files/unused/")({
 
 function RouteComponent() {
 	return (
-		<Suspense fallback={<div>Cargando archivos...</div>}>
-			<Inner />
-		</Suspense>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<Loading />}>
+				<Inner />
+			</Suspense>
+		</div>
 	)
 }
 

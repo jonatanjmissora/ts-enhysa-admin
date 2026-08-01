@@ -2,7 +2,6 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { Suspense, useState } from "react"
 import { tecnicosQueryOptions } from "../../../queries/tecnicos-queries"
-import type { TecnicoType } from "../../../db/tecnicos/schema"
 import { empresasQueryOptions } from "../../../queries/empresas-queries"
 import { instrumentosQueryOptions } from "../../../queries/instrumentos-queries"
 import { allAreasQueryOptions } from "../../../queries/iluminacion/areas-queries"
@@ -12,6 +11,9 @@ import FileThumbnail from "#/components/file-thumbnail"
 import type { InstrumentoType } from "../../../db/instrumentos/schema"
 import type { AreaIluminacionType } from "../../../db/reportes/iluminacion/areas/scheme"
 import Loading from "#/components/loading"
+import { usersQueryOptions } from "../../../queries/users-queries"
+import { getOneUser } from "#/lib/utils"
+import type { UserType } from "../../../db/users/schema"
 
 export const Route = createFileRoute("/files/")({
 	component: RouteComponent,
@@ -28,57 +30,57 @@ function RouteComponent() {
 }
 
 function Inner() {
-	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
-	const [actualTecnico, setActualTecnico] = useState<string | null>("")
+	const { data: users } = useSuspenseQuery(usersQueryOptions)
 
-	if (!tecnicos)
+	const [actualUser, setActualUser] = useState<string | null>("")
+
+	if (!users)
 		return (
 			<div className="flex flex-col gap-4 justify-center items-center">
-				<span>No hay técnicos</span>
+				<span>No hay usuarios</span>
 			</div>
 		)
 
 	return (
 		<article className="flex flex-col gap-4 w-full mb-40">
-			{tecnicos.map(tecnico => (
-				<Tecnico
-					key={tecnico.id}
-					tecnico={tecnico}
-					actualTecnico={actualTecnico}
-					setActualTecnico={setActualTecnico}
+			{users.map(user => (
+				<User
+					key={user.id}
+					user={user}
+					actualUser={actualUser}
+					setActualUser={setActualUser}
 				/>
 			))}
 		</article>
 	)
 }
 
-function Tecnico({
-	tecnico,
-	actualTecnico,
-	setActualTecnico,
+function User({
+	user,
+	actualUser,
+	setActualUser,
 }: {
-	tecnico: TecnicoType
-	actualTecnico: string | null
-	setActualTecnico: (value: string | null) => void
+	user: UserType
+	actualUser: string | null
+	setActualUser: (value: string | null) => void
 }) {
-	const { data: empresas } = useSuspenseQuery(
-		empresasQueryOptions(tecnico.userId)
-	)
+	const { data: empresas } = useSuspenseQuery(empresasQueryOptions(user.id))
 	const { data: instrumentos } = useSuspenseQuery(
-		instrumentosQueryOptions(tecnico.userId)
+		instrumentosQueryOptions(user.id)
 	)
-	const { data: reportes } = useSuspenseQuery(
-		reportesQueryOptions(tecnico.userId)
-	)
+	const { data: reportes } = useSuspenseQuery(reportesQueryOptions(user.id))
+	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
+	const tecnico = tecnicos?.find(t => t.userId === user.id)
+
 	const { data: areas } = useSuspenseQuery(allAreasQueryOptions)
 	const { data: files } = useSuspenseQuery(filesQueryOptions)
 	const [actualReporte, setActualReporte] = useState<string | null>(null)
 
 	// 1. Técnico images
 	const tecnicoImages = [
-		tecnico.firmaImg,
-		tecnico.matriculaImg,
-		tecnico.empresaLogo,
+		tecnico?.firmaImg,
+		tecnico?.matriculaImg,
+		tecnico?.empresaLogo,
 	].filter(Boolean) as string[]
 
 	// 2. Empresas images
@@ -97,7 +99,7 @@ function Tecnico({
 
 	// 4. Áreas images
 	const areaImages = (areas ?? [])
-		.filter(area => area.userId === tecnico.userId)
+		.filter(area => area.userId === user.id)
 		.flatMap(area => area.imagenes ?? [])
 		.filter(Boolean) as string[]
 
@@ -127,11 +129,11 @@ function Tecnico({
 		}, 0) /
 		(1024 * 1024)
 
-	const handleActualTecnico = () => {
-		if (actualTecnico === tecnico.userId) {
-			setActualTecnico(null)
+	const handleActualUser = () => {
+		if (actualUser === user.id) {
+			setActualUser(null)
 		} else {
-			setActualTecnico(tecnico.userId)
+			setActualUser(user.id)
 		}
 	}
 
@@ -147,15 +149,15 @@ function Tecnico({
 		<div className="bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/60 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-6 w-full">
 			{/* Technician Header */}
 			<button
-				onClick={handleActualTecnico}
+				onClick={handleActualUser}
 				className="flex justify-between items-start flex-wrap gap-4 border-b border-gray-100 dark:border-gray-700/50 pb-4"
 			>
 				<div className="flex flex-col items-start gap-1">
-					<h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">
-						{tecnico.nombre.toUpperCase()}
+					<h2 className="text-xl text-gray-800 dark:text-gray-100">
+						{getOneUser(user)}
 					</h2>
 					<span className="text-xs font-mono text-gray-400">
-						ID de Usuario: {tecnico.userId}
+						ID de Usuario: {user.id}
 					</span>
 				</div>
 				<div className="flex items-center gap-6">
@@ -170,14 +172,14 @@ function Tecnico({
 			</button>
 
 			{/* Cards Grid */}
-			{actualTecnico === tecnico.userId && (
+			{actualUser === user.id && (
 				<div className="flex flex-col gap-6">
 					{/* 1. Tecnico Card */}
 					<div className="bg-gray-50/50 dark:bg-gray-900/20 border border-gray-100 dark:border-gray-700/40 rounded-xl flex flex-col overflow-hidden ">
 						<div className="flex justify-between items-center font-semibold text-sm text-gray-700 dark:text-gray-300 border-b border-gray-100 dark:border-gray-700/40 pb-2 bg-gray-700 p-4">
 							<h3 className="">Técnico</h3>
 							<span className="text-xs font-mono text-gray-400">
-								ID: {tecnico.id}
+								ID: {tecnico?.id}
 							</span>
 						</div>
 						<div className="flex flex-wrap gap-3 p-4">

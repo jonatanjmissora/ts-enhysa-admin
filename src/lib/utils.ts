@@ -9,6 +9,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function getUser(users: UserType[] | null, userId: string) {
 	const user = users?.find(u => u.id === userId)
+	return getOneUser(user)
+}
+
+export function getOneUser(user: UserType | undefined | null) {
 	if (!user) return "No user"
 	const nombreCompleto = capitalize(
 		user.name
