@@ -4,7 +4,7 @@ import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
 import { allInstrumentosQueryOptions } from "../../../queries/instrumentos-queries"
 import { allReportesQueryOptions } from "../../../queries/iluminacion/reportes-queries"
 
-export const Route = createFileRoute("/dashboard")({
+export const Route = createFileRoute("/usuario")({
 	loader: ({ context }) => {
 		context.queryClient.ensureQueryData(tecnicosQueryOptions)
 		context.queryClient.ensureQueryData(tecnicosQueryOptions)

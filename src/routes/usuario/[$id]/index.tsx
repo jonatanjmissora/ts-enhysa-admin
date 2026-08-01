@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { tecnicosQueryOptions } from "../../../../queries/tecnicos-queries"
 import { Suspense } from "react"
 
-export const Route = createFileRoute("/dashboard/$id/")({
+export const Route = createFileRoute("/usuario/$id/")({
 	component: RouteComponent,
 })
 

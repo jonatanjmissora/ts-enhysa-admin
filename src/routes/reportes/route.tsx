@@ -16,20 +16,5 @@ export const Route = createFileRoute("/reportes")({
 })
 
 function RouteComponent() {
-	return (
-		<div className="flex flex-col gap-4 justify-center items-center">
-			<Link to="/" className="flex gap-4 items-center justify-center p-4">
-				<div className="flex gap-4 size-12 relative">
-					<img
-						src="EnHySa_logo.webp"
-						alt="logo"
-						className="absolute inset-0 w-full h-full object-cover"
-					/>
-				</div>
-				<span className="text-2xl font-semibold">Enhysa Admin Panel</span>
-			</Link>
-
-			<Outlet />
-		</div>
-	)
+	return <Outlet />
 }

@@ -27,7 +27,7 @@ const spanishPaymentStatusObj = {
 	undef: "",
 }
 
-export const Route = createFileRoute("/dashboard/$id/creditos/")({
+export const Route = createFileRoute("/usuario/$id/creditos/")({
 	component: RouteComponent,
 })
 
@@ -140,8 +140,8 @@ function ReporteTitle({
 		<Link
 			to={
 				reporte?.finishedAt
-					? "/dashboard/$id/reportes/$reporteId/general"
-					: "/dashboard/$id/reportes/$reporteId/general"
+					? "/usuario/$id/reportes/$reporteId/general"
+					: "/usuario/$id/reportes/$reporteId/general"
 			}
 			params={{ id: userId, reporteId }}
 		>

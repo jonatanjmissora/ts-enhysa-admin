@@ -1,46 +1,131 @@
-import { Button } from "#/components/ui/button"
+import Loading from "#/components/loading"
 import { createFileRoute, Link } from "@tanstack/react-router"
-import { UserRound, Image, CircleDollarSign, File } from "lucide-react"
+import { tecnicosQueryOptions } from "../../queries/tecnicos-queries"
+import { useSuspenseQuery } from "@tanstack/react-query"
+import { Suspense } from "react"
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@/components/ui/table"
+import { Check } from "lucide-react"
+import { usersQueryOptions } from "../../queries/users-queries"
+import { allEmpresasQueryOptions } from "../../queries/empresas-queries"
+import { allReportesQueryOptions } from "../../queries/iluminacion/reportes-queries"
+import { allCreditHistoryQueryOptions } from "../../queries/credits/credit-history-queries"
+import { getUser } from "#/lib/utils"
 
 export const Route = createFileRoute("/")({ component: Home })
 
 function Home() {
 	return (
-		<div className="p-18">
-			<div className="flex gap-4 items-center justify-center">
-				<div className="flex gap-4 size-12 relative">
-					<img
-						src="EnHySa_logo.webp"
-						alt="logo"
-						className="absolute inset-0 w-full h-full object-cover"
-					/>
-				</div>
-				<span className="text-4xl font-bold text-center text-pretty">
-					EnHySa Administrador
-				</span>
-			</div>
-			<nav className="flex flex-col gap-8 my-20 items-center justify-center w-full sm:w-1/2 mx-auto">
-				<Link to="/dashboard" className="w-full">
-					<Button className="w-full min-w-40 py-5">
-						Usuarios <UserRound />
-					</Button>
-				</Link>
-				<Link to="/reportes" className="w-full">
-					<Button className="w-full min-w-40 py-5">
-						Reportes <File />
-					</Button>
-				</Link>
-				<Link to="/files" className="w-full">
-					<Button className="w-full min-w-40 py-5">
-						Imagenes <Image />
-					</Button>
-				</Link>
-				<Link to="/money" className="w-full">
-					<Button className="w-full min-w-40 py-5">
-						Monetizacion <CircleDollarSign />
-					</Button>
-				</Link>
-			</nav>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<Loading />}>
+				<Inner />
+			</Suspense>
 		</div>
+	)
+}
+
+function Inner() {
+	const { data: users } = useSuspenseQuery(usersQueryOptions)
+	const { data: tecnicos } = useSuspenseQuery(tecnicosQueryOptions)
+	const { data: empresas } = useSuspenseQuery(allEmpresasQueryOptions)
+	const { data: reportes } = useSuspenseQuery(allReportesQueryOptions)
+	const { data: creditHistory } = useSuspenseQuery(allCreditHistoryQueryOptions)
+
+	const rows = (users ?? [])
+		.map(user => {
+			const userTecnicos = tecnicos?.filter(t => t.userId === user.id) ?? []
+			const userEmpresas = empresas?.filter(e => e.userId === user.id) ?? []
+			const userReportes = reportes?.filter(r => r.userId === user.id) ?? []
+			const userCredits = creditHistory?.filter(c => c.userId === user.id) ?? []
+
+			return {
+				user,
+				nombre: getUser(users, user.id),
+				esTecnico: userTecnicos.length > 0,
+				cantEmpresas: userEmpresas.length,
+				cantReportes: userReportes.length,
+				creditosAdquiridos: userCredits
+					.filter(c => c.type === "purchase")
+					.reduce((sum, c) => sum + c.credits, 0),
+				creditosConsumidos: userCredits
+					.filter(c => c.type === "consume")
+					.reduce((sum, c) => sum + c.credits, 0),
+			}
+		})
+		.sort((a, b) => a.nombre.localeCompare(b.nombre))
+
+	return (
+		<Table className="w-full mx-auto my-10">
+			<TableHeader className="bg-background">
+				<TableRow>
+					<TableHead>Nombre</TableHead>
+					<TableHead>Mail</TableHead>
+					<TableHead className="text-center">Imagen</TableHead>
+					<TableHead className="text-center">Técnico</TableHead>
+					<TableHead className="text-center">Empresas</TableHead>
+					<TableHead className="text-center">Reportes</TableHead>
+					<TableHead className="text-center">
+						<span>Créditos</span>
+						<span className="block">adquiridos</span>
+					</TableHead>
+					<TableHead className="text-center">
+						<span>Créditos</span>
+						<span className="block">consumidos</span>
+					</TableHead>
+				</TableRow>
+			</TableHeader>
+			<TableBody>
+				{rows.map(
+					({
+						user,
+						nombre,
+						esTecnico,
+						cantEmpresas,
+						cantReportes,
+						creditosAdquiridos,
+						creditosConsumidos,
+					}) => (
+						<TableRow key={user.id} className="h-14">
+							<TableCell>
+								<Link to="/usuario/$id" params={{ id: user.id }}>
+									{nombre}
+								</Link>
+							</TableCell>
+							<TableCell className="text-xs">{user.email}</TableCell>
+							<TableCell className="text-center">
+								{user.image ? (
+									<img
+										src={user.image}
+										alt={`${user.name} avatar`}
+										className="mx-auto size-8 rounded-full object-cover"
+									/>
+								) : null}
+							</TableCell>
+							<TableCell className="text-center">
+								{esTecnico ? <Check className="mx-auto size-4" /> : null}
+							</TableCell>
+							<TableCell className="text-center">
+								{cantEmpresas || null}
+							</TableCell>
+							<TableCell className="text-center">
+								{cantReportes || null}
+							</TableCell>
+							<TableCell className="text-center">
+								{creditosAdquiridos || null}
+							</TableCell>
+							<TableCell className="text-center">
+								{creditosConsumidos || null}
+							</TableCell>
+						</TableRow>
+					)
+				)}
+			</TableBody>
+		</Table>
 	)
 }

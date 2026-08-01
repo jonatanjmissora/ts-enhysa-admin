@@ -12,7 +12,7 @@ import type { AreaIluminacionType } from "../../../../../../../db/reportes/ilumi
 import { ChartArea } from "#/components/ChartArea"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reportes/$reporteId/_header/areas/"
+	"/usuario/$id/reportes/$reporteId/_header/areas/"
 )({
 	component: RouteComponent,
 })

@@ -13,6 +13,7 @@ import { allCreditHistoryQueryOptions } from "../../../queries/credits/credit-hi
 import { usersQueryOptions } from "../../../queries/users-queries"
 import { getUser } from "#/lib/utils"
 import { reporteQueryOptions } from "../../../queries/iluminacion/reportes-queries"
+import Loading from "#/components/loading"
 
 const spanishObj = {
 	purchase: "Compra",
@@ -27,18 +28,8 @@ export const Route = createFileRoute("/money/")({
 
 function RouteComponent() {
 	return (
-		<div className="flex flex-col gap-4 justify-center items-center w-full">
-			<Link to="/" className="flex gap-4 items-center justify-center p-4">
-				<div className="flex gap-4 size-12 relative">
-					<img
-						src="EnHySa_logo.webp"
-						alt="logo"
-						className="absolute inset-0 w-full h-full object-cover"
-					/>
-				</div>
-				<span className="text-2xl font-semibold">Enhysa Admin Panel</span>
-			</Link>
-			<Suspense fallback={<div>Cargando historial de pagos...</div>}>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<Loading />}>
 				<Inner />
 			</Suspense>
 		</div>
@@ -64,7 +55,7 @@ function Inner() {
 
 	return (
 		<Table className="w-full mx-auto my-10">
-			<TableHeader>
+			<TableHeader className="bg-background">
 				<TableRow>
 					<TableHead>Fecha</TableHead>
 					<TableHead>Usuario</TableHead>
@@ -91,7 +82,7 @@ function Inner() {
 								{createdAt.toLocaleString()}
 							</TableCell>
 							<TableCell>
-								<Link to="/dashboard/$id" params={{ id: userId }}>
+								<Link to="/usuario/$id" params={{ id: userId }}>
 									{nombre}
 								</Link>
 							</TableCell>
@@ -125,8 +116,8 @@ function ReporteTitle({
 		<Link
 			to={
 				reporte?.finishedAt
-					? "/dashboard/$id/reportes/$reporteId/general"
-					: "/dashboard/$id/reportes/$reporteId/general"
+					? "/usuario/$id/reportes/$reporteId/general"
+					: "/usuario/$id/reportes/$reporteId/general"
 			}
 			params={{ id: userId, reporteId }}
 		>

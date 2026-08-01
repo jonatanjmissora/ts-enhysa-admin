@@ -16,25 +16,16 @@ import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
 import { allReportesQueryOptions } from "../../../queries/iluminacion/reportes-queries"
 import { allCreditHistoryQueryOptions } from "../../../queries/credits/credit-history-queries"
 import { getUser } from "#/lib/utils"
+import Loading from "#/components/loading"
 
-export const Route = createFileRoute("/dashboard/")({
+export const Route = createFileRoute("/usuario/")({
 	component: RouteComponent,
 })
 
 function RouteComponent() {
 	return (
-		<div className="flex flex-col gap-4 justify-center items-center w-full">
-			<Link to="/" className="flex gap-4 items-center justify-center p-4">
-				<div className="flex gap-4 size-12 relative">
-					<img
-						src="EnHySa_logo.webp"
-						alt="logo"
-						className="absolute inset-0 w-full h-full object-cover"
-					/>
-				</div>
-				<span className="text-2xl font-semibold">Enhysa Admin Panel</span>
-			</Link>
-			<Suspense fallback={<div>Cargando usuarios...</div>}>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<Loading />}>
 				<Inner />
 			</Suspense>
 		</div>
@@ -104,7 +95,7 @@ function Inner() {
 					}) => (
 						<TableRow key={user.id}>
 							<TableCell>
-								<Link to="/dashboard/$id" params={{ id: user.id }}>
+								<Link to="/usuario/$id" params={{ id: user.id }}>
 									{nombre}
 								</Link>
 							</TableCell>

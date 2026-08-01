@@ -3,7 +3,6 @@ import { createFileRoute, Link } from "@tanstack/react-router"
 import { Suspense } from "react"
 import { allAreasQueryOptions } from "../../../queries/iluminacion/areas-queries"
 import { allReportesQueryOptions } from "../../../queries/iluminacion/reportes-queries"
-import { tecnicosQueryOptions } from "../../../queries/tecnicos-queries"
 import { allLocalizadasQueryOptions } from "../../../queries/iluminacion/localizadas-queries"
 import {
 	Table,
@@ -16,6 +15,7 @@ import {
 import { getUser } from "#/lib/utils"
 import { usersQueryOptions } from "../../../queries/users-queries"
 import { Lock, LockOpen } from "lucide-react"
+import Loading from "#/components/loading"
 
 export const Route = createFileRoute("/reportes/")({
 	component: RouteComponent,
@@ -23,9 +23,11 @@ export const Route = createFileRoute("/reportes/")({
 
 function RouteComponent() {
 	return (
-		<Suspense fallback={<div>Cargando areas y reportes...</div>}>
-			<Inner />
-		</Suspense>
+		<div className="w-full h-full p-20">
+			<Suspense fallback={<Loading />}>
+				<Inner />
+			</Suspense>
+		</div>
 	)
 }
 
@@ -64,7 +66,7 @@ function Inner() {
 					<TableRow key={id}>
 						<TableCell>
 							<Link
-								to="/dashboard/$id/reportes/$reporteId/general"
+								to="/usuario/$id/reportes/$reporteId/general"
 								params={{ id: reporte.userId, reporteId: reporte.id }}
 								search={{ from: "reportes" }}
 							>
@@ -78,7 +80,7 @@ function Inner() {
 						</TableCell>
 						<TableCell>
 							<Link
-								to="/dashboard/$id"
+								to="/usuario/$id"
 								params={{ id: reporte.userId }}
 								search={{ from: "reportes" }}
 							>

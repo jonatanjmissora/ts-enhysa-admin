@@ -7,7 +7,7 @@ import { Button } from "#/components/ui/button"
 import { Lock, LockOpen } from "lucide-react"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reportes/$reporteId/_header/resumen/"
+	"/usuario/$id/reportes/$reporteId/_header/resumen/"
 )({
 	component: RouteComponent,
 })
@@ -65,13 +65,13 @@ function Resumen() {
 					)}
 
 					<Link
-						to={`/dashboard/$id/reportes/$reporteId/pdf`}
+						to={`/usuario/$id/reportes/$reporteId/pdf`}
 						params={{ id, reporteId }}
 					>
 						<Button> Generar PDF</Button>
 					</Link>
 					<Link
-						to={`/dashboard/$id/reportes/$reporteId/pdf-reducida`}
+						to={`/usuario/$id/reportes/$reporteId/pdf-reducida`}
 						params={{ id, reporteId }}
 					>
 						<Button> Generar PDF (reducida)</Button>

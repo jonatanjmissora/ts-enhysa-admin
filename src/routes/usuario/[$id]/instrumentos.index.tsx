@@ -12,7 +12,7 @@ import { Suspense } from "react"
 import { instrumentosQueryOptions } from "../../../../queries/instrumentos-queries"
 import type { InstrumentoType } from "../../../../db/instrumentos/schema"
 
-export const Route = createFileRoute("/dashboard/$id/instrumentos/")({
+export const Route = createFileRoute("/usuario/$id/instrumentos/")({
 	component: RouteComponent,
 })
 

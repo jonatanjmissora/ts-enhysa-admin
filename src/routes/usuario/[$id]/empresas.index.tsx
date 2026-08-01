@@ -10,7 +10,7 @@ import {
 import type { EmpresaType } from "../../../../db/empresas/schema"
 import { Suspense } from "react"
 
-export const Route = createFileRoute("/dashboard/$id/empresas/")({
+export const Route = createFileRoute("/usuario/$id/empresas/")({
 	component: RouteComponent,
 })
 

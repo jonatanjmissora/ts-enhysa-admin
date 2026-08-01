@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet } from "@tanstack/react-router"
+import { createFileRoute, Outlet } from "@tanstack/react-router"
 import { empresasQueryOptions } from "../../../../queries/empresas-queries"
 import { Suspense } from "react"
 import { useSuspenseQuery } from "@tanstack/react-query"
@@ -12,7 +12,7 @@ const searchSchema = z.object({
 	from: z.string().optional(),
 })
 
-export const Route = createFileRoute("/dashboard/$id")({
+export const Route = createFileRoute("/usuario/$id")({
 	validateSearch: searchSchema,
 	loader: ({ context, params }) => {
 		context.queryClient.ensureQueryData(tecnicosQueryOptions)
@@ -25,65 +25,8 @@ export const Route = createFileRoute("/dashboard/$id")({
 })
 
 function RouteComponent() {
-	const { id } = Route.useParams()
-	const { from } = Route.useSearch()
 	return (
 		<div className="w-full flex flex-col justify-center">
-			<ul className="w-full flex gap-4 flex-wrap items-center justify-center py-6">
-				<Link
-					to={from ? `/${from}` : "/dashboard"}
-					className="py-2 px-4 rounded-lg"
-					activeProps={{ className: "bg-black" }}
-					activeOptions={{ exact: true }}
-				>
-					<li>Volver</li>
-				</Link>
-				<Link
-					to="/dashboard/$id"
-					className="py-2 px-4 rounded-lg"
-					params={{ id }}
-					activeProps={{ className: "bg-black" }}
-					activeOptions={{ exact: true }}
-				>
-					<li>Tecnico</li>
-				</Link>
-				<Link
-					to="/dashboard/$id/empresas"
-					className="py-2 px-4 rounded-lg"
-					params={{ id }}
-					activeProps={{ className: "bg-black" }}
-					activeOptions={{ exact: true }}
-				>
-					<li>Empresas</li>
-				</Link>
-				<Link
-					to="/dashboard/$id/instrumentos"
-					className="py-2 px-4 rounded-lg"
-					params={{ id }}
-					activeProps={{ className: "bg-black" }}
-					activeOptions={{ exact: true }}
-				>
-					<li>Instrumentos</li>
-				</Link>
-				<Link
-					className="py-2 px-4 rounded-lg"
-					to="/dashboard/$id/reportes"
-					params={{ id }}
-					activeProps={{ className: "bg-black" }}
-					activeOptions={{ exact: true }}
-				>
-					<li>Reportes</li>
-				</Link>
-				<Link
-					className="py-2 px-4 rounded-lg"
-					to="/dashboard/$id/creditos"
-					params={{ id }}
-					activeProps={{ className: "bg-black" }}
-					activeOptions={{ exact: true }}
-				>
-					<li>Créditos</li>
-				</Link>
-			</ul>
 			<Suspense fallback={<div>Cargando nombre...</div>}>
 				<UserName />
 			</Suspense>

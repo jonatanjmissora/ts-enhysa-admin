@@ -14,7 +14,7 @@ import { reporteQueryOptions } from "../../../../../../../queries/iluminacion/re
 import { empresasQueryOptions } from "../../../../../../../queries/empresas-queries"
 
 export const Route = createFileRoute(
-	"/dashboard/$id/reportes/$reporteId/_header"
+	"/usuario/$id/reportes/$reporteId/_header"
 )({
 	component: RouteComponent,
 })
@@ -29,7 +29,7 @@ function RouteComponent() {
 			</Suspense>
 			<nav className="flex items-center justify-between gap-2 w-full my-4">
 				<Link
-					to="/dashboard/$id/reportes/$reporteId/general"
+					to="/usuario/$id/reportes/$reporteId/general"
 					params={{ id, reporteId }}
 					activeProps={{
 						className:
@@ -41,7 +41,7 @@ function RouteComponent() {
 					General
 				</Link>
 				<Link
-					to="/dashboard/$id/reportes/$reporteId/areas"
+					to="/usuario/$id/reportes/$reporteId/areas"
 					params={{ id, reporteId }}
 					activeProps={{
 						className:
@@ -53,7 +53,7 @@ function RouteComponent() {
 					Mediciones
 				</Link>
 				<Link
-					to="/dashboard/$id/reportes/$reporteId/resumen"
+					to="/usuario/$id/reportes/$reporteId/resumen"
 					params={{ id, reporteId }}
 					activeProps={{
 						className:

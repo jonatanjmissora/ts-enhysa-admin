@@ -11,7 +11,7 @@ const MyDocument = lazy(() =>
 	}))
 )
 
-export const Route = createFileRoute("/dashboard/$id/reportes/$reporteId/pdf")({
+export const Route = createFileRoute("/usuario/$id/reportes/$reporteId/pdf")({
 	component: RouteComponent,
 })
 
