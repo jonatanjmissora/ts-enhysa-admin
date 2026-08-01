@@ -7,7 +7,7 @@ export const Route = createFileRoute("/")({ component: Home })
 function Home() {
 	return (
 		<div className="p-18">
-			<div className="flex gap-4 items-center">
+			<div className="flex gap-4 items-center justify-center">
 				<div className="flex gap-4 size-12 relative">
 					<img
 						src="EnHySa_logo.webp"

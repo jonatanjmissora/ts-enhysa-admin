@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import {
 	Table,
 	TableBody,
@@ -10,6 +10,22 @@ import {
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { creditHistoryByUserQueryOptions } from "../../../../queries/credits/credit-history-queries"
 import { Suspense } from "react"
+import { creditPaymentsByUserQueryOptions } from "../../../../queries/credits/credit-payments-queries"
+import { reporteQueryOptions } from "../../../../queries/iluminacion/reportes-queries"
+
+const spanishTypeObj = {
+	purchase: "Compra",
+	bonus: "Recarga",
+	refund: "Reembolso",
+	consume: "Consumo",
+}
+
+const spanishPaymentStatusObj = {
+	approved: "Aprobado",
+	rejected: "Rechazado",
+	pending: "Pendiente",
+	undef: "",
+}
 
 export const Route = createFileRoute("/dashboard/$id/creditos/")({
 	component: RouteComponent,
@@ -28,21 +44,30 @@ function Inner({ id }: { id: string }) {
 	const { data: creditHistory } = useSuspenseQuery(
 		creditHistoryByUserQueryOptions({ userId: id })
 	)
-	console.log("creditHistory", creditHistory)
+	const { data: payments } = useSuspenseQuery(
+		creditPaymentsByUserQueryOptions({ userId: id })
+	)
+
+	console.log("payments", payments)
 	// const { data: users } = useSuspenseQuery(usersQueryOptions)
 
-	// const rows = creditHistory?.map(ch => {
-	// 	return {
-	// 		id: ch.id,
-	// 		userId: ch.userId,
-	// 		nombre: getUser(users, ch.userId),
-	// 		credits: ch.credits,
-	// 		type: ch.type,
-	// 		createdAt: ch.createdAt,
-	// 		reporteId: ch.reportId,
-	// 		mercadopagoId: ch.paymentId,
-	// 	}
-	// })
+	const rows = creditHistory?.map(ch => {
+		return {
+			id: ch.id,
+			fecha:
+				payments?.find(p => p.mpPaymentId === ch.paymentId)?.updatedAt ||
+				ch.createdAt,
+			operacion: ch.type,
+			creditos: ch.credits,
+			reporteId: ch.reportId,
+			userId: ch.userId,
+			mercadopagoId: ch.paymentId,
+			estado: payments?.find(p => p.mpPaymentId === ch.paymentId)?.status,
+			comienzo: payments?.find(p => p.mpPaymentId === ch.paymentId)?.createdAt,
+			finalizado: payments?.find(p => p.mpPaymentId === ch.paymentId)
+				?.updatedAt,
+		}
+	})
 
 	return (
 		<Table className="w-full mx-auto my-10">
@@ -58,39 +83,69 @@ function Inner({ id }: { id: string }) {
 					<TableHead className="text-center">Finalizado</TableHead>
 				</TableRow>
 			</TableHeader>
-			{/* <TableBody>
+			<TableBody>
 				{rows?.map(
 					({
-						id,
-						userId,
-						nombre,
-						credits,
-						type,
-						createdAt,
+						fecha,
+						operacion,
+						creditos,
 						reporteId,
 						mercadopagoId,
+						estado,
+						comienzo,
+						finalizado,
 					}) => (
-						<TableRow key={id}>
+						<TableRow key={mercadopagoId}>
 							<TableCell className="text-xs">
-								{createdAt.toLocaleString()}
+								{fecha?.toLocaleString()}
 							</TableCell>
-							<TableCell>
-								<Link to="/dashboard/$id" params={{ id: userId }}>
-									{nombre}
-								</Link>
-							</TableCell>
-							<TableCell className="text-center">{spanishObj[type]}</TableCell>
-							<TableCell className="text-center">{credits}</TableCell>
 							<TableCell className="text-center">
-								<Suspense fallback={<span>...</span>}>
-									<ReporteTitle userId={userId} reporteId={reporteId || ""} />
+								{spanishTypeObj[operacion]}
+							</TableCell>
+							<TableCell className="text-center">{creditos}</TableCell>
+							<TableCell className="text-center">
+								<Suspense fallback={<div>...</div>}>
+									<ReporteTitle userId={id} reporteId={reporteId || ""} />
 								</Suspense>
 							</TableCell>
 							<TableCell className="text-center">{mercadopagoId}</TableCell>
+							<TableCell className="text-center">
+								{spanishPaymentStatusObj[estado || "undef"]}
+							</TableCell>
+							<TableCell className="text-center text-xs">
+								{comienzo?.toLocaleString()}
+							</TableCell>
+							<TableCell className="text-center text-xs">
+								{finalizado?.toLocaleString()}
+							</TableCell>
 						</TableRow>
 					)
 				)}
-			</TableBody> */}
+			</TableBody>
 		</Table>
+	)
+}
+
+function ReporteTitle({
+	userId,
+	reporteId,
+}: {
+	userId: string
+	reporteId: string
+}) {
+	const { data: reporte } = useSuspenseQuery(
+		reporteQueryOptions({ userId, reporteId })
+	)
+	return (
+		<Link
+			to={
+				reporte?.finishedAt
+					? "/dashboard/$id/reportes/$reporteId/general"
+					: "/dashboard/$id/reportes/$reporteId/general"
+			}
+			params={{ id: userId, reporteId }}
+		>
+			{reporte?.title.toUpperCase()}
+		</Link>
 	)
 }
