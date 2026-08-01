@@ -1,4 +1,3 @@
-import Loading from "#/components/loading"
 import { createFileRoute, Link } from "@tanstack/react-router"
 import { tecnicosQueryOptions } from "../../queries/tecnicos-queries"
 import { useSuspenseQuery } from "@tanstack/react-query"
@@ -17,10 +16,14 @@ import { allEmpresasQueryOptions } from "../../queries/empresas-queries"
 import { allReportesQueryOptions } from "../../queries/iluminacion/reportes-queries"
 import { allCreditHistoryQueryOptions } from "../../queries/credits/credit-history-queries"
 import { getUser } from "#/lib/utils"
+import Loading from "#/components/loading"
+import { allUserCreditsQueryOptions } from "../../queries/credits/user-credits-queries"
 
-export const Route = createFileRoute("/")({ component: Home })
+export const Route = createFileRoute("/")({
+	component: RouteComponent,
+})
 
-function Home() {
+function RouteComponent() {
 	return (
 		<div className="w-full h-full p-20">
 			<Suspense fallback={<Loading />}>
@@ -36,24 +39,29 @@ function Inner() {
 	const { data: empresas } = useSuspenseQuery(allEmpresasQueryOptions)
 	const { data: reportes } = useSuspenseQuery(allReportesQueryOptions)
 	const { data: creditHistory } = useSuspenseQuery(allCreditHistoryQueryOptions)
+	const { data: userCredits } = useSuspenseQuery(allUserCreditsQueryOptions)
 
 	const rows = (users ?? [])
 		.map(user => {
 			const userTecnicos = tecnicos?.filter(t => t.userId === user.id) ?? []
 			const userEmpresas = empresas?.filter(e => e.userId === user.id) ?? []
 			const userReportes = reportes?.filter(r => r.userId === user.id) ?? []
-			const userCredits = creditHistory?.filter(c => c.userId === user.id) ?? []
-
+			const userCreditHistory =
+				creditHistory?.filter(c => c.userId === user.id) ?? []
+			const creditosTotales = userCredits?.filter(
+				c => c.userId === user.id
+			)?.[0]?.credits
 			return {
 				user,
 				nombre: getUser(users, user.id),
 				esTecnico: userTecnicos.length > 0,
 				cantEmpresas: userEmpresas.length,
 				cantReportes: userReportes.length,
-				creditosAdquiridos: userCredits
+				creditosTotales,
+				creditosAdquiridos: userCreditHistory
 					.filter(c => c.type === "purchase")
 					.reduce((sum, c) => sum + c.credits, 0),
-				creditosConsumidos: userCredits
+				creditosConsumidos: userCreditHistory
 					.filter(c => c.type === "consume")
 					.reduce((sum, c) => sum + c.credits, 0),
 			}
@@ -62,7 +70,7 @@ function Inner() {
 
 	return (
 		<Table className="w-full mx-auto my-10">
-			<TableHeader className="bg-background">
+			<TableHeader>
 				<TableRow>
 					<TableHead>Nombre</TableHead>
 					<TableHead>Mail</TableHead>
@@ -70,6 +78,10 @@ function Inner() {
 					<TableHead className="text-center">Técnico</TableHead>
 					<TableHead className="text-center">Empresas</TableHead>
 					<TableHead className="text-center">Reportes</TableHead>
+					<TableHead className="text-center">
+						<span>Créditos</span>
+						<span className="block">actuales</span>
+					</TableHead>
 					<TableHead className="text-center">
 						<span>Créditos</span>
 						<span className="block">adquiridos</span>
@@ -88,10 +100,11 @@ function Inner() {
 						esTecnico,
 						cantEmpresas,
 						cantReportes,
+						creditosTotales,
 						creditosAdquiridos,
 						creditosConsumidos,
 					}) => (
-						<TableRow key={user.id} className="h-14">
+						<TableRow key={user.id}>
 							<TableCell>
 								<Link to="/usuario/$id" params={{ id: user.id }}>
 									{nombre}
@@ -115,6 +128,9 @@ function Inner() {
 							</TableCell>
 							<TableCell className="text-center">
 								{cantReportes || null}
+							</TableCell>
+							<TableCell className="text-center">
+								{creditosTotales || null}
 							</TableCell>
 							<TableCell className="text-center">
 								{creditosAdquiridos || null}
