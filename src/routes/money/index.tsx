@@ -90,7 +90,7 @@ function Inner() {
 							<TableCell className="text-center">{credits}</TableCell>
 							<TableCell className="text-center">
 								<Suspense fallback={<span>...</span>}>
-									<ReporteTitle userId={userId} reporteId={reporteId || ""} />
+									<ReporteTitle userId={userId} reporteId={reporteId} />
 								</Suspense>
 							</TableCell>
 							<TableCell className="text-center">{mercadopagoId}</TableCell>
@@ -107,6 +107,17 @@ function ReporteTitle({
 	reporteId,
 }: {
 	userId: string
+	reporteId?: string | null
+}) {
+	if (!reporteId) return <span className="text-muted-foreground">—</span>
+	return <ReporteLink userId={userId} reporteId={reporteId} />
+}
+
+function ReporteLink({
+	userId,
+	reporteId,
+}: {
+	userId: string
 	reporteId: string
 }) {
 	const { data: reporte } = useSuspenseQuery(
@@ -114,11 +125,7 @@ function ReporteTitle({
 	)
 	return (
 		<Link
-			to={
-				reporte?.finishedAt
-					? "/usuario/$id/reportes/$reporteId/general"
-					: "/usuario/$id/reportes/$reporteId/general"
-			}
+			to="/usuario/$id/reportes/$reporteId/general"
 			params={{ id: userId, reporteId }}
 		>
 			{reporte?.title.toUpperCase()}

@@ -2,6 +2,7 @@ import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
 import { tecnicosQueryOptions } from "../../../../queries/tecnicos-queries"
 import { Suspense } from "react"
+import { imgSrc } from "#/lib/utils"
 import Loading from "#/components/loading"
 
 export const Route = createFileRoute("/usuario/$id/")({
@@ -46,7 +47,7 @@ function Inner() {
 						Matricula Imagen:
 					</span>
 					<img
-						src={tecnico.matriculaImg}
+						src={imgSrc(tecnico.matriculaImg)}
 						alt="foto"
 						className="object-contain w-auto h-40 rounded-lg"
 					/>
@@ -55,7 +56,7 @@ function Inner() {
 				<div className="flex flex-col gap-1">
 					<span className="font-semibold text-amber-700">Firma Digital:</span>
 					<img
-						src={tecnico.firmaImg}
+						src={imgSrc(tecnico.firmaImg)}
 						alt="foto"
 						className="object-contain w-auto h-40 rounded-lg bg-white"
 					/>
@@ -64,7 +65,7 @@ function Inner() {
 				<div className="flex flex-col gap-1">
 					<span className="font-semibold text-amber-700">Empresa Imagen:</span>
 					<img
-						src={tecnico.empresaLogo}
+						src={imgSrc(tecnico.empresaLogo)}
 						alt="foto"
 						className="object-contain w-auto h-40 rounded-lg"
 					/>

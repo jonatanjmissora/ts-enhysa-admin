@@ -11,6 +11,7 @@ import { createFileRoute } from "@tanstack/react-router"
 import { Suspense } from "react"
 import { instrumentosQueryOptions } from "../../../../queries/instrumentos-queries"
 import type { InstrumentoType } from "../../../../db/instrumentos/schema"
+import { imgSrc } from "#/lib/utils"
 
 export const Route = createFileRoute("/usuario/$id/instrumentos/")({
 	component: RouteComponent,
@@ -97,10 +98,10 @@ function Instrumento({ instrumento }: { instrumento: InstrumentoType }) {
 				</span>
 				{instrumento.imagenesCalibracion.length > 0 ? (
 					<div className="flex w-full gap-2 content-center">
-						{instrumento.imagenesCalibracion.map(imagen => (
+						{instrumento.imagenesCalibracion.map((imagen, i) => (
 							<img
-								key={imagen}
-								src={imagen}
+								key={`${imagen}-${i}`}
+								src={imgSrc(imagen)}
 								alt="Imagen del Certificado"
 								className="w-auto h-40 object-contain object-center"
 							/>
@@ -119,10 +120,10 @@ function Instrumento({ instrumento }: { instrumento: InstrumentoType }) {
 				</span>
 				{instrumento.imagenes.length > 0 ? (
 					<div className="w-full flex gap-2 flex-wrap content-center">
-						{instrumento.imagenes.map(imagen => (
+						{instrumento.imagenes.map((imagen, i) => (
 							<img
-								key={imagen}
-								src={imagen}
+								key={`${imagen}-${i}`}
+								src={imgSrc(imagen)}
 								alt="Imagen del instrumento"
 								className="w-auto h-39 object-contain object-center"
 							/>

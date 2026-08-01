@@ -35,11 +35,7 @@ function Reportes() {
 			{sortedByRecentDate(reportes)?.map(reporte => (
 				<Link
 					key={reporte.id}
-					to={
-						reporte.finishedAt
-							? "/usuario/$id/reportes/$reporteId/general"
-							: "/usuario/$id/reportes/$reporteId/general"
-					}
+					to="/usuario/$id/reportes/$reporteId/general"
 					params={{ id, reporteId: reporte.id }}
 					className="p-4 bg-accent rounded-lg ring-[1px] dark:ring-foreground/15 ring-foreground/50 justify-between w-full"
 				>

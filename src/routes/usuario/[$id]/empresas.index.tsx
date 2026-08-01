@@ -9,6 +9,7 @@ import {
 } from "#/components/ui/accordion"
 import type { EmpresaType } from "../../../../db/empresas/schema"
 import { Suspense } from "react"
+import { imgSrc } from "#/lib/utils"
 
 export const Route = createFileRoute("/usuario/$id/empresas/")({
 	component: RouteComponent,
@@ -91,7 +92,7 @@ function Empresa({ empresa }: { empresa: EmpresaType }) {
 				<div className="flex flex-col gap-1 w-1/2">
 					<span className="font-semibold text-amber-700">Empresa Logo :</span>
 					<img
-						src={empresa.logo}
+						src={imgSrc(empresa.logo)}
 						alt="foto"
 						className="object-contain w-auto h-40 rounded-lg"
 					/>

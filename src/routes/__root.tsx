@@ -14,14 +14,7 @@ import appCss from "../styles.css?url"
 
 import type { QueryClient } from "@tanstack/react-query"
 import NotFound from "#/components/not-found"
-import {
-	UserRound,
-	File,
-	Image,
-	CircleDollarSign,
-	ChevronDown,
-} from "lucide-react"
-import { useState } from "react"
+import { UserRound, File, Image, CircleDollarSign, ChevronDown } from "lucide-react"
 
 interface MyRouterContext {
 	queryClient: QueryClient
@@ -83,12 +76,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 }
 
 function AsideMenu() {
-	const [activeLink, setActiveLink] = useState("Usuarios")
 	const pathname = useRouterState({ select: (s) => s.location.pathname })
 
+	const isUsuariosActive =
+		pathname === "/" || pathname.startsWith("/usuario")
+	const isReportesActive =
+		pathname === "/reportes" || pathname.startsWith("/reportes/")
+	const isFilesActive = pathname === "/files" || pathname.startsWith("/files/")
+	const isMoneyActive = pathname === "/money" || pathname.startsWith("/money/")
+
 	const id = pathname.match(/^\/usuario\/([^/]+)/)?.[1]
-	const accordionOpen = activeLink === "Usuarios" && Boolean(id)
-	const filesAccordionOpen = activeLink === "Files"
+	const accordionOpen = isUsuariosActive && Boolean(id)
+	const filesAccordionOpen = isFilesActive
 
 	const accordionLinks = [
 		{
@@ -161,8 +160,7 @@ function AsideMenu() {
 				<div className="flex flex-col gap-1">
 					<Link
 						to="/"
-						onClick={() => setActiveLink("Usuarios")}
-						className={`${activeLink === "Usuarios" && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
+						className={`${isUsuariosActive && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
 					>
 						<UserRound /> Usuarios
 						<ChevronDown
@@ -195,15 +193,13 @@ function AsideMenu() {
 				</div>
 				<Link
 					to="/reportes"
-					onClick={() => setActiveLink("Reportes")}
-					className={`${activeLink === "Reportes" && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
+					className={`${isReportesActive && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
 				>
 					<File /> Reportes
 				</Link>
 				<Link
 					to="/files"
-					onClick={() => setActiveLink("Files")}
-					className={`${activeLink === "Files" && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
+					className={`${isFilesActive && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
 				>
 					<Image /> Imagenes
 					<ChevronDown
@@ -234,8 +230,7 @@ function AsideMenu() {
 				) : null}
 				<Link
 					to="/money"
-					onClick={() => setActiveLink("Monetizacion")}
-					className={`${activeLink === "Monetizacion" && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
+					className={`${isMoneyActive && "bg-ring"} p-2 rounded w-full flex gap-3 text-ms tracking-wide font-semibold`}
 				>
 					<CircleDollarSign /> Monetizacion
 				</Link>

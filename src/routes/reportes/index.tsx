@@ -66,6 +66,15 @@ function Inner() {
 					<TableRow key={id}>
 						<TableCell>
 							<Link
+								to="/usuario/$id"
+								params={{ id: reporte.userId }}
+								search={{ from: "reportes" }}
+							>
+								{nombre}
+							</Link>
+						</TableCell>
+						<TableCell>
+							<Link
 								to="/usuario/$id/reportes/$reporteId/general"
 								params={{ id: reporte.userId, reporteId: reporte.id }}
 								search={{ from: "reportes" }}
@@ -76,15 +85,6 @@ function Inner() {
 									<Lock className="size-4 text-red-500/50 inline mr-2" />
 								)}
 								{reporte.title}
-							</Link>
-						</TableCell>
-						<TableCell>
-							<Link
-								to="/usuario/$id"
-								params={{ id: reporte.userId }}
-								search={{ from: "reportes" }}
-							>
-								{nombre}
 							</Link>
 						</TableCell>
 						<TableCell>

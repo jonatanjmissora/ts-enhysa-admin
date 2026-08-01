@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query"
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 import { Suspense, useState } from "react"
 import { tecnicosQueryOptions } from "../../../queries/tecnicos-queries"
 import { empresasQueryOptions } from "../../../queries/empresas-queries"
@@ -41,9 +41,13 @@ function Inner() {
 			</div>
 		)
 
+	const sortedUsers = [...users].sort((a, b) =>
+		getOneUser(a).localeCompare(getOneUser(b))
+	)
+
 	return (
 		<article className="flex flex-col gap-4 w-full mb-40">
-			{users.map(user => (
+			{sortedUsers.map(user => (
 				<User
 					key={user.id}
 					user={user}
@@ -153,9 +157,13 @@ function User({
 				className="flex justify-between items-start flex-wrap gap-4 border-b border-gray-100 dark:border-gray-700/50 pb-4"
 			>
 				<div className="flex flex-col items-start gap-1">
-					<h2 className="text-xl text-gray-800 dark:text-gray-100">
+					<Link
+						to="/usuario/$id"
+						params={{ id: user.id }}
+						className="text-xl text-gray-800 dark:text-gray-100"
+					>
 						{getOneUser(user)}
-					</h2>
+					</Link>
 					<span className="text-xs font-mono text-gray-400">
 						ID de Usuario: {user.id}
 					</span>

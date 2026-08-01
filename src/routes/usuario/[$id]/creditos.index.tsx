@@ -48,9 +48,6 @@ function Inner({ id }: { id: string }) {
 		creditPaymentsByUserQueryOptions({ userId: id })
 	)
 
-	console.log("payments", payments)
-	// const { data: users } = useSuspenseQuery(usersQueryOptions)
-
 	const rows = creditHistory?.map(ch => {
 		return {
 			id: ch.id,
@@ -86,6 +83,7 @@ function Inner({ id }: { id: string }) {
 			<TableBody>
 				{rows?.map(
 					({
+						id,
 						fecha,
 						operacion,
 						creditos,
@@ -95,7 +93,7 @@ function Inner({ id }: { id: string }) {
 						comienzo,
 						finalizado,
 					}) => (
-						<TableRow key={mercadopagoId}>
+						<TableRow key={id}>
 							<TableCell className="text-xs">
 								{fecha?.toLocaleString()}
 							</TableCell>
@@ -105,7 +103,7 @@ function Inner({ id }: { id: string }) {
 							<TableCell className="text-center">{creditos}</TableCell>
 							<TableCell className="text-center">
 								<Suspense fallback={<div>...</div>}>
-									<ReporteTitle userId={id} reporteId={reporteId || ""} />
+									<ReporteTitle userId={id} reporteId={reporteId} />
 								</Suspense>
 							</TableCell>
 							<TableCell className="text-center">{mercadopagoId}</TableCell>
@@ -131,6 +129,17 @@ function ReporteTitle({
 	reporteId,
 }: {
 	userId: string
+	reporteId?: string | null
+}) {
+	if (!reporteId) return <span className="text-muted-foreground">—</span>
+	return <ReporteLink userId={userId} reporteId={reporteId} />
+}
+
+function ReporteLink({
+	userId,
+	reporteId,
+}: {
+	userId: string
 	reporteId: string
 }) {
 	const { data: reporte } = useSuspenseQuery(
@@ -138,11 +147,7 @@ function ReporteTitle({
 	)
 	return (
 		<Link
-			to={
-				reporte?.finishedAt
-					? "/usuario/$id/reportes/$reporteId/general"
-					: "/usuario/$id/reportes/$reporteId/general"
-			}
+			to="/usuario/$id/reportes/$reporteId/general"
 			params={{ id: userId, reporteId }}
 		>
 			{reporte?.title.toUpperCase()}
