@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router"
+import { createFileRoute, Link, Outlet } from "@tanstack/react-router"
 import { empresasQueryOptions } from "../../../../queries/empresas-queries"
 import { Suspense } from "react"
 import { useSuspenseQuery } from "@tanstack/react-query"
@@ -8,6 +8,7 @@ import { reportesQueryOptions } from "../../../../queries/iluminacion/reportes-q
 import { userQueryOptions } from "../../../../queries/users-queries"
 import { z } from "zod"
 import { getOneUser } from "#/lib/utils"
+import { userCreditsByUserQueryOptions } from "../../../../queries/credits/user-credits-queries"
 
 const searchSchema = z.object({
 	from: z.string().optional(),
@@ -27,7 +28,7 @@ export const Route = createFileRoute("/usuario/$id")({
 
 function RouteComponent() {
 	return (
-		<div className="w-full h-full p-20">
+		<div className="w-full h-full sm:p-10 2xl:p-20">
 			<Suspense fallback={<div>Cargando...</div>}>
 				<UserName />
 			</Suspense>
@@ -39,12 +40,34 @@ function RouteComponent() {
 function UserName() {
 	const id = Route.useParams().id
 	const { data: user } = useSuspenseQuery(userQueryOptions(id))
+	const { data: empresas } = useSuspenseQuery(empresasQueryOptions(id))
+	const { data: instrumentos } = useSuspenseQuery(instrumentosQueryOptions(id))
+	const { data: reportes } = useSuspenseQuery(reportesQueryOptions(id))
+	const { data: userCredits } = useSuspenseQuery(
+		userCreditsByUserQueryOptions({ userId: id })
+	)
 	return (
-		<div className="w-full px-10 text-center bg-accent py-2 text-xl flex justify-center items-center gap-10">
-			<span>{getOneUser(user?.[0])}</span>
-			<span className="text-foreground/50 text-sm tracking-wide ml-auto">
-				id: {user?.[0]?.id}
-			</span>
-		</div>
+		<article className="flex flex-col">
+			<div className="w-full px-10 text-center bg-accent py-2 text-xl flex justify-center items-center gap-10">
+				<span>{getOneUser(user?.[0])}</span>
+				<span className="text-foreground/50 text-sm tracking-wide ml-auto">
+					id: {user?.[0]?.id}
+				</span>
+			</div>
+			<div className="w-full px-10 text-center py-2 text-sm flex justify-around items-center gap-10">
+				<Link to="/usuario/$id/empresas" params={{ id: id }}>
+					{empresas?.length} empresas
+				</Link>
+				<Link to="/usuario/$id/instrumentos" params={{ id: id }}>
+					{instrumentos?.length} instrumentos
+				</Link>
+				<Link to="/usuario/$id/reportes" params={{ id: id }}>
+					{reportes?.length} reportes
+				</Link>
+				<Link to="/usuario/$id/creditos" params={{ id: id }}>
+					{userCredits?.credits} creditos
+				</Link>
+			</div>
+		</article>
 	)
 }

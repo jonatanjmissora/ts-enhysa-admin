@@ -22,6 +22,8 @@ export async function getUserCreditsByUserDB(userId: string) {
 			.select()
 			.from(userCredits)
 			.where(eq(userCredits.userId, userId))
+			.limit(1)
+			.then(rows => rows[0] ?? null)
 	} catch (error) {
 		console.error(
 			"ERROR obteniendo creditos de usuario:",

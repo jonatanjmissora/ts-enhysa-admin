@@ -23,7 +23,7 @@ function Inner() {
 	const tecnico = tecnicos?.find(t => t.userId === id)
 	if (!tecnico) return <TecnicoVacio />
 	return (
-		<div className="w-full flex flex-col gap-10 my-20 p-10 text-sm rounded-lg">
+		<div className="w-full flex flex-col gap-10 my-10 p-10 text-sm rounded-lg">
 			<span className="text-foreground/50 ml-auto">Id: {tecnico.id}</span>
 			<div className="grid grid-cols-2 gap-2">
 				<span className="text-right font-semibold text-amber-700">

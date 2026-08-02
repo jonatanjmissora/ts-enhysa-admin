@@ -23,7 +23,7 @@ export const Route = createFileRoute("/reportes/")({
 
 function RouteComponent() {
 	return (
-		<div className="w-full h-full p-20">
+		<div className="w-full h-full sm:p-10 2xl:p-20">
 			<Suspense fallback={<Loading />}>
 				<Inner />
 			</Suspense>

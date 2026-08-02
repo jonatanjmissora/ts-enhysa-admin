@@ -21,7 +21,7 @@ export const Route = createFileRoute("/files/")({
 
 function RouteComponent() {
 	return (
-		<div className="w-full h-full p-20">
+		<div className="w-full h-full sm:p-10 2xl:p-20">
 			<Suspense fallback={<Loading />}>
 				<Inner />
 			</Suspense>
@@ -47,6 +47,7 @@ function Inner() {
 
 	return (
 		<article className="flex flex-col gap-4 w-full mb-40">
+			<Stats />
 			{sortedUsers.map(user => (
 				<User
 					key={user.id}
@@ -150,7 +151,7 @@ function User({
 	}
 
 	return (
-		<div className="bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/60 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-6 w-full">
+		<div className="border-b border-gray-200 dark:border-gray-700/60 flex flex-col gap-6 w-full">
 			{/* Technician Header */}
 			<button
 				onClick={handleActualUser}
@@ -411,4 +412,44 @@ function getImagesPerReport(areas: AreaIluminacionType[], reportId: string) {
 	return areas
 		.filter(area => area.reportId === reportId)
 		.flatMap(area => area.imagenes)
+}
+
+function Stats() {
+	const { data: files } = useSuspenseQuery(filesQueryOptions)
+
+	const allFiles = files?.files ?? []
+	const totalFiles = allFiles.length
+	const totalSizeBytes = allFiles.reduce((acc, f) => acc + (f.size ?? 0), 0)
+	const totalSizeMB = totalSizeBytes / (1024 * 1024)
+	const quotaBytes = 2 * 1024 * 1024 * 1024
+	const percentage = quotaBytes > 0 ? (totalSizeBytes / quotaBytes) * 100 : 0
+
+	return (
+		<article className="flex flex-wrap justify-around items-center gap-6 bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700/60 rounded-xl p-4">
+			<div className="flex flex-col items-start">
+				<span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+					Fotos
+				</span>
+				<span className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+					{totalFiles}
+				</span>
+			</div>
+			<div className="flex flex-col items-start">
+				<span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+					Tamaño
+				</span>
+				<span className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+					{totalSizeMB.toFixed(2)} MB
+				</span>
+			</div>
+			<div className="flex flex-col items-start">
+				<span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+					Uso de 2 GB
+				</span>
+				<span className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+					{percentage.toFixed(2)}%
+				</span>
+			</div>
+		</article>
+	)
 }
