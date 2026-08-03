@@ -48,6 +48,13 @@ function Inner({ id }: { id: string }) {
 		creditPaymentsByUserQueryOptions({ userId: id })
 	)
 
+	if (creditHistory?.length === 0 && payments?.length === 0)
+		return (
+			<div className="w-full flex justify-center my-20">
+				No hay historial de creditos
+			</div>
+		)
+
 	const rows = creditHistory?.map(ch => {
 		return {
 			id: ch.id,

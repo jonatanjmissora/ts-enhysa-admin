@@ -47,3 +47,42 @@ export function getOneUser(user: UserType | undefined | null) {
 function capitalize(stringArray: string[]) {
 	return stringArray.map(s => s.charAt(0).toUpperCase() + s.slice(1))
 }
+
+export const capitalizeString = (str: string) => {
+	return str
+		.split(" ")
+		.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+		.join(" ")
+}
+
+export const sortedByName = <T extends { nombre: string }>(items: T[]): T[] => {
+	return items.sort((a, b) => a.nombre.localeCompare(b.nombre))
+}
+
+export const getIndiceDeLocal = (
+	cantidadFilas: number,
+	cantidadColumnas: number,
+	cantidadAltura: number
+) => {
+	return (
+		(cantidadFilas * cantidadColumnas) /
+		(cantidadAltura * (cantidadFilas + cantidadColumnas))
+	)
+}
+
+export const getIndiceRedondeo = (indiceDeLocal: number) =>
+	Math.abs(indiceDeLocal % 1) > 0
+		? Math.trunc(indiceDeLocal) + 1
+		: Math.trunc(indiceDeLocal)
+
+export const getNumeroCeldas = (
+	cantidadFilas: number,
+	cantidadColumnas: number,
+	cantidadAltura: number
+) => {
+	const indiceRedondeo = getIndiceRedondeo(
+		getIndiceDeLocal(cantidadFilas, cantidadColumnas, cantidadAltura)
+	)
+	const indice = (indiceRedondeo + 2) ** 2
+	return indice
+}

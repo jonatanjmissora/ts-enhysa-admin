@@ -1,5 +1,5 @@
 import { View, Text, Image } from "@react-pdf/renderer"
-import type { EmpresaType } from "../../db/empresas/schema"
+import type { EmpresaType } from "../../../db/empresas/schema"
 
 const membreteSupDerecho = [
 	"Seguridad e Higiene en el trabajo",

@@ -1,5 +1,5 @@
 import { View, Text, Image } from "@react-pdf/renderer"
-import type { TecnicoType } from "../../db/tecnicos/schema"
+import type { TecnicoType } from "../../../db/tecnicos/schema"
 
 export default function MembreteInferior({
 	tecnico,

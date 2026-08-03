@@ -1,8 +1,8 @@
 import { Page, Text, View, StyleSheet } from "@react-pdf/renderer"
 import MembreteSuperior from "./membrete-superior"
 import MembreteInferior from "./membrete-inferior"
-import type { TecnicoType } from "../../db/tecnicos/schema"
-import type { EmpresaType } from "../../db/empresas/schema"
+import type { TecnicoType } from "../../../db/tecnicos/schema"
+import type { EmpresaType } from "../../../db/empresas/schema"
 
 const styles = StyleSheet.create({
 	page: {
@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		fontFamily: "Roboto",
 		padding: "0px 60px",
+		position: "relative",
 	},
 	pagePadding: {
 		border: "1px solid black",
@@ -65,7 +66,7 @@ export default function Page0({
 					}}
 				>
 					<Text style={{ fontSize: 12, fontWeight: 900, color: "darkblue" }}>
-						OBJ ETIVO Y MARCO LEGAL
+						OBJETIVO Y MARCO LEGAL
 					</Text>
 					<Text style={{ fontSize: 10, padding: "10px 25px" }}>
 						El presente informe tiene como objeto verificar las condiciones de

@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react"
+import { useState, useEffect } from "react"
 import {
 	Document as PDFRendererDocument,
 	Font,
@@ -11,86 +11,96 @@ Font.register({
 })
 
 import Page1 from "./page-1"
+import type { TecnicoType } from "../../../db/tecnicos/schema"
+import type { EmpresaType } from "../../../db/empresas/schema"
+import type { InstrumentoType } from "../../../db/instrumentos/schema"
+import Page2 from "./page-2"
 import Page3 from "./page-3"
 import Page4 from "./page-4"
 import Page5 from "./page-5"
+import Loading from "#/components/loading"
 import { Button } from "#/components/ui/button"
 import Page0 from "./page-0"
 import Page6 from "./page-6"
-import type { ReporteIluminacionType } from "../../db/reportes/iluminacion/scheme"
-import type { AreaIluminacionType } from "../../db/reportes/iluminacion/areas/scheme"
-import type { TecnicoType } from "../../db/tecnicos/schema"
-import type { EmpresaType } from "../../db/empresas/schema"
-import type { InstrumentoType } from "../../db/instrumentos/schema"
 import Page05 from "./page-0-5"
-import Page2Reducida from "./page-2-reducida"
+import type { ReporteIluminacionType } from "../../../db/reportes/iluminacion/scheme"
+import type { LocalizadaIluminacionType } from "../../../db/reportes/iluminacion/localizadas/scheme"
+import type { AreaIluminacionType } from "../../../db/reportes/iluminacion/areas/scheme"
 
-export const MyDocumentReducida = memo(
-	({
-		reporte,
-		areas,
-		tecnico,
-		empresa,
-		instrumento,
-	}: {
-		reporte: ReporteIluminacionType
-		areas: AreaIluminacionType[]
-		tecnico: TecnicoType
-		empresa: EmpresaType
-		instrumento: InstrumentoType
-	}) => {
-		const [instance] = usePDF({
-			document: (
-				<MyDocumentData
-					reporte={reporte}
-					areas={areas}
-					tecnico={tecnico}
-					empresa={empresa}
-					instrumento={instrumento}
-				/>
-			),
-		})
-
-		if (instance.loading) {
-			return <span>generando pdf...</span>
-		}
-
-		if (instance.error) {
-			return <div>Error al generar el PDF: {String(instance.error)}</div>
-		}
-
-		return (
-			<div className="flex flex-col items-center w-full gap-4 pb-12">
-				<div className="flex justify-center w-full mb-6">
-					<a
-						// biome-ignore lint/style/noNonNullAssertion: <la conozco>
-						href={instance.url!}
-						download={`Reporte Iluminacion ${empresa.razonSocial} - ${reporte.finishedAt?.toLocaleDateString("it-IT")}.pdf`}
-						className=""
-					>
-						<Button>Descargar PDF</Button>
-					</a>
-				</div>
-
-				<div className="w-full max-w-full overflow-hidden flex flex-col items-center bg-muted/20 py-8">
-					<PdfViewerClient
-						url={instance.url}
-						loading={<span>cargando visor...</span>}
-					/>
-				</div>
-			</div>
-		)
-	}
-)
-
-function MyDocumentData({
+export function MyDocument({
 	reporte,
+	localizadas,
 	areas,
 	tecnico,
 	empresa,
 	instrumento,
 }: {
 	reporte: ReporteIluminacionType
+	localizadas: LocalizadaIluminacionType[]
+	areas: AreaIluminacionType[]
+	tecnico: TecnicoType
+	empresa: EmpresaType
+	instrumento: InstrumentoType
+}) {
+	const [instance] = usePDF({
+		document: (
+			<MyDocumentData
+				reporte={reporte}
+				localizadas={localizadas}
+				areas={areas}
+				tecnico={tecnico}
+				empresa={empresa}
+				instrumento={instrumento}
+			/>
+		),
+	})
+
+	if (instance.loading && !instance.url) {
+		return (
+			<Loading
+				text="generando pdf..."
+				className="scale-50 justify-start  max-h-[50svh]"
+			/>
+		)
+	}
+
+	if (instance.error) {
+		return <div>Error al generar el PDF: {String(instance.error)}</div>
+	}
+
+	return (
+		<div className="flex flex-col items-center w-full gap-4 pb-12">
+			<div className="flex justify-center w-full mb-6">
+				<a
+					// biome-ignore lint/style/noNonNullAssertion: <la conozco>
+					href={instance.url!}
+					download={`Reporte Iluminacion ${empresa.razonSocial} - ${reporte.finishedAt?.toLocaleDateString("it-IT")}.pdf`}
+					className=""
+				>
+					<Button>Descargar PDF</Button>
+				</a>
+			</div>
+
+			<div className="w-full max-w-full overflow-hidden flex flex-col items-center bg-muted/20 py-8">
+				<PdfViewerClient
+					url={instance.url}
+					loading={<span>cargando visor...</span>}
+				/>
+			</div>
+		</div>
+	)
+}
+
+function MyDocumentData({
+	reporte,
+	localizadas,
+	areas,
+	tecnico,
+	empresa,
+	instrumento,
+}: {
+	reporte: ReporteIluminacionType
+	localizadas: LocalizadaIluminacionType[]
 	areas: AreaIluminacionType[]
 	tecnico: TecnicoType
 	empresa: EmpresaType
@@ -106,7 +116,12 @@ function MyDocumentData({
 				empresa={empresa}
 				instrumento={instrumento}
 			/>
-			<Page2Reducida areas={areas} tecnico={tecnico} empresa={empresa} />
+			<Page2
+				localizadas={localizadas}
+				areas={areas}
+				tecnico={tecnico}
+				empresa={empresa}
+			/>
 			<Page3 reporte={reporte} tecnico={tecnico} empresa={empresa} />
 			<Page4 tecnico={tecnico} empresa={empresa} instrumento={instrumento} />
 			<Page5 areas={areas} tecnico={tecnico} empresa={empresa} />

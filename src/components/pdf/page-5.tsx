@@ -1,9 +1,10 @@
 import { Page, Text, View, StyleSheet, Image } from "@react-pdf/renderer"
 import MembreteSuperior from "./membrete-superior"
 import MembreteInferior from "./membrete-inferior"
-import type { AreaIluminacionType } from "../../db/reportes/iluminacion/areas/scheme"
-import type { TecnicoType } from "../../db/tecnicos/schema"
-import type { EmpresaType } from "../../db/empresas/schema"
+import type { TecnicoType } from "../../../db/tecnicos/schema"
+import type { EmpresaType } from "../../../db/empresas/schema"
+import type { AreaIluminacionType } from "../../../db/reportes/iluminacion/areas/scheme"
+import { getNumeroCeldas } from "#/lib/utils"
 
 // Create styles
 const styles = StyleSheet.create({
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		fontFamily: "Roboto",
 		padding: "0px 60px",
+		position: "relative",
 	},
 	pagePadding: {
 		border: "1px solid black",
@@ -286,32 +288,4 @@ function Cotas({
 			</View>
 		</>
 	)
-}
-
-export const getIndiceDeLocal = (
-	cantidadFilas: number,
-	cantidadColumnas: number,
-	cantidadAltura: number
-) => {
-	return (
-		(cantidadFilas * cantidadColumnas) /
-		(cantidadAltura * (cantidadFilas + cantidadColumnas))
-	)
-}
-
-export const getIndiceRedondeo = (indiceDeLocal: number) =>
-	Math.abs(indiceDeLocal % 1) > 0
-		? Math.trunc(indiceDeLocal) + 1
-		: Math.trunc(indiceDeLocal)
-
-export const getNumeroCeldas = (
-	cantidadFilas: number,
-	cantidadColumnas: number,
-	cantidadAltura: number
-) => {
-	const indiceRedondeo = getIndiceRedondeo(
-		getIndiceDeLocal(cantidadFilas, cantidadColumnas, cantidadAltura)
-	)
-	const indice = (indiceRedondeo + 2) ** 2
-	return indice
 }

@@ -1,10 +1,11 @@
 import { Page, Text, View, StyleSheet } from "@react-pdf/renderer"
 import MembreteSuperior from "./membrete-superior"
 import MembreteInferior from "./membrete-inferior"
-import type { ReporteIluminacionType } from "../../db/reportes/iluminacion/scheme"
-import type { TecnicoType } from "../../db/tecnicos/schema"
-import type { EmpresaType } from "../../db/empresas/schema"
-import type { InstrumentoType } from "../../db/instrumentos/schema"
+import type { TecnicoType } from "../../../db/tecnicos/schema"
+import type { EmpresaType } from "../../../db/empresas/schema"
+import type { InstrumentoType } from "../../../db/instrumentos/schema"
+import type { ReporteIluminacionType } from "../../../db/reportes/iluminacion/scheme"
+import { capitalizeString } from "#/lib/utils"
 
 const styles = StyleSheet.create({
 	page: {
@@ -12,6 +13,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		fontFamily: "Roboto",
 		padding: "0px 60px",
+		position: "relative",
 	},
 	pagePadding: {
 		border: "1px solid black",
@@ -142,8 +144,8 @@ export default function Page1({
 				</View>
 
 				<Text style={styles.row}>
-					(14) Condiciones atmosféricas: {reporte.clima[0]} - {reporte.clima[1]}
-					% - {reporte.clima[2]}°C
+					(14) Condiciones atmosféricas: {capitalizeString(reporte.clima[0])} -
+					Humedad: {reporte.clima[1]}% - Temperatura: {reporte.clima[2]}°C
 				</Text>
 
 				<Text style={styles.subtitle}>
@@ -151,7 +153,7 @@ export default function Page1({
 				</Text>
 				<Text style={styles.row}>(15) Certificado de calibración: Anexo 4</Text>
 				<Text style={styles.row}>
-					(16) Plano o croquis del establecimiento: Anexo 5 - Gráficas: Anexo6
+					(16) Plano o croquis del establecimiento: Anexo 5 - Gráficas: Anexo 6
 				</Text>
 
 				<Text style={[styles.row, { height: 100, borderBottom: "none" }]}>

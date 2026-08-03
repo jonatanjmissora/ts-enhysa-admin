@@ -228,44 +228,52 @@ export default function AsideMenu() {
 
 function AsyncUsers() {
 	const { data: users } = useSuspenseQuery(usersQueryOptions)
-	return <span className="text-foreground/50">({users?.length})</span>
+	return <span className="text-foreground/50">({users?.length ?? 0})</span>
 }
 
 function AsyncReportes() {
 	const { data: reportes } = useSuspenseQuery(allReportesQueryOptions)
-	return <span className="text-foreground/50">({reportes?.length})</span>
+	return <span className="text-foreground/50">({reportes?.length ?? 0})</span>
 }
 
 function AsyncFiles() {
 	const { data: files } = useSuspenseQuery(filesQueryOptions)
-	return <span className="text-foreground/50">({files?.files.length})</span>
+	return (
+		<span className="text-foreground/50">({files?.files.length ?? 0})</span>
+	)
 }
 
 function AsyncCreditsHistory() {
 	const { data: creditsHistory } = useSuspenseQuery(
 		allCreditHistoryQueryOptions
 	)
-	return <span className="text-foreground/50">({creditsHistory?.length})</span>
+	return (
+		<span className="text-foreground/50">({creditsHistory?.length ?? 0})</span>
+	)
 }
 
 function AsyncEmpresas({ id }: { id: string }) {
 	const { data: empresas } = useSuspenseQuery(empresasQueryOptions(id))
-	return <span className="text-foreground/50">({empresas?.length})</span>
+	return <span className="text-foreground/50">({empresas?.length ?? 0})</span>
 }
 
 function AsyncInstrumentos({ id }: { id: string }) {
 	const { data: instrumentos } = useSuspenseQuery(instrumentosQueryOptions(id))
-	return <span className="text-foreground/50">({instrumentos?.length})</span>
+	return (
+		<span className="text-foreground/50">({instrumentos?.length ?? 0})</span>
+	)
 }
 
 function AsyncReportesUser({ id }: { id: string }) {
 	const { data: reportes } = useSuspenseQuery(reportesQueryOptions(id))
-	return <span className="text-foreground/50">({reportes?.length})</span>
+	return <span className="text-foreground/50">({reportes?.length ?? 0})</span>
 }
 
 function AsyncCreditos({ id }: { id: string }) {
 	const { data: userCredits } = useSuspenseQuery(
 		userCreditsByUserQueryOptions({ userId: id })
 	)
-	return <span className="text-foreground/50">({userCredits?.credits})</span>
+	return (
+		<span className="text-foreground/50">({userCredits?.credits ?? 0})</span>
+	)
 }

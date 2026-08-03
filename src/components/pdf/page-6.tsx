@@ -1,11 +1,11 @@
 import { Page, Text, View, StyleSheet } from "@react-pdf/renderer"
 import MembreteSuperior from "./membrete-superior"
 import MembreteInferior from "./membrete-inferior"
-import type { AreaIluminacionType } from "../../db/reportes/iluminacion/areas/scheme"
-import type { TecnicoType } from "../../db/tecnicos/schema"
-import type { EmpresaType } from "../../db/empresas/schema"
-import { getNumeroCeldas } from "./page-5"
+import type { TecnicoType } from "../../../db/tecnicos/schema"
+import type { EmpresaType } from "../../../db/empresas/schema"
+import { getNumeroCeldas, sortedByName } from "#/lib/utils"
 import { ChartAreaPDF } from "./ChartAreaPDF"
+import type { AreaIluminacionType } from "../../../db/reportes/iluminacion/areas/scheme"
 
 // Create styles
 const styles = StyleSheet.create({
@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		fontFamily: "Roboto",
 		padding: "0px 60px",
+		position: "relative",
 	},
 	pagePadding: {
 		border: "1px solid black",
@@ -70,7 +71,7 @@ export default function Page6({
 }) {
 	return (
 		<>
-			{areas.map(area => (
+			{sortedByName(areas).map(area => (
 				<Area key={area.id} area={area} tecnico={tecnico} empresa={empresa} />
 			))}
 		</>
@@ -93,12 +94,12 @@ function Area({
 	let cellW = 75
 	let cellH = (largo * cellW) / ancho
 
-	if (cellW * div >= 470 || cellH * div >= 430) {
+	if (cellW * div >= 470 || cellH * div >= 450) {
 		if (ancho > largo) {
 			cellW = 470 / div
 			cellH = (largo * cellW) / ancho
 		} else {
-			cellH = 430 / div
+			cellH = 450 / div
 			cellW = (ancho * cellH) / largo
 		}
 	}
@@ -147,12 +148,9 @@ function Area({
 					flex: 1,
 					width: "100%",
 					margin: "0 auto",
-					display: "flex",
-					justifyContent: "center",
-					alignContent: "center",
 				}}
 			>
-				<ChartAreaPDF puntos={area.puntos} requerido={area.valorRequerido}/>
+				<ChartAreaPDF puntos={area.puntos} requerido={area.valorRequerido} />
 			</View>
 
 			<MembreteInferior tecnico={tecnico} />

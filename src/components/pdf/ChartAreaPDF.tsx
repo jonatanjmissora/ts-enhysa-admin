@@ -10,7 +10,7 @@ export function ChartAreaPDF({
 }) {
 	const puntosWithValue = puntos?.filter(punto => punto > 0)
 	if (!puntosWithValue || puntosWithValue.length === 0)
-		return <span>No hay datos</span>
+		return <Text>No hay datos</Text>
 
 	const data = [...puntosWithValue]
 
@@ -46,8 +46,14 @@ export function ChartAreaPDF({
 	//obtenemos el rango de requerido
 	const requeridoValue = requerido.split(" ")
 	const min = parseInt(requeridoValue[0], 10)
-	const max =
-		requeridoValue.length > 1 ? parseInt(requeridoValue[2], 10) : min + 1
+	const hayMax = requeridoValue.length > 1
+	const max = hayMax ? parseInt(requeridoValue[2], 10) : min + 1
+
+	const puntoMin = Math.min(...data)
+	const puntoMax = Math.max(...data)
+	const valorPromedio = data.reduce((a, b) => a + b, 0) / data.length
+	const uniformidadGeneral = puntoMin / valorPromedio
+	const uniformidadCyD = puntoMin / puntoMax
 
 	return (
 		<View
@@ -108,16 +114,26 @@ export function ChartAreaPDF({
 				))}
 
 				{/* REQUERIDO*/}
-				<Rect
-					x={paddingX}
-					y={paddingY + chartHeight - max * yFactor}
-					width={chartWidth}
-					height={(max - min) * yFactor}
-					fill="#ffbb63"
-					opacity={0.5}
-					stroke="#000"
-					strokeWidth={0.1}
-				/>
+				{hayMax ? (
+					<Rect
+						x={paddingX}
+						y={paddingY + chartHeight - max * yFactor}
+						width={chartWidth}
+						height={(max - min) * yFactor}
+						fill="#ffbb63"
+						opacity={0.5}
+						stroke="#000"
+						strokeWidth={0.1}
+					/>
+				) : (
+					<Rect
+						x={paddingX}
+						y={paddingY + chartHeight - min * yFactor - 0.5}
+						width={chartWidth}
+						height={0.5}
+						fill="#ee9016"
+					/>
+				)}
 
 				{/* PUNTOS */}
 				{data.map((val, idx) => (
@@ -159,7 +175,7 @@ export function ChartAreaPDF({
 				<View style={{ display: "flex", flexDirection: "row", gap: 2 }}>
 					<View
 						style={{
-							backgroundColor: "#ffbb63",
+							backgroundColor: hayMax ? "#ffbb63" : "#ee9016",
 							width: 10,
 							height: 10,
 							borderRadius: 100,
@@ -167,10 +183,125 @@ export function ChartAreaPDF({
 						}}
 					></View>
 					<Text style={{ fontSize: 7 }}>
-						Requerido: ({min} - {max}) lx
+						{hayMax
+							? `Requerido: (${min} - ${max}) lx`
+							: `Requerido: ${min} lx`}
 					</Text>
 				</View>
 			</View>
+
+			<View
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					width: "350px",
+					marginLeft: "14px",
+					gap: 2,
+				}}
+			>
+				<View
+					style={{
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						gap: 2,
+					}}
+				>
+					<Text
+						style={{
+							fontSize: 7,
+							textDecoration: "underline",
+						}}
+					>
+						UNIFORMIDAD GENERAL
+					</Text>
+					<Text style={{ fontSize: 7, color: "#222", marginLeft: "auto" }}>
+						(Todas las áreas, principalmente en interiores)
+					</Text>
+				</View>
+				<View
+					style={{
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						gap: 2,
+					}}
+				>
+					<Text style={{ fontSize: 7, color: "#583a00" }}>
+						U0 = {uniformidadGeneral.toFixed(2)}
+					</Text>
+					<Text style={{ fontSize: 7, color: "#222", marginLeft: "auto" }}>
+						(Valor Min/Valor Promedio)
+					</Text>
+				</View>
+				<Text style={{ fontSize: 7 }}>
+					{`${conclusionTecnica(uniformidadGeneral)} `}
+				</Text>
+			</View>
+
+			<View
+				style={{
+					display: "flex",
+					flexDirection: "column",
+					width: "350px",
+					marginLeft: "14px",
+					gap: 2,
+				}}
+			>
+				<View
+					style={{
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						gap: 2,
+					}}
+				>
+					<Text
+						style={{
+							fontSize: 7,
+							textDecoration: "underline",
+						}}
+					>
+						UNIFORMIDAD de CONTRASTE y DESLUMBRAMIENTO
+					</Text>
+					<Text style={{ fontSize: 7, color: "#222", marginLeft: "auto" }}>
+						(Áreas Grandes y al aire Libre)
+					</Text>
+				</View>
+				<View
+					style={{
+						width: "100%",
+						display: "flex",
+						flexDirection: "row",
+						gap: 2,
+					}}
+				>
+					<Text style={{ fontSize: 7, color: "#583a00" }}>
+						U1 = {uniformidadCyD.toFixed(2)}
+					</Text>
+					<Text style={{ fontSize: 7, color: "#222", marginLeft: "auto" }}>
+						(Valor Min/Valor Máximo)
+					</Text>
+				</View>
+				<Text style={{ fontSize: 7 }}>
+					{`${conclusionTecnica(uniformidadGeneral)} `}
+				</Text>
+			</View>
 		</View>
 	)
+}
+
+function conclusionTecnica(uniformidad: number) {
+	let conclusionTecnica = ""
+	if (uniformidad >= 0.65)
+		conclusionTecnica =
+			"CUMPLIMIENTO OPTIMIZADO. Iluminación homogénea y equilibrada en el plano de trabajo. No requiere acciones correctivas."
+	else if (uniformidad >= 0.4 && uniformidad < 0.65)
+		conclusionTecnica =
+			"OPORTUNIDAD DE MEJORA. Se observa una dispersión lumínica moderada con baches de luz puntuales. Tomar acciones para homogeneizar el sector."
+	else if (uniformidad < 0.4)
+		conclusionTecnica =
+			"MEJORAS NECESARIAS E INMEDIATAS. Distribución lumínica severamente deficiente con zonas de sombra críticas. Exige intervención correctiva inmediata."
+
+	return conclusionTecnica
 }

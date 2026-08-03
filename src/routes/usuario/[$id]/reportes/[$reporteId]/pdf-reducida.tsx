@@ -4,9 +4,10 @@ import { Suspense, lazy } from "react"
 import { reporteQueryOptions } from "../../../../../../queries/iluminacion/reportes-queries"
 import { areasQueryOptions } from "../../../../../../queries/iluminacion/areas-queries"
 import { ClientComponent } from "#/components/client-component"
+import { localizadasQueryOptions } from "../../../../../../queries/iluminacion/localizadas-queries"
 
 const MyDocument = lazy(() =>
-	import("#/components/my-document-reducida").then(m => ({
+	import("#/components/pdf/my-document-reducida").then(m => ({
 		default: m.MyDocumentReducida,
 	}))
 )
@@ -33,6 +34,9 @@ function Inner() {
 	const { data: areas } = useSuspenseQuery(
 		areasQueryOptions({ userId: id, reporteId: reporte?.id ?? "" })
 	)
+	const { data: localizadas } = useSuspenseQuery(
+		localizadasQueryOptions({ userId: id, reporteId: reporte?.id ?? "" })
+	)
 
 	if (!reporte)
 		return <span className="text-red-500">Reporte no encontrado</span>
@@ -43,6 +47,7 @@ function Inner() {
 				<MyDocument
 					reporte={reporte}
 					areas={areas}
+					localizadas={localizadas}
 					tecnico={reporte.tecnico}
 					empresa={reporte.empresa}
 					instrumento={reporte.instrumento}

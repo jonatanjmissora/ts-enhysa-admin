@@ -65,7 +65,7 @@ function UserName() {
 					{reportes?.length} reportes
 				</Link>
 				<Link to="/usuario/$id/creditos" params={{ id: id }}>
-					{userCredits?.credits} creditos
+					{userCredits?.credits ?? 0} creditos
 				</Link>
 			</div>
 		</article>

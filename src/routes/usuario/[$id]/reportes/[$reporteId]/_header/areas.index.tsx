@@ -12,6 +12,7 @@ import type { AreaIluminacionType } from "../../../../../../../db/reportes/ilumi
 import { ChartArea } from "#/components/ChartArea"
 import { localizadasQueryOptions } from "../../../../../../../queries/iluminacion/localizadas-queries"
 import type { LocalizadaIluminacionType } from "../../../../../../../db/reportes/iluminacion/localizadas/scheme"
+import { getNumeroCeldas } from "#/lib/utils"
 
 export const Route = createFileRoute(
 	"/usuario/$id/reportes/$reporteId/_header/areas/"
@@ -155,8 +156,20 @@ function Area({ area }: { area: AreaIluminacionType }) {
 					{tiempoValidoFin?.toLocaleDateString("it-IT")} -{" "}
 					{tiempoValidoFin?.toLocaleTimeString("it-IT")}
 				</span>
+				<span className="ml-auto text-amber-700 font-semibold">
+					Nro mediciones :
+				</span>
+				<span>{getNumeroCeldas(area.largo, area.ancho, area.alto)}</span>
+				<span className="ml-auto text-amber-700 font-semibold">
+					Mediciones :
+				</span>
+				<span>
+					{area.puntos.filter(punto => punto > 0).length} / {area.puntos.length}
+				</span>
 				<span className="ml-auto text-amber-700 font-semibold">Puntos :</span>
 				<span>{area.puntos.join(", ")}</span>
+
+				<Grilla area={area} />
 
 				{area.imagenes.length > 0 && (
 					<div className="w-full flex gap-2 flex-wrap content-center justify-center col-span-2">
@@ -172,6 +185,52 @@ function Area({ area }: { area: AreaIluminacionType }) {
 				)}
 				<div className="w-full flex items-center justify-center col-span-2 sm:overflow-x-visible overflow-x-scroll pl-15 py-5 sm:py-0">
 					<ChartArea puntos={area.puntos} requerido={area.valorRequerido} />
+				</div>
+			</div>
+		</div>
+	)
+}
+
+function Grilla({ area }: { area: AreaIluminacionType }) {
+	const ancho = area.ancho
+	const largo = area.largo
+	const alto = area.alto
+	const div = Math.sqrt(getNumeroCeldas(ancho, largo, alto))
+
+	return (
+		<div className="w-full flex flex-col items-center gap-2 col-span-2 pt-6 pb-4">
+			<div className="relative w-full max-w-[560px]">
+				<div className="absolute -top-5 left-0 right-0 flex justify-center">
+					<span className="text-xs text-gray-500">Ancho {ancho}m</span>
+				</div>
+				<div className="absolute top-1/2 -translate-y-1/2 -left-7 rotate-[-90deg]">
+					<span className="text-xs text-gray-500 whitespace-nowrap">
+						Largo {largo}m
+					</span>
+				</div>
+				<div
+					className="grid w-full border border-gray-300"
+					style={{
+						gridTemplateColumns: `repeat(${div}, minmax(0, 1fr))`,
+						gridTemplateRows: `repeat(${div}, minmax(0, 1fr))`,
+						aspectRatio: `${ancho} / ${largo}`,
+					}}
+				>
+					{area.puntos.map((punto, index) => (
+						<div
+							key={index}
+							className="flex flex-col items-center justify-center border border-gray-300"
+						>
+							{punto !== 0 && (
+								<>
+									<span className="text-[8px] leading-none opacity-50">
+										({index + 1})
+									</span>
+									<span className="text-sm leading-none">{punto}</span>
+								</>
+							)}
+						</div>
+					))}
 				</div>
 			</div>
 		</div>
