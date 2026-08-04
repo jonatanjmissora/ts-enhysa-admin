@@ -57,7 +57,7 @@ function Inner({ id }: { id: string }) {
 
 	const rows = creditHistory?.map(ch => {
 		return {
-			id: ch.id,
+			id,
 			fecha:
 				payments?.find(p => p.mpPaymentId === ch.paymentId)?.updatedAt ||
 				ch.createdAt,
