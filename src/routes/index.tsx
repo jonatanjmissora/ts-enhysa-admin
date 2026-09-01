@@ -66,12 +66,13 @@ function Inner() {
 					.reduce((sum, c) => sum + c.credits, 0),
 			}
 		})
-		.sort((a, b) => a.nombre.localeCompare(b.nombre))
+		.sort((a, b) => b.user.createdAt.getTime() - a.user.createdAt.getTime())
 
 	return (
 		<Table className="w-full mx-auto my-10">
 			<TableHeader className="bg-background">
 				<TableRow>
+					<TableHead>Fecha</TableHead>
 					<TableHead>Nombre</TableHead>
 					<TableHead>Mail</TableHead>
 					<TableHead className="text-center">Imagen</TableHead>
@@ -105,6 +106,9 @@ function Inner() {
 						creditosConsumidos,
 					}) => (
 						<TableRow key={user.id}>
+							<TableCell className="text-xs">
+								{user.createdAt.toLocaleDateString("es-AR")}
+							</TableCell>
 							<TableCell>
 								<Link to="/usuario/$id" params={{ id: user.id }}>
 									{nombre}
