@@ -1,14 +1,16 @@
 // src/routes/files/unused.index.tsx
 import { useSuspenseQuery } from "@tanstack/react-query"
 import { createFileRoute } from "@tanstack/react-router"
+import { Loader2, Trash2 } from "lucide-react"
 import { Suspense, useMemo } from "react"
-import { filesQueryOptions } from "../../../queries/files-queries"
+import { filesQueryOptions, useDeleteFiles } from "../../../queries/files-queries"
 import { tecnicosQueryOptions } from "../../../queries/tecnicos-queries"
 import { allEmpresasQueryOptions } from "../../../queries/empresas-queries"
 import { allInstrumentosQueryOptions } from "../../../queries/instrumentos-queries"
 import { allAreasQueryOptions } from "../../../queries/iluminacion/areas-queries"
 import FileThumbnail from "#/components/file-thumbnail"
 import Loading from "#/components/loading"
+import { Button } from "#/components/ui/button"
 
 export const Route = createFileRoute("/files/unused/")({
 	component: RouteComponent,
@@ -84,9 +86,26 @@ function Inner() {
 		return unusedFiles.reduce((acc, file) => acc + file.size, 0)
 	}, [unusedFiles])
 
+	const { mutateAsync: deleteFiles, isPending: isDeleting } = useDeleteFiles()
+
+	const handleDeleteAll = async () => {
+		if (unusedFiles.length === 0) return
+		try {
+			if (
+				confirm(
+					`¿Estás seguro de que deseas eliminar ${unusedFiles.length} archivo(s) huérfano(s)? Esta acción no se puede deshacer.`
+				)
+			) {
+				await deleteFiles(unusedFiles.map(file => file.key))
+			}
+		} catch (error) {
+			console.error("Error deleting files:", error)
+		}
+	}
+
 	return (
 		<div className="flex flex-col gap-6 p-4 w-full bg-gray-800 rounded-lg">
-			<div className="border-b border-gray-200 pb-4 dark:border-gray-600 mb-4">
+			<div className="border-b border-gray-200 pt-8 pb-8 dark:border-gray-600 mb-4 flex justify-around items-center">
 				<div className="flex items-center justify-between">
 					<h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
 						Archivos SIN uso:
@@ -106,6 +125,23 @@ function Inner() {
 						{(((unusedTotalSize / 1024 / 1024 / 1024) * 100) / 2).toFixed(2)} %
 					</span>
 				</div>
+				{unusedFiles.length > 0 && (
+					<div className="flex justify-end">
+						<Button
+							variant="destructive"
+							onClick={handleDeleteAll}
+							disabled={isDeleting}
+							className="flex items-center gap-2"
+						>
+							{isDeleting ? (
+								<Loader2 className="size-4 animate-spin" />
+							) : (
+								<Trash2 className="size-4" />
+							)}
+							Eliminar {unusedFiles.length} archivo(s) huérfano(s)
+						</Button>
+					</div>
+				)}
 			</div>
 			{unusedFiles.length === 0 ? (
 				<p className="text-gray-500">No hay archivos sin usar.</p>

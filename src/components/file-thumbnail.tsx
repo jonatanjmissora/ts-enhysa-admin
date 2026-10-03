@@ -3,10 +3,11 @@ import type { FileType } from "../../server/files-server"
 import { Anchor } from "./file-modal"
 import { Button } from "./ui/button"
 import { useDeleteFile } from "../../queries/files-queries"
+import { cn } from "#/lib/utils"
 
 export default function FileThumbnail({
 	file,
-	className,
+	className = "size-14 sm:size-20",
 }: {
 	file: FileType
 	className?: string
@@ -27,8 +28,8 @@ export default function FileThumbnail({
 
 	if (!file.key) return null
 	return (
-		<div className="flex flex-col items-center gap-1.5 group">
-			<button className={`relative size-14 sm:size-20 ${className}`}>
+		<div className="flex min-w-0 flex-col items-center gap-1.5 group">
+			<div className={cn("relative", className)}>
 				<img
 					src={`https://utfs.io/f/${file.key}`}
 					alt={file.name}
@@ -39,13 +40,13 @@ export default function FileThumbnail({
 					}}
 				/>
 
-				<div className="absolute z-10 -inset-1 bg-gray-900 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col gap-2 items-center justify-between border border-gray-600 rounded">
+				<div className="absolute z-10 -inset-1 bg-gray-900 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col gap-2 items-center justify-between border border-gray-600 rounded overflow-hidden">
 					<div></div>
-					<div className="flex flex-col gap-2 items-center justify-center font-mono">
-						<span>
+					<div className="flex flex-col gap-2 items-center justify-center font-mono w-full min-w-0 px-1">
+						<span className="max-w-full truncate">
 							{file.name.length > 20 ? `...${file.name.slice(-20)}` : file.name}
 						</span>
-						<span>
+						<span className="max-w-full truncate">
 							{file.key.length > 20 ? `...${file.key.slice(-20)}` : file.key}
 						</span>
 						<span>{(file.size / 1024 / 1024).toFixed(2)} MB</span>
@@ -65,7 +66,7 @@ export default function FileThumbnail({
 						<Anchor fileKey={file.key} />
 					</div>
 				</div>
-			</button>
+			</div>
 		</div>
 	)
 }

@@ -127,6 +127,12 @@ function User({
 		)
 	)
 
+	const hasExistingImages = uniqueKeys.some(key =>
+		files?.files?.some(f => f.key === key)
+	)
+
+	if (!hasExistingImages) return null
+
 	const totalFilesSize =
 		uniqueKeys.reduce((acc, key) => {
 			const file = files?.files?.find(f => f.key === key)
